@@ -163,6 +163,11 @@ class DexdisCommands
 					cb get.result
 		return
 	
+	getset: (key, value, cb) ->
+		@get key, (val) =>
+			@set key, value, ->
+				cb val
+	
 	incr: (key, cb) ->
 		@incrby key, 1, cb
 	
@@ -211,6 +216,7 @@ DexdisCommands.cmds = [
 	'expire',
 	'flushall',
 	'get',
+	'getset',
 	'incr',
 	'incrby',
 	'persist',
