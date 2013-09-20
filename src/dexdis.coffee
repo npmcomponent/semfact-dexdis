@@ -13,7 +13,7 @@ class DexdisCommands
 			@_stores[s] = trans.objectStore s
 	
 	# check if specific key is expired and return keyinfo
-	checkttl: (key, cb) ->
+	_checkttl: (key, cb) ->
 		{keys, values} = @_stores
 		get = keys.get key
 		get.addEventListener 'success', ->
@@ -31,10 +31,10 @@ class DexdisCommands
 		return
 	
 	# get a value modify it and save it again
-	map: (key, cb, f) ->
+	_map: (key, cb, f) ->
 		{keys, values} = @_stores
 		value = null
-		@checkttl key, (keyinfo) ->
+		@_checkttl key, (keyinfo) ->
 			if keyinfo?
 				if keyinfo.type is 'simple'
 					get = values.get key
@@ -55,8 +55,8 @@ class DexdisCommands
 		return
 	
 	# get ttl of key with optional mapping function f
-	ttlmap: (key, cb, f) ->
-		@checkttl key, (keyinfo) ->
+	_ttlmap: (key, cb, f) ->
+		@_checkttl key, (keyinfo) ->
 			if keyinfo isnt undefined
 				ret = -1
 				if keyinfo.expire?
@@ -80,7 +80,7 @@ class DexdisCommands
 			return
 		count = 0
 		for k, i in dels
-			@checkttl k, (keyinfo) ->
+			@_checkttl k, (keyinfo) ->
 				if keyinfo?
 					count++
 					keys.delete k
@@ -91,7 +91,7 @@ class DexdisCommands
 		return
 	
 	exists: (key, cb) ->
-		@checkttl key, (keyinfo) ->
+		@_checkttl key, (keyinfo) ->
 			if keyinfo?
 				cb 1
 			else
@@ -99,7 +99,7 @@ class DexdisCommands
 	
 	expire: (key, seconds, cb) ->
 		keys = @_stores.keys
-		@checkttl key, (keyinfo) ->
+		@_checkttl key, (keyinfo) ->
 			if keyinfo isnt undefined
 				keyinfo.expire = Date.now() + seconds * 1000
 				r = keys.put keyinfo, key
@@ -118,7 +118,7 @@ class DexdisCommands
 	
 	get: (key, cb) ->
 		{keys, values} = @_stores
-		@checkttl key, (keyinfo) ->
+		@_checkttl key, (keyinfo) ->
 			if keyinfo is undefined
 				cb null
 			else if keyinfo.type isnt 'simple'
@@ -133,12 +133,12 @@ class DexdisCommands
 		@incrby key, 1, cb
 	
 	incrby: (key, inc, cb) ->
-		@map key, cb, (x) ->
+		@_map key, cb, (x) ->
 			x + inc
 	
 	persist: (key, cb) ->
 		keys = @_stores.keys
-		@checkttl key, (keyinfo) ->
+		@_checkttl key, (keyinfo) ->
 			if keyinfo isnt undefined
 				ret = 0
 				if keyinfo.expire?
@@ -152,7 +152,7 @@ class DexdisCommands
 		return
 	
 	pttl: (key, cb) ->
-		@ttlmap key, cb
+		@_ttlmap key, cb
 	
 	set: (key, value, cb) ->
 		{keys, values} = @_stores
@@ -165,7 +165,7 @@ class DexdisCommands
 		return
 	
 	ttl: (key, cb) ->
-		@ttlmap key, cb, (x) ->
+		@_ttlmap key, cb, (x) ->
 			Math.round x / 1000
 
 DexdisCommands.cmds = [
