@@ -203,6 +203,15 @@ class DexdisCommands
 			cb 'OK'
 		return
 	
+	setnx: (key, value, cb) ->
+		@_checkttl key, (keyinfo) =>
+			if keyinfo?
+				cb 0
+			else
+				@set key, value, ->
+					cb 1
+		return
+	
 	ttl: (key, cb) ->
 		@_ttlmap key, cb, (x) ->
 			Math.round x / 1000
@@ -222,6 +231,7 @@ DexdisCommands.cmds = [
 	'persist',
 	'pttl',
 	'set',
+	'setnx',
 	'ttl'
 ]
 
