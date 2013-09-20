@@ -184,10 +184,7 @@ DexdisCommands.cmds = [
 	'ttl'
 ]
 
-class Dexdis
-	
-	constructor: (db = 1) ->
-		@select db
+class DexdisDb
 	
 	# get indexeddb transaction with keys and values stores
 	_transaction: (cb, mode = 'readwrite') ->
@@ -197,6 +194,11 @@ class Dexdis
 		trans.addEventListener 'abort', (e) ->
 			cb new Error 'Transaction Aborted' if cb?
 		trans
+
+class Dexdis extends DexdisDb
+	
+	constructor: (db = 1) ->
+		@select db
 	
 	# execute dexdis command
 	_cmd: (cmd, args, cb, mode) ->
@@ -213,11 +215,11 @@ class Dexdis
 	
 	ping: (cb) ->
 		cb null, 'PONG' if cb?
-		return
+		this
 	
 	echo: (msg, cb) ->
 		cb null, msg if cb?
-		return
+		this
 	
 	select: (db, cb) ->
 		if @db is null
@@ -232,23 +234,23 @@ class Dexdis
 		r.addEventListener 'success', (e) =>
 			@db = e.target.result
 			cb null if cb?
-		return
+		this
 	
 	quit: (cb) ->
 		@db.close() if @db?
 		cb null if cb?
-		return
+		this
 	
 	multi: (cb) ->
 		new DexdisTransaction @db
 	
 	exec: (cb) ->
 		cb new Error errs.notransaction
-		return
+		this
 	
 	discard: (cb) ->
 		cb new Error errs.notransaction
-		return
+		this
 	
 	for cmd in DexdisCommands.cmds
 		do (cmd) =>
@@ -258,20 +260,12 @@ class Dexdis
 				else
 					args = args.concat [cb]
 					@_cmd cmd, args, ->
+				this
 
-class DexdisTransaction
+class DexdisTransaction extends DexdisDb
 	
 	constructor: (@db) ->
 		@buffer = []
-	
-	# FIXME: indentical function of Dexdis
-	_transaction: (cb, mode = 'readwrite') ->
-		trans = @db.transaction ['keys', 'values'], mode
-		trans.addEventListener 'error', (e) ->
-			cb e if cb?
-		trans.addEventListener 'abort', (e) ->
-			cb new Error 'Transaction Aborted' if cb?
-		trans
 	
 	_buffercmd: (cmd, args) ->
 		@buffer.push
@@ -307,7 +301,7 @@ class DexdisTransaction
 		do (cmd) =>
 			@::[cmd] = (args...) ->
 				@_buffercmd cmd, args
-				return
+				this
 
 window.Dexdis = Dexdis
 window.DexdisTransaction = DexdisTransaction
