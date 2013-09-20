@@ -69,6 +69,19 @@ class DexdisCommands
 				cb -2
 		return
 	
+	# set ttl of key with optional mapping function f
+	_expiremap: (key, cb, f) ->
+		keys = @_stores.keys
+		@_checkttl key, (keyinfo) ->
+			if keyinfo isnt undefined
+				keyinfo.expire = f keyinfo.expire
+				r = keys.put keyinfo, key
+				r.addEventListener 'success', ->
+					cb 1
+			else
+				cb 0
+		return
+	
 	bitop: (op, dest, srcs..., cb) ->
 		f    = null
 		init = 0
@@ -132,16 +145,12 @@ class DexdisCommands
 				cb 0
 	
 	expire: (key, seconds, cb) ->
-		keys = @_stores.keys
-		@_checkttl key, (keyinfo) ->
-			if keyinfo isnt undefined
-				keyinfo.expire = Date.now() + seconds * 1000
-				r = keys.put keyinfo, key
-				r.addEventListener 'success', ->
-					cb 1
-			else
-				cb 0
-		return
+		@_expiremap key, cb, ->
+			Date.now() + seconds * 1000
+	
+	expireat: (key, tstamp, cb) ->
+		@_expiremap key, cb, ->
+			tstamp * 1000
 	
 	flushall: (cb) ->
 		{keys, values} = @_stores
@@ -190,6 +199,14 @@ class DexdisCommands
 				cb 0
 		return
 	
+	pexpire: (key, milliseconds, cb) ->
+		@_expiremap key, cb, ->
+			Date.now() + milliseconds
+	
+	pexpireat: (key, tstamp, cb) ->
+		@_expiremap key, cb, ->
+			tstamp
+	
 	pttl: (key, cb) ->
 		@_ttlmap key, cb
 	
@@ -223,12 +240,15 @@ DexdisCommands.cmds = [
 	'del',
 	'exists',
 	'expire',
+	'expireat',
 	'flushall',
 	'get',
 	'getset',
 	'incr',
 	'incrby',
 	'persist',
+	'pexpire',
+	'pexpireat',
 	'pttl',
 	'set',
 	'setnx',
