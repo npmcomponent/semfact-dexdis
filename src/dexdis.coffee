@@ -1,86 +1,214 @@
 
-class Dexdis
+errs =
+	transaction:   'Operation not allowed during transaction'
+	wrongtype:     'Operation against a key holding the wrong kind of value'
+	notransaction: 'Operation not allowed without transaction'
+
+class DexdisCommands
 	
-	errs =
-		wrongtype: 'Operation against a key holding the wrong kind of value'
+	constructor: (trans) ->
+		stores  = ['keys', 'values']
+		@_stores = {}
+		for s in stores
+			@_stores[s] = trans.objectStore s
 	
-	constructor: (db = 1) ->
-		@select db
-	
-	# get indexeddb transaction with keys and values stores
-	_transaction: (cb, complete, mode = 'readwrite') ->
-		if complete is undefined
-			complete = (e) ->
-				cb null if cb?
-		trans  = @db.transaction ['keys', 'values'], mode
-		keys   = trans.objectStore 'keys'
-		values = trans.objectStore 'values'
-		if complete?
-			trans.addEventListener 'complete', complete
-		trans.addEventListener 'error', (e) ->
-			cb e if cb?
-		trans.addEventListener 'abort', (e) ->
-			cb new Error 'Transaction Aborted' if cb?
-		return {trans, keys, values}
-	
-	# get keyinfo of key for manipulation
-	_keyinfo: (key, cb, keycb) ->
-		{keys, values} = @_transaction cb, null
-		@_checkttl cb, key, keys, values, (keyinfo) ->
-			keycb keyinfo, keys
-	
-	# get ttl of key with optional mapping function f
-	_ttl: (key, cb, f = null) ->
-		@_keyinfo key, cb, (keyinfo) ->
-			if keyinfo isnt undefined
-				ret = -1
-				if keyinfo.expire?
-					ret = keyinfo.expire - Date.now()
-					ret = f ret if f?
-				cb null, ret if cb?
-			else
-				cb null, -2 if cb?
-		return
-	
-	# check if specific key is expired
-	_checkttl: (cb, key, keys, values, cbttl) ->
+	# check if specific key is expired and return keyinfo
+	checkttl: (key, cb) ->
+		{keys, values} = @_stores
 		get = keys.get key
-		get.addEventListener 'error', (e) ->
-			cb e
-		get.addEventListener 'success', (e) ->
-			keyinfo = e.target.result
+		get.addEventListener 'success', ->
+			keyinfo = get.result
 			if keyinfo?.expire?
 				if Date.now() > keyinfo.expire
-					rm = keys.delete key
-					rm.addEventListener 'success', ->
-						cbttl undefined, true
+					del = keys.delete key
+					del.addEventListener 'success', ->
+						cb undefined, true
 					values.delete key
 				else
-					cbttl keyinfo, false
+					cb keyinfo, false
 			else
-				cbttl keyinfo, false
+				cb keyinfo, false
 		return
 	
 	# get a value modify it and save it again
-	_map: (key, cb, f, complete) ->
+	map: (key, cb, f) ->
+		{keys, values} = @_stores
 		value = null
-		if complete is undefined
-			complete = ->
-				cb null, value
-		{keys, values} = @_transaction cb, complete, 'readwrite'
-		@_checkttl cb, key, keys, values, (keyinfo) ->
+		@checkttl key, (keyinfo) ->
 			if keyinfo?
 				if keyinfo.type is 'simple'
 					get = values.get key
-					get.addEventListener 'success', (e) ->
-						value = f e.target.result
-						values.put value, key
+					get.addEventListener 'success', ->
+						value = f get.result
+						put = values.put value, key
+						put.addEventListener 'success', ->
+							cb value
 				else
 					cb new Error errs.wrongtype
 			else
 				keyinfo =
 					type: 'simple'
 				keys.put keyinfo, key
+				put = values.put value, key
+				put.addEventListener 'success', ->
+					cb value
+		return
+	
+	# get ttl of key with optional mapping function f
+	ttlmap: (key, cb, f) ->
+		@checkttl key, (keyinfo) ->
+			if keyinfo isnt undefined
+				ret = -1
+				if keyinfo.expire?
+					ret = keyinfo.expire - Date.now()
+					ret = f ret if f?
+				cb ret
+			else
+				cb -2
+		return
+	
+	decr: (key, cb) ->
+		@decrby key, 1, cb
+	
+	decrby: (key, dec, cb) ->
+		@incrby key, -dec, cb
+	
+	del: (dels..., cb) ->
+		{keys, values} = @_stores
+		if dels.length is 0
+			cb 0
+			return
+		count = 0
+		for k, i in dels
+			@checkttl k, (keyinfo) ->
+				if keyinfo?
+					count++
+					keys.delete k
+					del = values.delete k
+					if i is dels.length
+						del.addEventListener 'success', ->
+							cb count
+		return
+	
+	exists: (key, cb) ->
+		@checkttl key, (keyinfo) ->
+			if keyinfo?
+				cb 1
+			else
+				cb 0
+	
+	expire: (key, seconds, cb) ->
+		keys = @_stores.keys
+		@checkttl key, (keyinfo) ->
+			if keyinfo isnt undefined
+				keyinfo.expire = Date.now() + seconds * 1000
+				r = keys.put keyinfo, key
+				r.addEventListener 'success', ->
+					cb 1
+			else
+				cb 0
+		return
+	
+	flushall: (cb) ->
+		{keys, values} = @_stores
+		do keys.clear
+		do values.clear
+		cb 'OK'
+		return
+	
+	get: (key, cb) ->
+		{keys, values} = @_stores
+		@checkttl key, (keyinfo) ->
+			if keyinfo is undefined
+				cb null
+			else if keyinfo.type isnt 'simple'
+				throw new Error errs.wrongtype
+			else
+				get = values.get key
+				get.addEventListener 'success', ->
+					cb get.result
+		return
+	
+	incr: (key, cb) ->
+		@incrby key, 1, cb
+	
+	incrby: (key, inc, cb) ->
+		@map key, cb, (x) ->
+			x + inc
+	
+	persist: (key, cb) ->
+		keys = @_stores.keys
+		@checkttl key, (keyinfo) ->
+			if keyinfo isnt undefined
+				ret = 0
+				if keyinfo.expire?
+					delete keyinfo.expire
+					ret = 1
+				r = keys.put keyinfo, key
+				r.addEventListener 'success', ->
+					cb ret
+			else
+				cb 0
+		return
+	
+	pttl: (key, cb) ->
+		@ttlmap key, cb
+	
+	set: (key, value, cb) ->
+		{keys, values} = @_stores
+		keyinfo =
+			type: 'simple'
+		keys.put keyinfo, key
+		put = values.put value, key
+		put.addEventListener 'success', ->
+			cb 'OK'
+		return
+	
+	ttl: (key, cb) ->
+		@ttlmap key, cb, (x) ->
+			Math.round x / 1000
+
+DexdisCommands.cmds = [
+	'decr',
+	'decrby',
+	'del',
+	'exists',
+	'expire',
+	'flushall',
+	'get',
+	'incr',
+	'incrby',
+	'persist',
+	'pttl',
+	'set',
+	'ttl'
+]
+
+class Dexdis
+	
+	constructor: (db = 1) ->
+		@select db
+	
+	# get indexeddb transaction with keys and values stores
+	_transaction: (cb, mode = 'readwrite') ->
+		trans = @db.transaction ['keys', 'values'], mode
+		trans.addEventListener 'error', (e) ->
+			cb e if cb?
+		trans.addEventListener 'abort', (e) ->
+			cb new Error 'Transaction Aborted' if cb?
+		trans
+	
+	# execute dexdis command
+	_cmd: (cmd, args, cb, mode) ->
+		ret = null
+		save = (x) ->
+			ret = x
+			return
+		trans = @_transaction cb, mode
+		trans.addEventListener 'complete', ->
+			cb null, ret if cb?
+		cmds = new DexdisCommands trans
+		cmds[cmd].apply cmds, args.concat [save]
 		return
 	
 	ping: (cb) ->
@@ -92,6 +220,9 @@ class Dexdis
 		return
 	
 	select: (db, cb) ->
+		if @db is null
+			cb new Error errs.transaction
+			return
 		r = indexedDB.open db, 1
 		r.addEventListener 'upgradeneeded', (e) ->
 			console.log 'upgrade'
@@ -108,96 +239,80 @@ class Dexdis
 		cb null if cb?
 		return
 	
-	flushall: (cb) ->
-		{keys, values} = @_transaction cb
-		do keys.clear
-		do values.clear
+	multi: (cb) ->
+		new DexdisTransaction @db
+	
+	exec: (cb) ->
+		cb new Error errs.notransaction
 		return
 	
-	set: (key, value, cb) ->
-		{keys, values} = @_transaction cb
-		keyinfo =
-			type: 'simple'
-		keys.put keyinfo, key
-		values.put value, key
+	discard: (cb) ->
+		cb new Error errs.notransaction
 		return
 	
-	get: (key, cb) ->
-		{keys, values} = @_transaction cb, null, 'readwrite'# 'readonly'
-		@_checkttl cb, key, keys, values, (keyinfo) ->
-			if keyinfo is undefined
-				cb null, null
-			else if keyinfo.type isnt 'simple'
-				cb new Error errs.wrongtype
-			else
-				get = values.get key
-				get.addEventListener 'error', cb
-				get.addEventListener 'success', (e) ->
-					cb null, e.target.result
+	for cmd in DexdisCommands.cmds
+		do (cmd) =>
+			@::[cmd] = (args..., cb) ->
+				if typeof cb is 'function'
+					@_cmd cmd, args, cb
+				else
+					args = args.concat [cb]
+					@_cmd cmd, args, ->
+
+class DexdisTransaction
+	
+	constructor: (@db) ->
+		@buffer = []
+	
+	# FIXME: indentical function of Dexdis
+	_transaction: (cb, mode = 'readwrite') ->
+		trans = @db.transaction ['keys', 'values'], mode
+		trans.addEventListener 'error', (e) ->
+			cb e if cb?
+		trans.addEventListener 'abort', (e) ->
+			cb new Error 'Transaction Aborted' if cb?
+		trans
+	
+	_buffercmd: (cmd, args) ->
+		@buffer.push
+			cmd:  cmd
+			args: args
+	
+	exec: (cb) ->
+		trans  = @_transaction cb
+		cmds   = new DexdisCommands trans
+		buffer = @buffer
+		i      = 0
+		values = []
+		next = (val) ->
+			if val isnt undefined
+				values.push val
+			i++
+			if i > buffer.length
+				return
+			b = buffer[i-1]
+			cmds[b.cmd].apply cmds, b.args.concat [next]
+		trans.addEventListener 'complete', ->
+			cb null, values
+		trans.addEventListener 'error', (e) ->
+			cb e
+		next()
 		return
 	
-	del: (dels..., cb) ->
-		count = 0
-		{keys, values} = @_transaction cb, (e) ->
-			cb null, count
-		for k in dels
-			@_checkttl cb, k, keys, values, (keyinfo) ->
-				if keyinfo?
-					count++
-			keys.delete k
-			values.delete k
-		return
+	discard: (cb) ->
+		@buffer = []
+		@trans.abort()
 	
-	expire: (key, seconds, cb) ->
-		@_keyinfo key, cb, (keyinfo, keys) ->
-			if keyinfo isnt undefined
-				keyinfo.expire = Date.now() + seconds * 1000
-				r = keys.put keyinfo, key
-				r.addEventListener 'success', ->
-					cb null, 1 if cb?
-			else
-				cb null, 0 if cb?
-		return
-	
-	persist: (key, cb) ->
-		@_keyinfo key, cb, (keyinfo, keys) ->
-			if keyinfo isnt undefined
-				ret = 0
-				if keyinfo.expire?
-					delete keyinfo.expire
-					ret = 1
-				r = keys.put keyinfo, key
-				r.addEventListener 'success', ->
-					cb null, ret if cb?
-			else
-				cb null, 0 if cb?
-		return
-	
-	pttl: (key, cb) ->
-		@_ttl key, cb
-	
-	ttl: (key, cb) ->
-		@_ttl key, cb, (x) ->
-			Math.round x / 1000
-	
-	exists: (key, cb) ->
-		@_keyinfo key, cb, (keyinfo) ->
-			if keyinfo?
-				cb null, 1
-			else
-				cb null, 0
-	
-	incrby: (key, increment, cb) ->
-		@_map key, cb, (value) ->
-			value + increment
-	
-	incr: (key, cb) ->
-		@incrby key, 1, cb
-	
-	decrby: (key, decrement, cb) ->
-		@incrby key, -decrement, cb
-	
-	decr: (key, cb) ->
-		@decrby key, 1, cb
+	for cmd in DexdisCommands.cmds
+		do (cmd) =>
+			@::[cmd] = (args...) ->
+				@_buffercmd cmd, args
+				return
 
 window.Dexdis = Dexdis
+window.DexdisTransaction = DexdisTransaction
+window.DexdisCommands = DexdisCommands
+
+# testing
+window.d   = new Dexdis()
+window.log = -> console.log arguments
