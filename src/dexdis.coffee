@@ -218,6 +218,10 @@ class DexdisCommands
 			else
 				cb (val >>> offset) & 1
 	
+	getrange: (key, start, end, cb) ->
+		@_getstr key, (val) ->
+			cb val.substring start, end 
+	
 	getset: (key, value, cb) ->
 		@get key, (val) =>
 			@set key, value, ->
