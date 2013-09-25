@@ -6,6 +6,19 @@ errs =
 	notsupported:  'Operation not supported'
 	toomuchop:     'Operation with too much operands'
 
+# calculate hamming weight (for BITCOUNT command)
+# see http://jsperf.com/hamming-weight/4
+hamming = (x) ->
+	m1 = 0x55555555
+	m2 = 0x33333333
+	m4 = 0x0f0f0f0f
+	x -= (x >> 1) & m1
+	x = (x & m2) + ((x >> 2) & m2)
+	x = (x + (x >> 4)) & m4
+	x += x >>  8
+	x += x >> 16
+	x & 0x7f
+
 class DexdisCommands
 	
 	constructor: (trans) ->
@@ -82,6 +95,20 @@ class DexdisCommands
 				cb 0
 		return
 	
+	# get value as string and throw error if it is not a string or number
+	_getstr: (key, cb) ->
+		@get key, (val) ->
+			if val?
+				type = typeof val
+				if type isnt 'string'
+					if type is 'number'
+						val = '' + val
+					else
+						throw new Error errs.wrongtype
+			else
+				val = ''
+			cb val
+	
 	append: (key, val, cb) ->
 		l = 0
 		cbmap = ->
@@ -91,6 +118,9 @@ class DexdisCommands
 			l = ret.length
 			ret
 	
+	bitcount: (key, range..., cb) ->
+		@_getstr key, (val) ->
+			cb hamming val.substring.apply val, range
 	bitop: (op, dest, srcs..., cb) ->
 		f    = null
 		init = 0
@@ -239,17 +269,8 @@ class DexdisCommands
 		return
 	
 	strlen: (key, cb) ->
-		@get key, (val) ->
-			if val?
-				type = typeof val
-				if type isnt 'string'
-					if type is 'number'
-						val = '' + val
-					else
-						throw new Error errs.wrongtype
-				cb val.length
-			else
-				cb 0
+		@_getstr key, (val) ->
+			cb val.length
 	
 	ttl: (key, cb) ->
 		@_ttlmap key, cb, (x) ->
