@@ -281,6 +281,11 @@ class DexdisCommands
 				else
 					cb 0
 	
+	setex: (key, secs, value, cb) ->
+		@set key, value, =>
+			@expire key, secs, ->
+				cb 'OK'
+	
 	setnx: (key, value, cb) ->
 		@_checkttl key, (keyinfo) =>
 			if keyinfo?
