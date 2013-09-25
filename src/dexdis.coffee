@@ -286,6 +286,11 @@ class DexdisCommands
 			@expire key, secs, ->
 				cb 'OK'
 	
+	psetex: (key, secs, value, cb) ->
+		@set key, value, =>
+			@pexpire key, secs, ->
+				cb 'OK'
+	
 	setnx: (key, value, cb) ->
 		@_checkttl key, (keyinfo) =>
 			if keyinfo?
