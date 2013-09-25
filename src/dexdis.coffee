@@ -238,6 +238,19 @@ class DexdisCommands
 					cb 1
 		return
 	
+	strlen: (key, cb) ->
+		@get key, (val) ->
+			if val?
+				type = typeof val
+				if type isnt 'string'
+					if type is 'number'
+						val = '' + val
+					else
+						throw new Error errs.wrongtype
+				cb val.length
+			else
+				cb 0
+	
 	ttl: (key, cb) ->
 		@_ttlmap key, cb, (x) ->
 			Math.round x / 1000
