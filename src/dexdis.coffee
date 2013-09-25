@@ -316,6 +316,13 @@ class DexdisCommands
 	ttl: (key, cb) ->
 		@_ttlmap key, cb, (x) ->
 			Math.round x / 1000
+	
+	type: (key, cb) ->
+		@_checkttl key, (keyinfo) ->
+			if keyinfo?
+				cb keyinfo.type
+			else
+				cb 'none'
 
 DexdisCommands.cmds = Object.keys(DexdisCommands::).filter (x) ->
 	x[0] isnt '_'
