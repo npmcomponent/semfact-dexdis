@@ -82,6 +82,15 @@ class DexdisCommands
 				cb 0
 		return
 	
+	append: (key, val, cb) ->
+		l = 0
+		cbmap = ->
+			cb l
+		@_map key, cbmap, (x) ->
+			ret = x + val
+			l = ret.length
+			ret
+	
 	bitop: (op, dest, srcs..., cb) ->
 		f    = null
 		init = 0
