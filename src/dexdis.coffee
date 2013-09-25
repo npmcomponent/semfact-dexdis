@@ -211,6 +211,13 @@ class DexdisCommands
 					cb get.result
 		return
 	
+	getbit: (key, offset, cb) ->
+		@_getstr key, (val) ->
+			if offset > 31
+				cb 0
+			else
+				cb (val >>> offset) & 1
+	
 	getset: (key, value, cb) ->
 		@get key, (val) =>
 			@set key, value, ->
