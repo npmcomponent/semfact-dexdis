@@ -233,27 +233,8 @@ class DexdisCommands
 		@_ttlmap key, cb, (x) ->
 			Math.round x / 1000
 
-DexdisCommands.cmds = [
-	'bitop',
-	'decr',
-	'decrby',
-	'del',
-	'exists',
-	'expire',
-	'expireat',
-	'flushall',
-	'get',
-	'getset',
-	'incr',
-	'incrby',
-	'persist',
-	'pexpire',
-	'pexpireat',
-	'pttl',
-	'set',
-	'setnx',
-	'ttl'
-]
+DexdisCommands.cmds = Object.keys(DexdisCommands::).filter (x) ->
+	x[0] isnt '_'
 
 class DexdisDb
 	
