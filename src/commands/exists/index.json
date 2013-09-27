@@ -1,0 +1,8 @@
+{
+	"name": "exists",
+	"description": "",
+	"dependencies": [
+		"_checkttl"
+	],
+	"command": "exists.coffee"
+}

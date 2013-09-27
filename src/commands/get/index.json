@@ -1,0 +1,8 @@
+{
+	"name": "get",
+	"description": "",
+	"dependencies": [
+		"_checkttl"
+	],
+	"command": "get.coffee"
+}

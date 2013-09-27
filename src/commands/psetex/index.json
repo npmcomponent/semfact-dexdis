@@ -1,0 +1,9 @@
+{
+	"name": "psetex",
+	"description": "",
+	"dependencies": [
+		"pexpire",
+		"set"
+	],
+	"command": "psetex.coffee"
+}

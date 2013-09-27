@@ -1,0 +1,8 @@
+{
+	"name": "ttl",
+	"description": "",
+	"dependencies": [
+		"_ttlmap"
+	],
+	"command": "ttl.coffee"
+}

@@ -1,0 +1,6 @@
+{
+	"name": "flushall",
+	"description": "",
+	"dependencies": [],
+	"command": "flushall.coffee"
+}

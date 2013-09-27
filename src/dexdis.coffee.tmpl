@@ -1,0 +1,124 @@
+
+errs =
+	transaction:   'Operation not allowed during transaction'
+	wrongtype:     'Operation against a key holding the wrong kind of value'
+	notsupported:  'Operation not supported'
+	toomuchop:     'Operation with too much operands'
+
+class DexdisCommands
+	
+	constructor: (trans) ->
+		stores  = ['keys', 'values']
+		@_stores = {}
+		for s in stores
+			@_stores[s] = trans.objectStore s
+	
+{{{commands}}}
+
+DexdisCommands.cmds = Object.keys(DexdisCommands::).filter (x) ->
+	x[0] isnt '_'
+
+class DexdisDb
+	
+	# get indexeddb transaction with keys and values stores
+	_transaction: (cb, mode = 'readwrite') ->
+		trans = @db.transaction ['keys', 'values'], mode
+		trans.addEventListener 'error', (e) ->
+			cb e if cb?
+		trans.addEventListener 'abort', (e) ->
+			cb new Error 'Transaction Aborted' if cb?
+		trans
+
+class Dexdis extends DexdisDb
+	
+	constructor: (db = 1) ->
+		@select db
+	
+	# execute dexdis command
+	_cmd: (cmd, args, cb, mode) ->
+		ret = null
+		save = (x) ->
+			ret = x
+			return
+		trans = @_transaction cb, mode
+		trans.addEventListener 'complete', ->
+			cb null, ret if cb?
+		cmds = new DexdisCommands trans
+		cmds[cmd].apply cmds, args.concat [save]
+		return
+	
+	select: (db, cb) ->
+		if @db is null
+			cb new Error errs.transaction
+			return
+		r = indexedDB.open db, 1
+		r.addEventListener 'upgradeneeded', (e) ->
+			console.log 'upgrade'
+			db = e.target.result
+			db.createObjectStore 'keys'
+			db.createObjectStore 'values'
+		r.addEventListener 'success', (e) =>
+			@db = e.target.result
+			cb null if cb?
+		this
+	
+	quit: (cb) ->
+		@db.close() if @db?
+		cb null if cb?
+		this
+	
+	multi: (cb) ->
+		new DexdisTransaction @db
+	
+	for cmd in DexdisCommands.cmds
+		do (cmd) =>
+			@::[cmd] = (args..., cb) ->
+				if typeof cb is 'function'
+					@_cmd cmd, args, cb
+				else
+					args = args.concat [cb]
+					@_cmd cmd, args, ->
+				this
+
+class DexdisTransaction extends DexdisDb
+	
+	constructor: (@db) ->
+		@buffer = []
+	
+	_buffercmd: (cmd, args) ->
+		@buffer.push
+			cmd:  cmd
+			args: args
+	
+	exec: (cb) ->
+		trans  = @_transaction cb
+		cmds   = new DexdisCommands trans
+		buffer = @buffer
+		i      = 0
+		values = []
+		next = (val) ->
+			if val isnt undefined
+				values.push val
+			i++
+			if i > buffer.length
+				return
+			b = buffer[i-1]
+			cmds[b.cmd].apply cmds, b.args.concat [next]
+		trans.addEventListener 'complete', ->
+			cb null, values
+		trans.addEventListener 'error', (e) ->
+			cb e
+		next()
+		return
+	
+	discard: (cb) ->
+		@buffer = []
+		@trans.abort()
+	
+	for cmd in DexdisCommands.cmds
+		do (cmd) =>
+			@::[cmd] = (args...) ->
+				@_buffercmd cmd, args
+				this
+
+window.Dexdis = Dexdis

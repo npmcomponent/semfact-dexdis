@@ -1,0 +1,8 @@
+{
+	"name": "_getstr",
+	"description": "Return value as string and throw an error if it is not a string or number",
+	"dependencies": [
+		"get"
+	],
+	"command": "_getstr.coffee"
+}

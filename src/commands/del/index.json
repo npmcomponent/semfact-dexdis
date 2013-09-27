@@ -1,0 +1,8 @@
+{
+	"name": "del",
+	"description": "",
+	"dependencies": [
+		"_checkttl"
+	],
+	"command": "del.coffee"
+}

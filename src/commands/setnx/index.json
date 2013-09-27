@@ -1,0 +1,9 @@
+{
+	"name": "setnx",
+	"description": "",
+	"dependencies": [
+		"_checkttl",
+		"set"
+	],
+	"command": "setnx.coffee"
+}

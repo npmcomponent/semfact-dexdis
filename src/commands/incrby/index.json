@@ -1,0 +1,8 @@
+{
+	"name": "incrby",
+	"description": "",
+	"dependencies": [
+		"_map"
+	],
+	"command": "incrby.coffee"
+}

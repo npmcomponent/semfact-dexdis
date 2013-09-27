@@ -1,0 +1,6 @@
+{
+	"name": "randomkey",
+	"description": "",
+	"dependencies": [],
+	"command": "randomkey.coffee"
+}

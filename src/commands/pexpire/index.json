@@ -1,0 +1,8 @@
+{
+	"name": "pexpire",
+	"description": "",
+	"dependencies": [
+		"_expiremap"
+	],
+	"command": "pexpire.coffee"
+}

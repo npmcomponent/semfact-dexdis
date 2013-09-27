@@ -1,0 +1,6 @@
+{
+	"name": "set",
+	"description": "",
+	"dependencies": [],
+	"command": "set.coffee"
+}

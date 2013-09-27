@@ -1,0 +1,8 @@
+{
+	"name": "expireat",
+	"description": "",
+	"dependencies": [
+		"_expiremap"
+	],
+	"command": "expireat.coffee"
+}

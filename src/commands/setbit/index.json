@@ -1,0 +1,9 @@
+{
+	"name": "setbit",
+	"description": "",
+	"dependencies": [
+		"_getstr",
+		"set"
+	],
+	"command": "setbit.coffee"
+}

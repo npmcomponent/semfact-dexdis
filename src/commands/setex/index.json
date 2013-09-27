@@ -1,0 +1,9 @@
+{
+	"name": "setex",
+	"description": "",
+	"dependencies": [
+		"expire",
+		"set"
+	],
+	"command": "setex.coffee"
+}

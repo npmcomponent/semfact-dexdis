@@ -1,0 +1,8 @@
+{
+	"name": "incr",
+	"description": "",
+	"dependencies": [
+		"incrby"
+	],
+	"command": "incr.coffee"
+}

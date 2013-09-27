@@ -1,0 +1,9 @@
+{
+	"name": "bitop",
+	"description": "",
+	"dependencies": [
+		"get",
+		"set"
+	],
+	"command": "bitop.coffee"
+}

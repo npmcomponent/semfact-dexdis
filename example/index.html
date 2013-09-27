@@ -4,6 +4,10 @@
 		<title>Dexdis</title>
 	</head>
 	<body>
-		<script type="text/javascript" src="dexdis.js"></script>
+		<script type="text/javascript" src="dexdis.min.js"></script>
+		<script type="text/javascript">
+			window.d   = new Dexdis();
+			window.log = function(){console.log(arguments);};
+		</script>
 	</body>
 </html>

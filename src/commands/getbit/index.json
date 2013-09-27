@@ -1,0 +1,8 @@
+{
+	"name": "getbit",
+	"description": "",
+	"dependencies": [
+		"_getstr"
+	],
+	"command": "getbit.coffee"
+}

@@ -1,0 +1,8 @@
+{
+	"name": "_map",
+	"description": "Get value, apply mapping function and save it",
+	"dependencies": [
+		"_checkttl"
+	],
+	"command": "_map.coffee"
+}

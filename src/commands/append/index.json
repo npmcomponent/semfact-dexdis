@@ -1,0 +1,8 @@
+{
+	"name": "append",
+	"description": "",
+	"dependencies": [
+		"_map"
+	],
+	"command": "append.coffee"
+}

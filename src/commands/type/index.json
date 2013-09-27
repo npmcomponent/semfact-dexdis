@@ -1,0 +1,8 @@
+{
+	"name": "type",
+	"description": "",
+	"dependencies": [
+		"_checkttl"
+	],
+	"command": "type.coffee"
+}

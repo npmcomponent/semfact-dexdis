@@ -1,0 +1,8 @@
+{
+	"name": "decr",
+	"description": "",
+	"dependencies": [
+		"decrby"
+	],
+	"command": "decr.coffee"
+}

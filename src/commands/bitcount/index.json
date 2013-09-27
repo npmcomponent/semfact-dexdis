@@ -1,0 +1,8 @@
+{
+	"name": "bitcount",
+	"description": "",
+	"dependencies": [
+		"_getstr"
+	],
+	"command": "bitcount.coffee"
+}

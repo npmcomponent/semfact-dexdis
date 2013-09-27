@@ -1,0 +1,8 @@
+{
+	"name": "pttl",
+	"description": "",
+	"dependencies": [
+		"_ttlmap"
+	],
+	"command": "pttl.coffee"
+}

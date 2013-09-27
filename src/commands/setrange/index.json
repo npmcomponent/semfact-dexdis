@@ -1,0 +1,9 @@
+{
+	"name": "setrange",
+	"description": "",
+	"dependencies": [
+		"_getstr",
+		"set"
+	],
+	"command": "setrange.coffee"
+}

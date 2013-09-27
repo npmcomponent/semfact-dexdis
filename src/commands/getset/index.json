@@ -1,0 +1,9 @@
+{
+	"name": "getset",
+	"description": "",
+	"dependencies": [
+		"get",
+		"set"
+	],
+	"command": "getset.coffee"
+}
