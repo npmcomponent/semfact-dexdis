@@ -1,0 +1,6 @@
+{
+	"name": "flushdb",
+	"description": "",
+	"dependencies": [],
+	"command": "flushdb.coffee"
+}
