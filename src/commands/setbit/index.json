@@ -1,5 +1,5 @@
 {
-	"name": "setbit",
+	"usage": "setbit",
 	"description": "",
 	"dependencies": [
 		"_getstr",

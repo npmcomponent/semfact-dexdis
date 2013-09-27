@@ -1,5 +1,5 @@
 {
-	"name": "exists",
+	"usage": "exists",
 	"description": "",
 	"dependencies": [
 		"_checkttl"

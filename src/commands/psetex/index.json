@@ -1,5 +1,5 @@
 {
-	"name": "psetex",
+	"usage": "psetex",
 	"description": "",
 	"dependencies": [
 		"pexpire",

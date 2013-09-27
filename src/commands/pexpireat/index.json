@@ -1,5 +1,5 @@
 {
-	"name": "pexpireat",
+	"usage": "pexpireat",
 	"description": "",
 	"dependencies": [
 		"_expiremap"

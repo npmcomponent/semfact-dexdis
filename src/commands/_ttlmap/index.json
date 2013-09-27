@@ -1,5 +1,5 @@
 {
-	"name": "_ttlmap",
+	"usage": "_ttlmap",
 	"description": "Return ttl of a key with optional mapping function f",
 	"dependencies": [
 		"_checkttl"

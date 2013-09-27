@@ -1,5 +1,5 @@
 {
-	"name": "decr",
+	"usage": "decr",
 	"description": "",
 	"dependencies": [
 		"decrby"

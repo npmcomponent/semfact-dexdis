@@ -1,5 +1,5 @@
 {
-	"name": "incrby",
+	"usage": "incrby",
 	"description": "",
 	"dependencies": [
 		"_map"

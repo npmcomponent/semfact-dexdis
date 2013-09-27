@@ -1,5 +1,5 @@
 {
-	"name": "expire",
+	"usage": "expire",
 	"description": "",
 	"dependencies": [
 		"_expiremap"

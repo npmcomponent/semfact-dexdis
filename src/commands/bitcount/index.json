@@ -1,5 +1,5 @@
 {
-	"name": "bitcount",
+	"usage": "bitcount",
 	"description": "",
 	"dependencies": [
 		"_getstr"

@@ -1,8 +1,25 @@
 {
-	"name": "del",
+	"usage": "del key, [key ...]",
+	"since": "0.1.0",
 	"description": "",
 	"dependencies": [
 		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": ""
+	},
+	"examples": [
+		"set 'a', 'Hello'",
+		"set 'b', 'World'",
+		"del 'a', 'b', 'c'" 
+	],
+	"related": [
+		"exists",
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat"
 	],
 	"command": "del.coffee"
 }

@@ -1,5 +1,5 @@
 {
-	"name": "randomkey",
+	"usage": "randomkey",
 	"description": "",
 	"dependencies": [],
 	"command": "randomkey.coffee"

@@ -1,5 +1,5 @@
 {
-	"name": "incr",
+	"usage": "incr",
 	"description": "",
 	"dependencies": [
 		"incrby"

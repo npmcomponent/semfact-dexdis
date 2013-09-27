@@ -1,5 +1,5 @@
 {
-	"name": "setnx",
+	"usage": "setnx",
 	"description": "",
 	"dependencies": [
 		"_checkttl",

@@ -1,5 +1,5 @@
 {
-	"name": "ttl",
+	"usage": "ttl",
 	"description": "",
 	"dependencies": [
 		"_ttlmap"

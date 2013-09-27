@@ -1,5 +1,5 @@
 {
-	"name": "getrange",
+	"usage": "getrange",
 	"description": "",
 	"dependencies": [
 		"_getstr"

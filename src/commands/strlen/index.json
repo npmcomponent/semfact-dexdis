@@ -1,5 +1,5 @@
 {
-	"name": "strlen",
+	"usage": "strlen",
 	"description": "",
 	"dependencies": [
 		"_getstr"

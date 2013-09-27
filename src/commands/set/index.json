@@ -1,5 +1,5 @@
 {
-	"name": "set",
+	"usage": "set",
 	"description": "",
 	"dependencies": [],
 	"command": "set.coffee"

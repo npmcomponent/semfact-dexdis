@@ -1,5 +1,5 @@
 {
-	"name": "get",
+	"usage": "get",
 	"description": "",
 	"dependencies": [
 		"_checkttl"

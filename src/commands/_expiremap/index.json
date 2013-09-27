@@ -1,5 +1,5 @@
 {
-	"name": "_expiremap",
+	"usage": "_expiremap",
 	"description": "Set ttl of a key with optional mapping function f",
 	"dependencies": [
 		"_checkttl"

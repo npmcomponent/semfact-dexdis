@@ -1,5 +1,5 @@
 {
-	"name": "setex",
+	"usage": "setex",
 	"description": "",
 	"dependencies": [
 		"expire",
