@@ -12,6 +12,10 @@ module.exports = (grunt) ->
 				commands: ['get', 'set', 'del', 'expire', 'ttl']
 			dest: 'lib/dexdis-minimal.coffee'
 	
+	config.dexdistest =
+		default:
+			dest: 'lib/tests.coffee'
+	
 	config.coffee =
 		compile:
 			expand: true
@@ -31,7 +35,25 @@ module.exports = (grunt) ->
 		'lib'
 	]
 	
-	grunt.registerTask 'default', ['dexdis', 'coffee', 'uglify']
+	config.connect =
+		examples:
+			options:
+				port:      3000
+				base:      'examples'
+				keepalive: true
+		tests:
+			options:
+				port: 9000
+				base: 'tests'
+	
+	config.mocha_phantomjs =
+		all:
+			options:
+				urls: [
+					'http://localhost:9000'
+				]
+	
+	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'uglify']
 	
 	require('load-grunt-tasks') grunt
 	grunt.loadTasks 'tasks'

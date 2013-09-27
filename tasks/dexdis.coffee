@@ -36,6 +36,32 @@ module.exports = (grunt) ->
 			cmds.push code
 		cmds
 	
+	grunt.registerMultiTask 'dexdistest', 'Generate dexdis test files', ->
+		cwd = process.cwd()
+		opts = @options
+			dir: cwd + '/src/commands/'
+			commands: null
+			template: cwd + '/src/tests.coffee.tmpl'
+		
+		if opts.commands is null
+			opts.commands = fs.readdirSync(opts.dir).filter (x) ->
+				x[0] isnt '_'
+		
+		if @files.length > 0
+			file = @files[0].dest
+			if file?
+				infos = resolveDependencies opts.commands, opts.dir
+				tests = ''
+				for cmd, info of infos
+					if info.test?
+						test = grunt.file.read opts.dir + cmd + '/' + info.test
+						tests += test + '\n'
+				tmpl = grunt.file.read opts.template,
+					encoding: 'utf8'
+				rendered = mustache.render tmpl, {tests}
+				grunt.file.write file, rendered
+				grunt.log.writeln 'File "' + file + '" created.'
+	
 	grunt.registerMultiTask 'dexdis', 'Generate dexdis source files', ->
 		cwd = process.cwd()
 		opts = @options

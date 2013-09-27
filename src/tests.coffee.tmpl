@@ -1,0 +1,20 @@
+
+dexdis = new Dexdis()
+
+mocha.setup 'bdd'
+
+before (done) ->
+	dexdis.select 1, done
+
+beforeEach (done) ->
+	dexdis.flushdb done
+
+{{{tests}}}
+
+expect = chai.expect
+
+mocha.globals ['dexdis', 'expect', 'chai']
+if (window.mochaPhantomJS)
+	mochaPhantomJS.run()
+else
+	mocha.run()
