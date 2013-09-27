@@ -14,7 +14,15 @@ beforeEach (done) ->
 expect = chai.expect
 
 mocha.globals ['dexdis', 'expect', 'chai']
-if (window.mochaPhantomJS)
-	mochaPhantomJS.run()
-else
-	mocha.run()
+runner = mocha.run()
+failed = []
+runner.on 'fail', (test, err) ->
+	failed.push
+		title: test.title
+		fullTitle: test.fullTitle()
+		error:
+			message: err.message
+			stack: err.stack
+runner.on 'end', ->
+	runner.stats.failed = failed
+	window.mochaResults = runner.stats

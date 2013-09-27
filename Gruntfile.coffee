@@ -46,13 +46,6 @@ module.exports = (grunt) ->
 				port: 9000
 				base: 'tests'
 	
-	config.mocha_phantomjs =
-		all:
-			options:
-				urls: [
-					'http://localhost:9000'
-				]
-	
 	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'uglify']
 	
 	require('load-grunt-tasks') grunt
