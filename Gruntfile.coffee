@@ -46,7 +46,22 @@ module.exports = (grunt) ->
 				port: 9000
 				base: 'tests'
 	
+	config.watch =
+		tests:
+			files: ['src/**/*.coffee', 'src/**/*.coffee.tmpl']
+			tasks: ['default']
+			options:
+				livereload: true
+	
+	config.concurrent =
+		test: 
+			tasks: ['connect:tests:keepalive', 'watch:tests']
+			options:
+				logConcurrentOutput: true
+	
 	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'uglify']
+	
+	grunt.registerTask 'dev', ['concurrent:test']
 	
 	require('load-grunt-tasks') grunt
 	grunt.loadTasks 'tasks'
