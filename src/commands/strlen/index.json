@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_getstr"
 	],
-	"command": "strlen.coffee"
+	"command": "strlen.coffee",
+	"test": "test.coffee"
 }
