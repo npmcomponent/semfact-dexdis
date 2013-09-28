@@ -2,5 +2,6 @@
 	"usage": "set",
 	"description": "",
 	"dependencies": [],
-	"command": "set.coffee"
+	"command": "set.coffee",
+	"test": "test.coffee"
 }
