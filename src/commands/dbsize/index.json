@@ -1,0 +1,7 @@
+{
+	"usage": "dbsize",
+	"description": "",
+	"dependencies": [],
+	"command": "dbsize.coffee",
+	"test": "test.coffee"
+}
