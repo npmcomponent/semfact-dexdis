@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_checkttl"
 	],
-	"command": "get.coffee"
+	"command": "get.coffee",
+	"test": "test.coffee"
 }
