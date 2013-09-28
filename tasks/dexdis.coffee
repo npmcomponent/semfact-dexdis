@@ -52,7 +52,9 @@ module.exports = (grunt) ->
 			if file?
 				infos = resolveDependencies opts.commands, opts.dir
 				tests = ''
-				for cmd, info of infos
+				cmds = Object.keys(infos).sort()
+				for cmd in cmds
+					info = infos[cmd]
 					if info.test?
 						test = grunt.file.read opts.dir + cmd + '/' + info.test
 						tests += test + '\n'
