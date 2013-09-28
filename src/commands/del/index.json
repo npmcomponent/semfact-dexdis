@@ -21,5 +21,6 @@
 		"pexpire",
 		"pexpireat"
 	],
-	"command": "del.coffee"
+	"command": "del.coffee",
+	"test": "test.coffee"
 }
