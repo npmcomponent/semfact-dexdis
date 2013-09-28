@@ -4,5 +4,6 @@
 	"dependencies": [
 		"decrby"
 	],
-	"command": "decr.coffee"
+	"command": "decr.coffee",
+	"test": "test.coffee"
 }

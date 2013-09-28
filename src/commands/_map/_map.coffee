@@ -14,5 +14,6 @@ _map: (key, cb, f) ->
 				cb new Error errs.wrongtype
 		else
 			value = f null
-			@set key, value, cb
+			@set key, value, ->
+				cb value
 	return
