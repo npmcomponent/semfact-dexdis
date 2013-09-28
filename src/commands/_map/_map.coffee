@@ -1,7 +1,7 @@
 _map: (key, cb, f) ->
 	{keys, values} = @_stores
 	value = null
-	@_checkttl key, (keyinfo) ->
+	@_checkttl key, (keyinfo) =>
 		if keyinfo?
 			if keyinfo.type is 'simple'
 				get = values.get key
@@ -13,10 +13,6 @@ _map: (key, cb, f) ->
 			else
 				cb new Error errs.wrongtype
 		else
-			keyinfo =
-				type: 'simple'
-			keys.put keyinfo, key
-			put = values.put value, key
-			put.addEventListener 'success', ->
-				cb value
+			value = f null
+			@set key, value, cb
 	return

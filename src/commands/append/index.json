@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_map"
 	],
-	"command": "append.coffee"
+	"command": "append.coffee",
+	"test": "test.coffee"
 }

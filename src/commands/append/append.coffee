@@ -3,6 +3,9 @@ append: (key, val, cb) ->
 	cbmap = ->
 		cb l
 	@_map key, cbmap, (x) ->
-		ret = x + val
+		if x?
+			ret = x + val
+		else
+			ret = val
 		l = ret.length
 		ret
