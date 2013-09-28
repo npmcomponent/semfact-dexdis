@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_map"
 	],
-	"command": "incrby.coffee"
+	"command": "incrby.coffee",
+	"test": "test.coffee"
 }
