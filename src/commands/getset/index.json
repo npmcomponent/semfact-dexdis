@@ -5,5 +5,6 @@
 		"get",
 		"set"
 	],
-	"command": "getset.coffee"
+	"command": "getset.coffee",
+	"test": "test.coffee"
 }
