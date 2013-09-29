@@ -8,7 +8,7 @@ describe 'DEL', ->
 					expect(err).to.be.null
 					expect(res).to.equal 2
 					do done
-	it 'should ignore arguments that does not exist', (done) ->
+	it 'should ignore arguments that do not exist', (done) ->
 		dexdis.set 'del1', 'test', (err, res) ->
 			expect(err).to.be.null
 			dexdis.set 'del2', 'test', (err, res) ->

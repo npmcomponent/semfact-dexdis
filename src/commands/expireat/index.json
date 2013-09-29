@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_expiremap"
 	],
-	"command": "expireat.coffee"
+	"command": "expireat.coffee",
+	"test": "test.coffee"
 }
