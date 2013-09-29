@@ -2,5 +2,6 @@
 	"usage": "flushdb",
 	"description": "",
 	"dependencies": [],
-	"command": "flushdb.coffee"
+	"command": "flushdb.coffee",
+	"test": "test.coffee"
 }
