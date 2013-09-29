@@ -8,7 +8,7 @@ randomkey: (cb) ->
 		cur.addEventListener 'success', ->
 			cursor = cur.result
 			if cursor?
-				if adv
+				if adv or rnd is 0
 					cb cursor.key
 				else
 					adv = true

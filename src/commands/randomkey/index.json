@@ -2,5 +2,6 @@
 	"usage": "randomkey",
 	"description": "",
 	"dependencies": [],
-	"command": "randomkey.coffee"
+	"command": "randomkey.coffee",
+	"test":  "test.coffee"
 }
