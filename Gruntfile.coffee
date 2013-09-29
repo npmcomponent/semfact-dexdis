@@ -61,7 +61,7 @@ module.exports = (grunt) ->
 	
 	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'uglify']
 	
-	grunt.registerTask 'dev', ['concurrent:test']
+	grunt.registerTask 'dev', ['default', 'concurrent:test']
 	
 	require('load-grunt-tasks') grunt
 	grunt.loadTasks 'tasks'
