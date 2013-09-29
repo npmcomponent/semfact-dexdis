@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_checkttl"
 	],
-	"command": "persist.coffee"
+	"command": "persist.coffee",
+	"test": "test.coffee"
 }
