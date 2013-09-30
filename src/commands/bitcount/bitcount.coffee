@@ -13,4 +13,13 @@ hamming = (x) ->
 
 bitcount: (key, range..., cb) ->
 	@_getstr key, (val) ->
-		cb hamming val.substring.apply val, range
+		if range.length is 2
+			start = range[0]
+			end = range[1]
+			if start < 0
+				start = 4 + start
+			if end < 0
+				end = 4 + end + 1
+			val &= -1 >>> (32 - end * 8)
+			val >>>= start * 8 
+		cb hamming val
