@@ -1,4 +1,5 @@
 extends layout
 
 block content
-	pre= JSON.stringify(info, null, '\t')
+	div.container
+		pre= util.inspect(commands)

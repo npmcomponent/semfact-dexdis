@@ -1,3 +1,6 @@
+body {
+	padding-top: 75px;
+}
 #brand {
 	padding-left: 52px;
 	background: transparent url(dexdis.png) 18px 12px no-repeat;

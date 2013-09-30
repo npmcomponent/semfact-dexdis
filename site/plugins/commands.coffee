@@ -3,13 +3,15 @@ fs = require 'fs'
 
 module.exports = (env, cb) ->
 	
-	class CommandPlugin extends env.ContentPlugin
+	class TemplatePlugin extends env.ContentPlugin
 		
-		constructor: (@command, @dir) ->
-			@template = 'command.jade'
+		constructor: (opts) ->
+			@file     = opts.filename
+			@template = opts.template
+			@context  = opts.context
 		
 		getFilename: ->
-			'commands/' + @command + '/index.html'
+			@file
 		
 		getView: -> (env, locals, contents, templates, cb) ->
 			template = templates[@template]
@@ -17,34 +19,31 @@ module.exports = (env, cb) ->
 				cb Error 'Could not find template ' + @template
 				return
 			ctx =
-				info: require @dir + '/' + @command
-			cb null, new Buffer template.fn ctx
-	
-	class OverviewPlugin extends env.ContentPlugin
-		
-		constructor: (@commands) ->
-		
-		getFilename: ->
-			'commands/index.html'
-		
-		getView: -> (env, locals, contents, templates, cb) ->
-			template = templates['commands.jade']
-			if template is undefined
-				cb Error 'Could not find template commands.jade'
-				return
-			ctx =
-				commands = @commands
+				env: env
+				contents: contents
+				util: require 'util'
+			env.utils.extend ctx, @context
 			cb null, new Buffer template.fn ctx
 	
 	generator = (contents, cb) ->
 		configDirectory = env.config.commands?.dir
 		dir = process.cwd() + '/../src/commands'
-		commands = fs.readdirSync(dir).filter (x) ->
+		cmds = fs.readdirSync(dir).filter (x) ->
 			x[0] isnt '_'
+		commands = {}
+		for cmd in cmds
+			commands[cmd] = require dir + '/' + cmd
 		tree =
-			'commands/index.html': new OverviewPlugin commands
-		for cmd in commands
-			tree['commands/' + cmd] = new CommandPlugin cmd, dir
+			'commands/index.html': new TemplatePlugin
+				filename: 'commands/index.html'
+				template: 'commands.jade'
+				context:  {commands}
+		for cmd in cmds
+			tree['commands/' + cmd + '/'] = new TemplatePlugin
+				filename: 'commands/' + cmd + '/index.html'
+				template: 'command.jade'
+				context:
+					command: commands[cmd]
 		cb null, tree
 	
 	env.registerGenerator 'pages', generator
