@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_expiremap"
 	],
-	"command": "pexpire.coffee"
+	"command": "pexpire.coffee",
+	"test": "test.coffee"
 }
