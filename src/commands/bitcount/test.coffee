@@ -13,7 +13,7 @@ describe 'BITCOUNT', ->
 				expect(err).to.be.null
 				expect(res).to.equal 5
 				do done
-	it 'should return the substring of a string stored at key determined by the offsets', (done) ->
+	it 'should return the number of bits set to 1 of the value stored at key determined by the offsets', (done) ->
 		dexdis.set 'bits', 0xff00ffe5, (err, res) ->
 			expect(err).to.be.null
 			dexdis.bitcount 'bits', 0, 1, (err, res) ->
