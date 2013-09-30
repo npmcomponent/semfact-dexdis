@@ -5,5 +5,6 @@
 		"_getstr",
 		"set"
 	],
-	"command": "setbit.coffee"
+	"command": "setbit.coffee",
+	"test": "test.coffee"
 }
