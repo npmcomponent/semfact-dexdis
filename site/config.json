@@ -6,9 +6,9 @@
 		"description": ""
 	},
 	"plugins": [
+		"./plugins/commands.coffee"
 	],
 	"require": {
-		"moment": "moment"
 	},
 	"jade": {
 		"pretty": true
