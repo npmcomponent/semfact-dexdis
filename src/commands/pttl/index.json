@@ -4,5 +4,6 @@
 	"dependencies": [
 		"_ttlmap"
 	],
-	"command": "pttl.coffee"
+	"command": "pttl.coffee",
+	"test": "test.coffee"
 }
