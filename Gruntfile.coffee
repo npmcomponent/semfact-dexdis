@@ -18,6 +18,7 @@ module.exports = (grunt) ->
 	
 	config.coffee =
 		compile:
+			bare: true
 			expand: true
 			src:  ['lib/**/*.coffee']
 			ext:  '.js'
@@ -59,7 +60,19 @@ module.exports = (grunt) ->
 			options:
 				logConcurrentOutput: true
 	
-	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'uglify']
+	config.umd =
+		default:
+			src:            'lib/dexdis.js'
+			objectToExport: 'Dexdis'
+			amdModuleId:    'dexdis'
+			globalAlias:    'Dexdis'
+		minimal:
+			src:            'lib/dexdis-minimal.js'
+			objectToExport: 'Dexdis'
+			amdModuleId:    'dexdis-minimal'
+			globalAlias:    'Dexdis'
+	
+	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'umd', 'uglify']
 	
 	grunt.registerTask 'dev', ['default', 'concurrent:test']
 	

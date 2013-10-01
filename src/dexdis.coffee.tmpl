@@ -1,4 +1,3 @@
-
 errs =
 	transaction:   'Operation not allowed during transaction'
 	wrongtype:     'Operation against a key holding the wrong kind of value'
@@ -120,5 +119,3 @@ class DexdisTransaction extends DexdisDb
 			@::[cmd] = (args...) ->
 				@_buffercmd cmd, args
 				this
-
-window.Dexdis = Dexdis
