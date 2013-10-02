@@ -2,4 +2,22 @@ extends layout
 
 block content
 	div.container
-		pre= util.inspect(command)
+		h1= command.name + ' ' + command.usage
+		if command.since
+			p= 'Available since ' + command.since + '.'
+		p= command.description
+		h2= 'Return value'
+		p= command.return.type + ': ' + command.return.value
+		if command.examples
+			h2= 'Examples'
+			code
+				pre
+					each ex in command.examples
+						= ex + '\n'
+		if command.related
+			div
+				h2= 'Related'
+				ul
+					each c in command.related
+						li
+							a(href='/commands/' + c + '/')= c
