@@ -14,6 +14,8 @@ block content
 				pre
 					each ex in command.examples
 						= ex + '\n'
+		h2= 'Tests'
+		a(href='#')= 'Tests for ' + command.name
 		if command.related
 			div
 				h2= 'Related'

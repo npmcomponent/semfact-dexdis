@@ -1,8 +1,24 @@
 {
-	"usage": "getbit",
-	"description": "",
+	"name": "getbit",
+	"usage": "key offset",
+	"short_description": "Get the bit value of a key at an offset",
+	"description": "Get the bit value of the key at the offset.",
 	"dependencies": [
 		"_getstr"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The bit value of the key at the offset."
+	},
+	"examples": [
+		"set('a', 5)",
+		"getbit('a', 2)"
+	],
+	"related": [
+		"bitcount",
+		"bitop",
+		"get",
+		"setbit"
 	],
 	"command": "getbit.coffee",
 	"test": "test.coffee"

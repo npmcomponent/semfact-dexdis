@@ -1,9 +1,31 @@
 {
-	"usage": "setex",
-	"description": "",
+	"name": "setex",
+	"usage": "key seconds value",
+	"short_description": "Set the value of a key and its time to live",
+	"description": "Set the value of the key to the argument and its time to live in seconds.",
 	"dependencies": [
 		"expire",
 		"set"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"setex('a', 10, 'Hello')",
+		"get('a')",
+		"ttl('a')"
+	],
+	"related": [
+		"get",
+		"getset",
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"psetex",
+		"set",
+		"setnx"
 	],
 	"command": "setex.coffee",
 	"test":  "test.coffee"

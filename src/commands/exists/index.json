@@ -1,8 +1,27 @@
 {
-	"usage": "exists",
-	"description": "",
+	"name": "exists",
+	"usage": "key",
+	"short_description": "Test if the key exists",
+	"description": "Test if the key exists.",
 	"dependencies": [
 		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": "1 if the key exists, 0 otherwise."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"exists('a')",
+		"exists('b')"
+	],
+	"related": [
+		"del",
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"persist"
 	],
 	"command": "exists.coffee",
 	"test": "test.coffee"

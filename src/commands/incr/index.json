@@ -1,7 +1,23 @@
 {
-	"usage": "incr",
-	"description": "",
+	"name": "incr",
+	"usage": "key",
+	"short_description": "Increment the value of a key",
+	"description": "Increment the value of the key (by 1)",
 	"dependencies": [
+		"incrby"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The incremented value stored at the key."
+	},
+	"examples": [
+		"set('a', 41)",
+		"incr('a')",
+		"get('a')"
+	],
+	"related": [
+		"decr",
+		"decrby",
 		"incrby"
 	],
 	"command": "incr.coffee",

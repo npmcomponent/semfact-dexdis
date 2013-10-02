@@ -1,8 +1,31 @@
 {
-	"usage": "persist",
-	"description": "",
+	"name": "persist",
+	"usage": "key",
+	"short_description": "Remove a time to live from a key",
+	"description": "Remove the time to live from the given key.",
 	"dependencies": [
 		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": "1 if the time to live has been removed, 0 otherwise."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"expire('a', 10)",
+		"ttl('a')",
+		"persist('a')",
+		"ttl('a')"
+	],
+	"related": [
+		"del",
+		"exists",
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"pttl",
+		"ttl"
 	],
 	"command": "persist.coffee",
 	"test": "test.coffee"

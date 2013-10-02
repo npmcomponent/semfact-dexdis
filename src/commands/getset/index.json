@@ -1,7 +1,22 @@
 {
-	"usage": "getset",
-	"description": "",
+	"name": "getset",
+	"usage": "key value",
+	"short_description": "Set a key to a value and return the old value",
+	"description": "Set the key to the value and return the old value",
 	"dependencies": [
+		"get",
+		"set"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The old value stored at the key."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"getset('a', 'World')",
+		"get('a')"
+	],
+	"related": [
 		"get",
 		"set"
 	],

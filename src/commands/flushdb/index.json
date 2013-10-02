@@ -1,7 +1,23 @@
 {
-	"usage": "flushdb",
-	"description": "",
+	"name": "flushdb",
+	"usage": "",
+	"short_description": "Delete all keys from the database",
+	"description": "Delete all keys from the database.",
 	"dependencies": [],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"dbsize()",
+		"flushdb()",
+		"get('a')",
+		"dbsize()"
+	],
+	"related": [
+		"dbsize"
+	],
 	"command": "flushdb.coffee",
 	"test": "test.coffee"
 }

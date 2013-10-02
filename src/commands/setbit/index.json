@@ -1,9 +1,26 @@
 {
-	"usage": "setbit",
-	"description": "",
+	"name": "setbit",
+	"usage": "key offset value",
+	"short_description": "Set the bit value of a key at an offset",
+	"description": "Set the bit value of the key at the offset.",
 	"dependencies": [
 		"_getstr",
 		"set"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The old bit value of the key at the offset."
+	},
+	"examples": [
+		"set('a', 5)",
+		"bitcount('a')",
+		"setbit('a', 1, 1)",
+		"bitcount('a')"
+	],
+	"related": [
+		"bitcount",
+		"bitop",
+		"getbit"
 	],
 	"command": "setbit.coffee",
 	"test": "test.coffee"

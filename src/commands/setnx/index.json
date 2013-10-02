@@ -1,9 +1,30 @@
 {
-	"usage": "setnx",
-	"description": "",
+	"name": "setnx",
+	"usage": "key value",
+	"short_description": "Set a value of a key only if the key does not exist",
+	"description": "Set the value of the key to the argument only if the key does not exist.",
 	"dependencies": [
 		"_checkttl",
 		"set"
+	],
+	"return": {
+		"type": "Number",
+		"value": "1 if the key was set, 0 otherwise."
+	},
+	"examples": [
+		"setnx('a', 'Hello')",
+		"setnx('a', 'Test')",
+		"get('a')"
+	],
+	"related": [
+		"get",
+		"getbit",
+		"getrange",
+		"getset",
+		"set",
+		"setbit",
+		"setrange",
+		"strlen"
 	],
 	"command": "setnx.coffee",
 	"test": "test.coffee"

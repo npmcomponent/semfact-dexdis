@@ -1,8 +1,24 @@
 {
-	"usage": "incrby",
-	"description": "",
+	"name": "incrby",
+	"usage": "key number",
+	"short_description": "Increment a value of a key by a number",
+	"description": "Increment the value of the key by the number.",
 	"dependencies": [
 		"_map"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The incremented value stored at the key."
+	},
+	"examples": [
+		"set('a', 32)",
+		"incrby('a', 10)",
+		"get('a')"
+	],
+	"related": [
+		"decr",
+		"decrby",
+		"incr"
 	],
 	"command": "incrby.coffee",
 	"test": "test.coffee"

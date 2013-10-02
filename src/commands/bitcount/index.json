@@ -1,8 +1,25 @@
 {
-	"usage": "bitcount",
-	"description": "",
+	"name": "bitcount",
+	"usage": "key [start] [end]",
+	"short_description": "Count the number of bits set to 1",
+	"description": "Count the number of bits set to 1.",
 	"dependencies": [
 		"_getstr"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The number of bits set to 1."
+	},
+	"examples": [
+		"set('a', 0xe5f00fff)",
+		"bitcount('a')",
+		"bitcount('a', 0, 1)",
+		"bitcount('a', -1, -1)"
+	],
+	"related": [
+		"bitop",
+		"setbit",
+		"getbit"
 	],
 	"command": "bitcount.coffee",
 	"test": "test.coffee"

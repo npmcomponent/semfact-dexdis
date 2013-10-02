@@ -1,8 +1,18 @@
 {
-	"usage": "strlen",
-	"description": "",
+	"name": "strlen",
+	"usage": "key",
+	"short_description": "Return the length of a string value of a key",
+	"description": "Return the length of the string value of the key",
 	"dependencies": [
 		"_getstr"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the string value of the key."
+	},
+	"examples": [
+		"set('a', 'Test')",
+		"strlen('a')"
 	],
 	"command": "strlen.coffee",
 	"test": "test.coffee"

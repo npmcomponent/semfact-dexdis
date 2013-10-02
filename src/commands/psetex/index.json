@@ -1,9 +1,31 @@
 {
-	"usage": "psetex",
-	"description": "",
+	"name": "psetex",
+	"usage": "key millisec value",
+	"short_description": "Set the value of a key and its time to live",
+	"description": "Set the value of the key to the argument and its time to live in milliseconds.",
 	"dependencies": [
 		"pexpire",
 		"set"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"psetex('a', 1500, 'Hello')",
+		"get('a')",
+		"pttl('a')"
+	],
+	"related": [
+		"get",
+		"getset",
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"set",
+		"setex",
+		"setnx"
 	],
 	"command": "psetex.coffee",
 	"test": "test.coffee"

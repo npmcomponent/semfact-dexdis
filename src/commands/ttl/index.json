@@ -1,8 +1,26 @@
 {
-	"usage": "ttl",
-	"description": "",
+	"name": "ttl",
+	"usage": "key",
+	"short_description": "Return the time to live in seconds",
+	"description": "Return the time to live of the key in seconds.",
 	"dependencies": [
 		"_ttlmap"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The time to live of the key in seconds."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"expire('a', 10)",
+		"ttl('a')"
+	],
+	"related": [
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"pttl"
 	],
 	"command": "ttl.coffee",
 	"test": "test.coffee"

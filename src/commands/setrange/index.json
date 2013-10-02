@@ -1,9 +1,29 @@
 {
-	"usage": "setrange",
-	"description": "",
+	"name": "setrange",
+	"usage": "key offset value",
+	"short_description": "Overwrite a string stored at a key starting at an offset",
+	"description": "Overwrite the string stored at the key starting at the offset",
 	"dependencies": [
 		"_getstr",
 		"set"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The new length of the string stored at the key."
+	},
+	"examples": [
+		"set('a', 'Hello World')",
+		"setrange('a', 6, 'Universe')",
+		"get('a')"
+	],
+	"related": [
+		"get",
+		"getbit",
+		"getrange",
+		"getset",
+		"set",
+		"setbit",
+		"strlen"
 	],
 	"command": "setrange.coffee",
 	"test": "test.coffee"

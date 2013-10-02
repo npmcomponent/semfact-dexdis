@@ -1,8 +1,26 @@
 {
-	"usage": "expire",
-	"description": "",
+	"name": "expire",
+	"usage": "key seconds",
+	"short_description": "Set a time to live to a key",
+	"description": "Set a timeout to the key in seconds. After the timeout has expired, the key will be deleted.",
 	"dependencies": [
 		"_expiremap"
+	],
+	"return": {
+		"type": "Number",
+		"value": "1 if the timeout was set, 0 otherwise."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"expire('a', 10)",
+		"ttl('a')"
+	],
+	"related": [
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"pttl",
+		"ttl"
 	],
 	"command": "expire.coffee",
 	"test": "test.coffee"

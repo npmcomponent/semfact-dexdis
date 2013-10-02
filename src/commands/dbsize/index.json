@@ -1,7 +1,19 @@
 {
-	"usage": "dbsize",
-	"description": "",
+	"name": "dbsize",
+	"usage": "",
+	"short_description": "Return the number of keys in the database",
+	"description": "Return the number of keys in the database.",
 	"dependencies": [],
+	"return": {
+		"type": "Number",
+		"value": "The number of keys in the database"
+	},
+	"examples": [
+		"dbsize()",
+		"set('a', 'Hello')",
+		"set('b', 'World')",
+		"dbsize()"
+	],
 	"command": "dbsize.coffee",
 	"test": "test.coffee"
 }

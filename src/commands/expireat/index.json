@@ -1,8 +1,26 @@
 {
-	"usage": "expireat",
-	"description": "",
+	"name": "expireat",
+	"usage": "key timestamp",
+	"short_description": "Set a time to live to a key as UNIX timestamp",
+	"description": "Set a timeout to the key as UNIX timestamp in seconds. After the timeout has expired, the key will be deleted.",
 	"dependencies": [
 		"_expiremap"
+	],
+	"return": {
+		"type": "Number",
+		"value": "1 if the timeout was set, 0 otherwise."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"expireat('a', Date.now()/1000+10)",
+		"ttl('a')"
+	],
+	"related": [
+		"expire",
+		"pexpire",
+		"pexpireat",
+		"pttl",
+		"ttl"
 	],
 	"command": "expireat.coffee",
 	"test": "test.coffee"

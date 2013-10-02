@@ -1,9 +1,32 @@
 {
-	"usage": "bitop",
-	"description": "",
+	"name": "bitop",
+	"usage": "operation dest key [key...]",
+	"short_description": "Bitwise operation between the keys",
+	"description": "Bitwise operation (AND, OR, XOR, NOT) between the keys. NOT takes only one key. The result is stored under the key `dest`.",
 	"dependencies": [
 		"get",
 		"set"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"set('a', 0x0f00ff0f)",
+		"set('b', 0x0fff00ff)",
+		"bitop('AND', 'res', 'a', 'b')",
+		"get('res')",
+		"bitop('OR', 'res', 'a', 'b')",
+		"get('res')",
+		"bitop('XOR', 'res', 'a', 'b')",
+		"get('res')",
+		"bitop('NOT', 'res', 'a')",
+		"get('res')"
+	],
+	"related": [
+		"bitcount",
+		"setbit",
+		"getbit"
 	],
 	"command": "bitop.coffee",
 	"test": "test.coffee"

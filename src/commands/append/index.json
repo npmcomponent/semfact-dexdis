@@ -1,8 +1,19 @@
 {
-	"usage": "append",
-	"description": "",
+	"name": "append",
+	"usage": "key value",
+	"short_description": "Append the value to the key",
+	"description": "Append the value to the key.",
 	"dependencies": [
 		"_map"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the resulting value stored at key."
+	},
+	"examples": [
+		"append('a', 'Hello')",
+		"append('a', ' World!')",
+		"get('a')"
 	],
 	"command": "append.coffee",
 	"test": "test.coffee"

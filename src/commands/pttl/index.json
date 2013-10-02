@@ -1,8 +1,26 @@
 {
-	"usage": "pttl",
-	"description": "",
+	"name": "pttl",
+	"usage": "key",
+	"short_description": "Return the time to live in milliseconds",
+	"description": "Return the time to live of the key in milliseconds.",
 	"dependencies": [
 		"_ttlmap"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The time to live of the key in milliseconds."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"pexpire('a', 1500)",
+		"pttl('a')"
+	],
+	"related": [
+		"expire",
+		"expireat",
+		"pexpire",
+		"pexpireat",
+		"ttl"
 	],
 	"command": "pttl.coffee",
 	"test": "test.coffee"

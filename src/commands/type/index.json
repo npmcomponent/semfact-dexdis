@@ -1,8 +1,18 @@
 {
-	"usage": "type",
-	"description": "",
+	"name": "type",
+	"usage": "key",
+	"short_description": "Returns the type of a value stored at a key",
+	"short_description": "Returns the type of the value stored at the key.",
 	"dependencies": [
 		"_checkttl"
+	],
+	"return": {
+		"type": "Type",
+		"value": "The type of the value stored at the key."
+	},
+	"examples": [
+		"set('a', {foo: 'bar'})",
+		"type('a')"
 	],
 	"command": "type.coffee",
 	"test": "test.coffee"

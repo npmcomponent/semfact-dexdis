@@ -1,8 +1,27 @@
 {
-	"usage": "getrange",
-	"description": "",
+	"name": "getrange",
+	"usage": "key start end",
+	"short_description": "Get the substring of a string stored at a key determined by offsets",
+	"description": "Return the substring of the string stored at the key determined by the offsets.",
 	"dependencies": [
 		"_getstr"
+	],
+	"return": {
+		"type": "String",
+		"value": "The substring of the string stored at the key."
+	},
+	"examples": [
+		"set('a', 'Hello World')",
+		"getrange('a', 0, 5)"
+	],
+	"related": [
+		"get",
+		"getbit",
+		"getset",
+		"set",
+		"setbit",
+		"setrange",
+		"strlen"
 	],
 	"command": "getrange.coffee",
 	"test": "test.coffee"

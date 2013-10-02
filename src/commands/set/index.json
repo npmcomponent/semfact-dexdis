@@ -1,7 +1,27 @@
 {
-	"usage": "set",
-	"description": "",
+	"name": "set",
+	"usage": "key value",
+	"short_description": "Set a key to a value",
+	"description": "Set the key to the value.",
 	"dependencies": [],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"get('a')"
+	],
+	"related": [
+		"get",
+		"getbit",
+		"getrange",
+		"getset",
+		"setnx",
+		"setbit",
+		"setrange",
+		"strlen"
+	],
 	"command": "set.coffee",
 	"test": "test.coffee"
 }

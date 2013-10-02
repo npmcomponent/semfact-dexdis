@@ -1,8 +1,28 @@
 {
-	"usage": "get",
-	"description": "",
+	"name": "get",
+	"usage": "key",
+	"short_description": "Get the value of a key",
+	"description": "Get the value of the key",
 	"dependencies": [
 		"_checkttl"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The value stored at the key."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"get('a')"
+	],
+	"related": [
+		"getbit",
+		"getrange",
+		"getset",
+		"set",
+		"setnx",
+		"setbit",
+		"setrange",
+		"strlen"
 	],
 	"command": "get.coffee",
 	"test": "test.coffee"

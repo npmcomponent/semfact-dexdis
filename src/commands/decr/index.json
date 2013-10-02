@@ -1,8 +1,24 @@
 {
-	"usage": "decr",
-	"description": "",
+	"name": "decr",
+	"usage": "key",
+	"short_description": "Decrement the value of the key",
+	"description": "Decrement the value of the key (by 1).",
 	"dependencies": [
 		"decrby"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The decremented value stored at the key."
+	},
+	"examples": [
+		"set('a', 43)",
+		"decr('a')",
+		"get('a')"
+	],
+	"related": [
+		"decrby",
+		"incr",
+		"incrby"
 	],
 	"command": "decr.coffee",
 	"test": "test.coffee"

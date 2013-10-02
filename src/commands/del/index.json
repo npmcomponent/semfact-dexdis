@@ -1,18 +1,21 @@
 {
-	"usage": "del key, [key ...]",
+	"name": "del",
+	"usage": "key, [key ...]",
 	"since": "0.1.0",
-	"description": "",
+	"short_description": "Delete the given keys",
+	"description": "Delete the given keys.",
 	"dependencies": [
 		"_checkttl"
 	],
 	"return": {
 		"type": "Number",
-		"value": ""
+		"value": "The number of keys that were deleted."
 	},
 	"examples": [
-		"set 'a', 'Hello'",
-		"set 'b', 'World'",
-		"del 'a', 'b', 'c'" 
+		"set('a', 'Hello')",
+		"set('b', 'World')",
+		"del('a', 'b', 'c')",
+		"get('a')"
 	],
 	"related": [
 		"exists",

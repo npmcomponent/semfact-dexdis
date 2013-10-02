@@ -1,7 +1,18 @@
 {
-	"usage": "randomkey",
-	"description": "",
+	"name": "randomkey",
+	"usage": "",
+	"short_description": "Return a random key",
+	"description": "Return a random key from the database.",
 	"dependencies": [],
+	"return": {
+		"type": "Key",
+		"value": "A random key from the database."
+	},
+	"examples": [
+		"set('a', 'Hello')",
+		"set('b', 'World')",
+		"randomkey()"
+	],
 	"command": "randomkey.coffee",
 	"test":  "test.coffee"
 }
