@@ -40,7 +40,7 @@ module.exports = (env, cb) ->
 				context:  {commands}
 		for cmd in cmds
 			tree['commands/' + cmd + '/'] = new TemplatePlugin
-				filename: 'commands/' + cmd + '/index.html'
+				filename: 'commands/' + cmd + '.html'
 				template: 'command.jade'
 				context:
 					command: commands[cmd]
