@@ -26,3 +26,5 @@ runner.on 'fail', (test, err) ->
 runner.on 'end', ->
 	runner.stats.failed = failed
 	window.mochaResults = runner.stats
+	if window._$jscoverage?
+		window.mochaResults.coverage = window._$jscoverage
