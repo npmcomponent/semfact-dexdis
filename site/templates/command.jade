@@ -1,25 +1,31 @@
 extends layout
 
 block content
-	div.container
-		h1= command.name + ' ' + command.usage
-		if command.since
-			p= 'Available since ' + command.since + '.'
-		p= command.description
-		h2= 'Return value'
-		p= command.return.type + ': ' + command.return.value
-		if command.examples
-			h2= 'Examples'
-			code
-				pre
-					each ex in command.examples
-						= ex + '\n'
-		h2= 'Tests'
-		a(href='#')= 'Tests for ' + command.name
-		if command.related
-			div
-				h2= 'Related'
-				ul
-					each c in command.related
-						li
-							a(href='/commands/' + c + '/')= c
+	div.container.command
+		h2
+			span.name= command.name
+			span.usage= command.usage
+		div.row
+			div.col-sm-8
+				if command.since
+					p.text-muted= 'Available since ' + command.since + '.'
+				p= command.description
+				h3= 'Return value'
+				p= command.return.type + ': ' + command.return.value
+				if command.examples
+					h3= 'Examples'
+					pre
+						each ex in command.examples
+							= ex + '\n'
+			div.col-sm-4
+				a.btn.btn-default(href='/tests/?grep=' + command.name.toUpperCase() + '%20')
+					span.glyphicon.glyphicon-check
+					|  Run tests for 
+					= command.name.toUpperCase()
+				if command.related
+					div.related
+						h3= 'Related commands'
+						ul
+							each c in command.related
+								li
+									a(href='/commands/' + c + '.html')= c

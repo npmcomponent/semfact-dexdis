@@ -4,8 +4,8 @@ block content
 	div.container
 		ul
 			each command in commands
-				li
+				li.command
 					div
-						a(href='/commands/'+command.name+'.html')= command.name 
-						span= ' ' + command.usage
+						a.name(href='/commands/'+command.name+'.html')= command.name
+						span.text-muted= ' ' + command.usage
 					span= command.short_description 

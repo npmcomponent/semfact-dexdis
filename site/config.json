@@ -9,6 +9,7 @@
 		"./plugins/commands.coffee"
 	],
 	"require": {
+		"typogr": "typogr"
 	},
 	"jade": {
 		"pretty": true

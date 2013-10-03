@@ -20,3 +20,17 @@ body {
 		height: 200px;
 	}
 }
+/* command pages */
+.command .name {
+	text-transform: uppercase;
+}
+.command .usage:before {
+	content: ' ';
+}
+.command .related ul {
+	list-style-type: none;
+	padding-left: 2em;
+}
+.command .related ul li {
+	text-transform: uppercase;
+}
