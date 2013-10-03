@@ -7,10 +7,6 @@ module.exports = (grunt) ->
 	config.dexdis =
 		default:
 			dest: 'lib/dexdis.coffee'
-		minimal:
-			options:
-				commands: ['get', 'set', 'del', 'expire', 'ttl']
-			dest: 'lib/dexdis-minimal.coffee'
 	
 	config.dexdistest =
 		default:
@@ -37,7 +33,7 @@ module.exports = (grunt) ->
 				mangle:
 					except: ['Dexdis', 'DexdisTransaction']
 			expand: true
-			src:  ['lib/**/*.js', '!lib/**/*.min.js']
+			src:  ['lib/dexdis.js']
 			ext:  '.min.js'
 	
 	config.clean = [
@@ -73,11 +69,6 @@ module.exports = (grunt) ->
 			src:            'lib/dexdis.js'
 			objectToExport: 'Dexdis'
 			amdModuleId:    'dexdis'
-			globalAlias:    'Dexdis'
-		minimal:
-			src:            'lib/dexdis-minimal.js'
-			objectToExport: 'Dexdis'
-			amdModuleId:    'dexdis-minimal'
 			globalAlias:    'Dexdis'
 		coverage:
 			src:            'lib/dexdis.coverage.js'
