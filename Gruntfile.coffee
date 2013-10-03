@@ -18,10 +18,18 @@ module.exports = (grunt) ->
 	
 	config.coffee =
 		compile:
-			bare: true
+			options:
+				bare: true
 			expand: true
 			src:  ['lib/**/*.coffee']
 			ext:  '.js'
+	
+	config.coffeeCoverage =
+		compile:
+			options:
+				bare: true
+			src:  'lib/dexdis.coffee'
+			dest: 'lib/dexdis.coverage.js'
 	
 	config.uglify =
 		uglify:
@@ -55,7 +63,7 @@ module.exports = (grunt) ->
 				livereload: true
 	
 	config.concurrent =
-		test: 
+		test:
 			tasks: ['connect:tests:keepalive', 'watch:tests']
 			options:
 				logConcurrentOutput: true
@@ -71,8 +79,14 @@ module.exports = (grunt) ->
 			objectToExport: 'Dexdis'
 			amdModuleId:    'dexdis-minimal'
 			globalAlias:    'Dexdis'
+		coverage:
+			src:            'lib/dexdis.coverage.js'
+			objectToExport: 'Dexdis'
+			amdModuleId:    'dexdis'
+			globalAlias:    'Dexdis'
 	
-	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee', 'umd', 'uglify']
+	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee',
+	                               'coffeeCoverage', 'umd', 'uglify']
 	
 	grunt.registerTask 'dev', ['default', 'concurrent:test']
 	
