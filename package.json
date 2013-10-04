@@ -19,9 +19,16 @@
 		"grunt-wintersmith": "~0.0.2",
 		"load-grunt-tasks": "~0.1.0",
 		"mustache": "~0.7.2",
-		"superagent": "~0.15.4"
+		"superagent": "~0.15.4",
+		"coveralls": "~2.1.0"
 	},
 	"scripts": {
+		"test": "grunt test",
+		"coveralls": "./node_modules/coveralls/bin/coveralls.js < ./lib/coverage.lcov"
+	},
+	"repository": {
+		"type" : "git",
+		"url" : "https://github.com/semfact/dexdis"
 	}
 }
 

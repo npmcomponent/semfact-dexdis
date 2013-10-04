@@ -79,17 +79,21 @@ module.exports = (grunt) ->
 	config.sauce =
 		options:
 			url:       'http://localhost:9000/coverage.html'
-			username:  'dexdis'
-			accesskey: 'd7e6e827-66a4-4a6c-9180-3ddec05fe0d1'
 			platforms: [["Windows 8", "internet explorer", ""],
 			            ["Windows 8", "firefox", ""],
 			            ["Linux", "googlechrome", ""]]
 			require:   'connect:tests'
 			coverage:  'lib/coverage.json'
 	
-	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee',
-	                               'coffeeCoverage', 'umd', 'uglify']
+	config.lcov =
+		default:
+			src:  'lib/coverage.json'
+			dest: 'lib/coverage.lcov'
 	
+	grunt.registerTask 'compile', ['dexdis', 'dexdistest', 'coffee',
+	                               'coffeeCoverage', 'umd', 'uglify']
+	grunt.registerTask 'default', ['compile']
+	grunt.registerTask 'test', ['compile', 'connect:tests', 'sauce', 'lcov']
 	grunt.registerTask 'dev', ['default', 'concurrent:test']
 	
 	require('load-grunt-tasks') grunt
