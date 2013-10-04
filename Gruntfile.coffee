@@ -76,6 +76,17 @@ module.exports = (grunt) ->
 			amdModuleId:    'dexdis'
 			globalAlias:    'Dexdis'
 	
+	config.sauce =
+		options:
+			url:       'http://localhost:9000/coverage.html'
+			username:  'dexdis'
+			accesskey: 'd7e6e827-66a4-4a6c-9180-3ddec05fe0d1'
+			platforms: [["Windows 8", "internet explorer", ""],
+			            ["Windows 8", "firefox", ""],
+			            ["Linux", "googlechrome", ""]]
+			require:   'connect:tests'
+			coverage:  'lib/coverage.json'
+	
 	grunt.registerTask 'default', ['dexdis', 'dexdistest', 'coffee',
 	                               'coffeeCoverage', 'umd', 'uglify']
 	

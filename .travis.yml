@@ -1,0 +1,24 @@
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+  - secure: "cA9qWbyRuPECBh3fyskAghEi3y1ZMci3mez1xFESDfLqa0zoNVEMG2rTdM2qD1wxQvvyKL4WQHAr1FEAHBH/yWUuoCKRqz1lGhUz3QM2lSLad8sCBwkfis/PyL8D2KvxR75n7kWiupUZjjFVnWHbGnmlX/hJvwYdlgjRreFesx0="
+  - NPM_USER="semfact-travis"
+  - NPM_EMAIL="travis@semfact.eu"
+  - SAUCE_USERNAME="dexdis"
+  - secure: "jBtRIyLDPs9DSY6hbo2/nIxQ+Pc/EvusjN3yWUOjOKSxZsrS5Gf31xrWRzpls/zY0qqJybY8G0H1zSe1XIR4cXgeEUmU95ZO00nqm0fxK1isp4E0dozoVgoqgtaF23cEWktgwRszum2EESV5B6STFHMr3yBN0LPN9X7EogZjHMg="
+
+before_script:
+  - npm install -g grunt-cli
+  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+
+after_success:
+#  - npm run coveralls
+# - .travis/publish-npm.sh
+
+notifications:
+  email:
+    - travis@semfact.eu
