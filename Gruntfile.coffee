@@ -84,6 +84,13 @@ module.exports = (grunt) ->
 			            ["Linux", "googlechrome", ""]]
 			require:   'connect:tests'
 			coverage:  'lib/coverage.json'
+			data:
+				public: true
+				build:  process.env['TRAVIS_BUILD_NUMBER']
+				tags:   ['travis']
+	
+	if process.env['TRAVIS_PULL_REQUEST']
+		config.sauce.options.data.tags.push 'pullrequest'
 	
 	config.lcov =
 		default:
