@@ -18,6 +18,7 @@ module.exports = (grunt) ->
 			interval:  5000
 			require:   null
 			coverage:  cwd + '/coverage.json'
+			tunnel:    null
 			data:
 				tags:   ['grunt']
 				public: true
@@ -89,12 +90,17 @@ module.exports = (grunt) ->
 		grunt.log.writeln 'Running ' + opts.url + ' on Sauce Labs...'
 		grunt.verbose.writeln 'Sending post request to Sauce Labs...'
 		
-		post = request.post testurl
-		post.auth opts.username, opts.accesskey
-		post.send
+		jsunitrequest =
 			platforms: opts.platforms
 			framework: opts.framework
 			url:       opts.url
+		
+		if opts.tunnel?
+			jsunitrequest['tunnel-identifier'] = opts.tunnel
+		
+		post = request.post testurl
+		post.auth opts.username, opts.accesskey
+		post.send jsunitrequest
 		post.end handle (res) ->
 			grunt.log.writeln 'Waiting for finish...'
 			tests = res.body

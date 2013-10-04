@@ -88,6 +88,7 @@ module.exports = (grunt) ->
 				public: true
 				build:  process.env['TRAVIS_BUILD_NUMBER']
 				tags:   ['travis']
+			tunnel:     process.env['TRAVIS_BUILD_NUMBER']
 	
 	if process.env['TRAVIS_PULL_REQUEST']
 		config.sauce.options.data.tags.push 'pullrequest'
