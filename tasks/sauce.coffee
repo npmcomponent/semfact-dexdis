@@ -80,7 +80,7 @@ module.exports = (grunt) ->
 					throw err
 				if not passed
 					grunt.log.error 'Tests failed!'
-					do false
+					done false
 					return
 				else
 					grunt.log.writeln 'Tests passed!'
@@ -110,6 +110,7 @@ module.exports = (grunt) ->
 				post.auth opts.username, opts.accesskey
 				post.send tests
 				post.end handle (res) ->
+					console.log res.body
 					if res.body.completed is true
 						results res.body
 					else
