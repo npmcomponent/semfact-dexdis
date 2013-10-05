@@ -1,11 +1,13 @@
 extends layout
 
 block content
-	div.container
-		ul
-			each command in commands
-				li.command
-					div
-						a.name(href='/commands/'+command.name+'.html')= command.name
-						span.text-muted= ' ' + command.usage
-					span= command.short_description 
+	div.dimmed-content
+		div.container
+			ul.commands
+				each command in commands
+					li.command
+						a(href='/commands/'+command.name+'.html')
+							div
+								span.name= command.name
+								span.text-muted= ' ' + command.usage
+							span.descr= command.short_description
