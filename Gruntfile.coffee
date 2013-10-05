@@ -24,6 +24,7 @@ module.exports = (grunt) ->
 		compile:
 			options:
 				bare: true
+				path: 'relative'
 			src:  'lib/dexdis.coffee'
 			dest: 'lib/dexdis.coverage.js'
 	

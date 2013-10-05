@@ -3,3 +3,4 @@
 *.swo
 lib/
 node_modules/
+.coveralls.yml
