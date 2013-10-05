@@ -49,13 +49,14 @@ class Dexdis extends DexdisDb
 			db = 1
 		r = indexedDB.open db, 1
 		r.onupgradeneeded = (e) ->
-			console.log 'upgrade'
-			db = e.target.result
+			db = r.result
 			db.createObjectStore 'keys'
 			db.createObjectStore 'values'
 		r.onsuccess = (e) =>
-			@db = e.target.result
+			@db = r.result
 			cb null if cb?
+		r.onerror = (e) ->
+			cb r.error
 		this
 	
 	quit: (cb) ->
