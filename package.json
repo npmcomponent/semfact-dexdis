@@ -1,6 +1,24 @@
 {
 	"name": "dexdis",
 	"version": "0.0.1-1",
+	"author": "Semfact <info@semfact.eu>",
+	"main": "lib/dexdis.min.js",
+	"description": "The simplest way to use IndexedDB in the browser",
+	"contributors": [
+		{
+			"name":  "Fiona Schmidtke",
+			"email": "npmjs@fionaschmidtke.de"
+		},
+		{
+			"name":  "Niclas Hoyer",
+			"email": "niclas@verbugt.de"
+		}
+	],
+	"files": [
+		"README.md",
+		"LICENSE.md",
+		"lib/dexdis.min.js"
+	],
 	"dependencies": {
 	},
 	"devDependencies": {
@@ -29,6 +47,13 @@
 	"repository": {
 		"type" : "git",
 		"url" : "https://github.com/semfact/dexdis"
-	}
+	},
+	"keywords": [
+		"indexeddb",
+		"redis",
+		"database",
+		"browser"
+	],
+	"license": "Apache 2.0"
 }
 
