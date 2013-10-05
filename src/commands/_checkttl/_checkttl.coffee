@@ -1,12 +1,12 @@
 _checkttl: (key, cb) ->
 	{keys, values} = @_stores
 	get = keys.get key
-	get.addEventListener 'success', ->
+	get.onsuccess = ->
 		keyinfo = get.result
 		if keyinfo?.expire?
 			if Date.now() > keyinfo.expire
 				del = keys.delete key
-				del.addEventListener 'success', ->
+				del.onsuccess = ->
 					cb undefined, true
 				values.delete key
 			else

@@ -4,6 +4,6 @@ set: (key, value, cb) ->
 		type: 'simple'
 	keys.put keyinfo, key
 	put = values.put value, key
-	put.addEventListener 'success', ->
+	put.onsuccess = ->
 		cb 'OK'
 	return

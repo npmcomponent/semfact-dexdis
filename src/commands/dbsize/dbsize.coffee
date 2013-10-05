@@ -1,5 +1,5 @@
 dbsize: (cb) ->
 	keys = @_stores.keys
 	cnt = keys.count()
-	cnt.addEventListener 'success', ->
+	cnt.onsuccess = ->
 		cb cnt.result

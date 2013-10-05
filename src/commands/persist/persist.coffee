@@ -7,7 +7,7 @@ persist: (key, cb) ->
 				delete keyinfo.expire
 				ret = 1
 			r = keys.put keyinfo, key
-			r.addEventListener 'success', ->
+			r.onsuccess = ->
 				cb ret
 		else
 			cb 0

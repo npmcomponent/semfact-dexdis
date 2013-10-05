@@ -7,6 +7,6 @@ get: (key, cb) ->
 			throw new Error errs.wrongtype
 		else
 			get = values.get key
-			get.addEventListener 'success', ->
+			get.onsuccess = ->
 				cb get.result
 	return

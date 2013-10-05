@@ -1,11 +1,11 @@
 randomkey: (cb) ->
 	{keys} = @_stores
 	cnt = keys.count()
-	cnt.addEventListener 'success', ->
+	cnt.onsuccess = ->
 		rnd = Math.floor Math.random() * cnt.result
 		cur = keys.openCursor()
 		adv = false
-		cur.addEventListener 'success', ->
+		cur.onsuccess = ->
 			cursor = cur.result
 			if cursor?
 				if adv or rnd is 0

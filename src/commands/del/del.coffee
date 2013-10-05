@@ -11,5 +11,5 @@ del: (dels..., cb) ->
 				keys.delete k
 				del = values.delete k
 				if i is dels.length
-					del.addEventListener 'success', ->
+					del.onsuccess = ->
 						cb count

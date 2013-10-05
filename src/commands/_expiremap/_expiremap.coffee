@@ -4,7 +4,7 @@ _expiremap: (key, cb, f) ->
 		if keyinfo isnt undefined
 			keyinfo.expire = f keyinfo.expire
 			r = keys.put keyinfo, key
-			r.addEventListener 'success', ->
+			r.onsuccess = ->
 				cb 1
 		else
 			cb 0

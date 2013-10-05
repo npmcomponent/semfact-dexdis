@@ -22,9 +22,9 @@ class DexdisDb
 	# get indexeddb transaction with keys and values stores
 	_transaction: (cb, mode = 'readwrite') ->
 		trans = @db.transaction ['keys', 'values'], mode
-		trans.addEventListener 'error', (e) ->
+		trans.onerror = (e) ->
 			cb e if cb?
-		trans.addEventListener 'abort', (e) ->
+		trans.onabort = (e) ->
 			cb new Error 'Transaction Aborted' if cb?
 		trans
 
@@ -37,7 +37,7 @@ class Dexdis extends DexdisDb
 			ret = x
 			return
 		trans = @_transaction cb, mode
-		trans.addEventListener 'complete', ->
+		trans.oncomplete = ->
 			cb null, ret if cb?
 		cmds = new DexdisCommands trans
 		cmds[cmd].apply cmds, args.concat [save]
@@ -48,12 +48,12 @@ class Dexdis extends DexdisDb
 			cb = db
 			db = 1
 		r = indexedDB.open db, 1
-		r.addEventListener 'upgradeneeded', (e) ->
+		r.onupgradeneeded = (e) ->
 			console.log 'upgrade'
 			db = e.target.result
 			db.createObjectStore 'keys'
 			db.createObjectStore 'values'
-		r.addEventListener 'success', (e) =>
+		r.onsuccess = (e) =>
 			@db = e.target.result
 			cb null if cb?
 		this
@@ -100,9 +100,9 @@ class DexdisTransaction extends DexdisDb
 				return
 			b = buffer[i-1]
 			cmds[b.cmd].apply cmds, b.args.concat [next]
-		trans.addEventListener 'complete', ->
+		trans.oncomplete = ->
 			cb null, values
-		trans.addEventListener 'error', (e) ->
+		trans.onerror = (e) ->
 			cb e
 		next()
 		return

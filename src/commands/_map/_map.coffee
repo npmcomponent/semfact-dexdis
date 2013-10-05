@@ -5,10 +5,10 @@ _map: (key, cb, f) ->
 		if keyinfo?
 			if keyinfo.type is 'simple'
 				get = values.get key
-				get.addEventListener 'success', ->
+				get.onsuccess = ->
 					value = f get.result
 					put = values.put value, key
-					put.addEventListener 'success', ->
+					put.onsuccess = ->
 						cb value
 			else
 				cb new Error errs.wrongtype
