@@ -1,0 +1,26 @@
+{
+	"name": "dexdis",
+	"version": "0.0.1-4",
+	"main": "lib/dexdis.min.js",
+	"ignore": [
+		"src",
+		"examples",
+		"node_modules",
+		"logo",
+		"site",
+		"tasks",
+		"tests",
+		"package.json",
+		"**/*.coffee",
+		".travis",
+		".travis.yml",
+		"lib/*coverage*",
+		"lib/tests.js",
+		".gitignore"
+	],
+	"dependencies": {
+	},
+	"devDependencies": {
+	}
+}
+
