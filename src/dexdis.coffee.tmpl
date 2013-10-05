@@ -30,9 +30,6 @@ class DexdisDb
 
 class Dexdis extends DexdisDb
 	
-	constructor: (db = 1) ->
-		@select db
-	
 	# execute dexdis command
 	_cmd: (cmd, args, cb, mode) ->
 		ret = null
@@ -47,9 +44,9 @@ class Dexdis extends DexdisDb
 		return
 	
 	select: (db, cb) ->
-		if @db is null
-			cb new Error errs.transaction
-			return
+		if typeof db is 'function'
+			cb = db
+			db = 1
 		r = indexedDB.open db, 1
 		r.addEventListener 'upgradeneeded', (e) ->
 			console.log 'upgrade'
