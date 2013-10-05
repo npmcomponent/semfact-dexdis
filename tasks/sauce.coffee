@@ -110,7 +110,6 @@ module.exports = (grunt) ->
 				post.auth opts.username, opts.accesskey
 				post.send tests
 				post.end handle (res) ->
-					console.log res.body
 					if res.body.completed is true
 						results res.body
 					else
