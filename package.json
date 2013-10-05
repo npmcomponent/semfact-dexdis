@@ -54,6 +54,14 @@
 		"database",
 		"browser"
 	],
-	"license": "Apache 2.0"
+	"license": "Apache 2.0",
+	"jam": {
+		"main": "lib/dexdis.min.js",
+		"include": [
+			"README.md",
+			"LICENSE.md",
+			"lib/dexdis.min.js"
+		]
+	}
 }
 
