@@ -79,3 +79,27 @@ body {
 .command .related ul li {
 	text-transform: uppercase;
 }
+/* repl */
+.dexdisrepl div.jquery-console-inner {
+	padding: 1em;
+	font-family: monospace;
+	word-wrap: break-word;
+	height: 18.5em;
+	background-color: rgb(238, 238, 238);
+	overflow: auto;
+	border-radius: 2px;
+}
+.dexdisrepl span.jquery-console-cursor {
+	background: black;
+	font-weight: bold;
+	opacity: 0.4;
+}
+.dexdisrepl div.jquery-console-focus span.jquery-console-cursor {
+	opacity: 1;
+}
+.dexdisrepl span.jquery-console-prompt-label {
+	color: rgba(0,0,0,0.4);
+}
+.dexdisrepl span.jquery-console-prompt {
+	font-weight: bold;
+}

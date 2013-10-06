@@ -14,9 +14,7 @@ block content
 				p= command.return.type + ': ' + command.return.value
 				if command.examples
 					h3= 'Examples'
-					pre
-						each ex in command.examples
-							= ex + '\n'
+				div.dexdisrepl(data-cmds=JSON.stringify(command.examples))
 			div.col-sm-4
 				a.btn.btn-default(href='/tests/?grep=' + command.name.toUpperCase() + '%20')
 					span.glyphicon.glyphicon-check

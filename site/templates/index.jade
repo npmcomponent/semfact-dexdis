@@ -13,6 +13,11 @@ block content
 				div.col-sm-5
 					img.logo-big(src='dexdis-big.png')
 	div.container
-		div
-			a(href='https://saucelabs.com/u/dexdis')
-				img(src='https://saucelabs.com/browser-matrix/dexdis.svg', alt='Selenium Tests Status')
+		div.col-sm-6
+			h3 Give it a try
+			div.dexdisrepl(data-cmds=JSON.stringify(["set('test', 42)", "get('test')"]))
+		div.col-sm-6
+			h3 Compatibility
+			div
+				a(href='https://saucelabs.com/u/dexdis')
+					img(src='https://saucelabs.com/browser-matrix/dexdis.svg', alt='Selenium Tests Status')
