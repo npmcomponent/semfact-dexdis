@@ -22,8 +22,8 @@ html(lang='en')
 							span.icon-bar
 						a.navbar-brand#brand(href=env.config.locals.url)= env.config.locals.name
 					div.collapse.navbar-collapse.navbar-header-collapse
-						ul.nav.navbar-nav
-							li.active
+						ul.nav.navbar-nav#mainnav
+							li
 								a(href='/commands/') Commands
 							li
 								a(href='/documentation.html') Documentation
@@ -39,3 +39,4 @@ html(lang='en')
 			block footer
 		script(src='//code.jquery.com/jquery-2.0.3.min.js')
 		script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
+		script(src='/main.js')
