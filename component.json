@@ -1,0 +1,19 @@
+{
+  "name": "dexdis",
+  "version": "0.0.1-6",
+  "main": "lib/dexdis.js",
+  "dependencies": {},
+  "development": {},
+  "scripts": [
+    "lib/dexdis.js"
+  ],
+  "styles": [],
+  "repos": "semfact/dexdis",
+  "keywords": [
+    "indexeddb",
+    "redis",
+    "database",
+    "browser"
+  ],
+  "license": "Apache 2.0"
+}
