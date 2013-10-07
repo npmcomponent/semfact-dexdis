@@ -1,11 +1,11 @@
 {
   "name": "dexdis",
-  "version": "0.0.1-6",
-  "main": "lib/dexdis.js",
+  "version": "0.0.1-7",
+  "main": "dexdis.js",
   "dependencies": {},
   "development": {},
   "scripts": [
-    "lib/dexdis.js"
+    "dexdis.js"
   ],
   "styles": [],
   "repos": "semfact/dexdis",

@@ -1,8 +1,8 @@
 {
 	"name": "dexdis",
-	"version": "0.0.1-6",
+	"version": "0.0.1-7",
 	"author": "Semfact <info@semfact.eu>",
-	"main": "lib/dexdis.min.js",
+	"main": "dexdis.min.js",
 	"description": "The simplest way to use IndexedDB in the browser",
 	"contributors": [
 		{
@@ -17,7 +17,7 @@
 	"files": [
 		"README.md",
 		"LICENSE.md",
-		"lib/dexdis.min.js"
+		"dexdis.min.js"
 	],
 	"dependencies": {
 	},
@@ -56,11 +56,11 @@
 	],
 	"license": "Apache 2.0",
 	"jam": {
-		"main": "lib/dexdis.min.js",
+		"main": "dexdis.min.js",
 		"include": [
 			"README.md",
 			"LICENSE.md",
-			"lib/dexdis.min.js"
+			"dexdis.min.js"
 		]
 	}
 }

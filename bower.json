@@ -1,8 +1,9 @@
 {
 	"name": "dexdis",
-	"version": "0.0.1-6",
-	"main": "lib/dexdis.min.js",
+	"version": "0.0.1-7",
+	"main": "dexdis.min.js",
 	"ignore": [
+		"lib",
 		"src",
 		"examples",
 		"node_modules",
