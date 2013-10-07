@@ -1,6 +1,7 @@
 {
 	"dependencies": {
-		"typogr": "~0.6.1"
+		"typogr": "~0.6.1",
+		"wintersmith-coffee": "~0.2.0"
 	},
 	"repository": "none"
 }

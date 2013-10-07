@@ -80,7 +80,7 @@ body {
 	text-transform: uppercase;
 }
 /* repl */
-.dexdisrepl div.jquery-console-inner {
+.dexdisrepl {
 	padding: 1em;
 	font-family: monospace;
 	word-wrap: break-word;
@@ -89,17 +89,22 @@ body {
 	overflow: auto;
 	border-radius: 2px;
 }
-.dexdisrepl span.jquery-console-cursor {
-	background: black;
-	font-weight: bold;
-	opacity: 0.4;
+.dexdisrepl .jquery-console-input-container {
+	display: flex;
+	display: -webkit-flex;
+	display: -webkit-flexbox;
 }
-.dexdisrepl div.jquery-console-focus span.jquery-console-cursor {
-	opacity: 1;
-}
-.dexdisrepl span.jquery-console-prompt-label {
+.dexdisrepl .jquery-console-prompt {
 	color: rgba(0,0,0,0.4);
+	flex: none;
+	-ms-flex: none;
+	-webkit-flex: none;
 }
-.dexdisrepl span.jquery-console-prompt {
+.dexdisrepl .jquery-console-input {
+	border: none;
+	background: transparent;
 	font-weight: bold;
+	flex: 1;
+	-ms-flex: 1;
+	-webkit-flex: 1;
 }

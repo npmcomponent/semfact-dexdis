@@ -12,30 +12,13 @@ $('#mainnav > li > a').each(function() {
 	}
 });
 
-var addConsole = function(el, db, cb) {
+var addConsole = function(el, db) {
 	var dexdis = new Dexdis();
 	dexdis.select(db, function() {
 		dexdis.flushdb(function() {
-			var con = el.console({
-				promptLabel: 'dexdis> ',
-				autofocus: false,
-				animateScroll: false,
-				promptHistory: true,
-				commandValidate: function(line) {
-					return line.length > 0;
-				},
-				commandHandle: function(line, report) {
-					var l = line.toLowerCase();
-					switch(l) {
-						case 'clear':
-						case 'reset':
-						case 'exit':
-							dexdis.flushdb(function() {
-								con.reset();
-							});
-							return;
-						break;
-					}
+			el.console({
+				prompt: 'dexdis>&nbsp;',
+				handle: function(line, report) {
 					var notfound  = 'ERR: command not found';
 					var syntaxerr = 'ERR: syntax error';
 					line = line.trim();
@@ -68,7 +51,6 @@ var addConsole = function(el, db, cb) {
 					return;
 				}
 			});
-			cb(con);
 		});
 	});
 };
@@ -80,26 +62,7 @@ $('.dexdisrepl').each(function() {
 	if (db == null) {
 		db = 1;
 	}
-	addConsole(el, db, function(con) {
-		window.c = con;
-		var cmds = el.attr('data-cmds');
-		if (cmds != null) {
-			try {
-				var cmds = JSON.parse(cmds);
-				var i = 0;
-				var next = function() {
-					if (i > cmds.length) {
-						return;
-					}
-					var line = cmds[i];
-					con.promptText(line, true, next);
-					i++;
-				};
-				next();
-			} catch(e) {
-			}
-		}
-	});
+	addConsole(el, db);
 });
 
 })(jQuery);
