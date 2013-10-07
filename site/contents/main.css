@@ -79,3 +79,32 @@ body {
 .command .related ul li {
 	text-transform: uppercase;
 }
+/* repl */
+.dexdisrepl {
+	padding: 1em;
+	font-family: monospace;
+	word-wrap: break-word;
+	height: 18.5em;
+	background-color: rgb(238, 238, 238);
+	overflow: auto;
+	border-radius: 2px;
+}
+.dexdisrepl .jquery-console-input-container {
+	display: flex;
+	display: -webkit-flex;
+	display: -webkit-flexbox;
+}
+.dexdisrepl .jquery-console-prompt {
+	color: rgba(0,0,0,0.4);
+	flex: none;
+	-ms-flex: none;
+	-webkit-flex: none;
+}
+.dexdisrepl .jquery-console-input {
+	border: none;
+	background: transparent;
+	font-weight: bold;
+	flex: 1;
+	-ms-flex: 1;
+	-webkit-flex: 1;
+}

@@ -6,7 +6,8 @@
 		"description": ""
 	},
 	"plugins": [
-		"./plugins/commands.coffee"
+		"./plugins/commands.coffee",
+		"wintersmith-coffee"
 	],
 	"require": {
 		"typogr": "typogr"
