@@ -21,7 +21,21 @@ block content
 			div.col-sm-6
 				div.dexdisrepl(data-cmds=JSON.stringify(["set('test', 42)", "get('test')"]))
 			div.col-sm-6
-				| Use the console to the try out Dexdis commands. Try
-				| to <b>SET</b> a value, <b>GET</b> that value. For a list of
-				| available commands see the
-				| <a href="/commands/">commands page</a>.
+				p.text-justify
+					| Use the console to the try out Dexdis commands. For a list of
+					| available commands see the
+					| <a href="/commands/">commands page</a>.
+					| Every command has the form <code>command(arg1, arg2, ...)</code>. Usually
+					| the last parameter is a callback, but the console will just
+					| print the result after you run the command.
+					| You can clear the database using the <a href="/commands/flushdb.html">FLUSHDB</a>
+					| command.
+					| To start you can play around with <a href="/commands/get.html">GET</a>
+					| and <a href="/commands/set.html">SET</a>. Dexdis also supports
+					| a time to live for keys, which means that after a given amount
+					| of time keys can expire and will be deleted. The
+					| <a href="/commands/expire.html">EXPIRE</a> command sets the
+					| seconds after which the key will expire. Check the remaining time
+					| with <a href="/commands/ttl.html">TTL</a>. Keys can also be
+					| deleted manually using <a href="/commands/del.html">DEL</a>.
+					| 

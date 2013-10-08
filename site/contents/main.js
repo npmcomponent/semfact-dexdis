@@ -29,6 +29,10 @@ var addConsole = function(el, db) {
 				el.console({
 					prompt: 'dexdis>&nbsp;',
 					handle: function(line, report) {
+						if (line.trim().length === 0) {
+							report('');
+							return;
+						}
 						var notfound  = 'ERR: command not found';
 						var syntaxerr = 'ERR: syntax error';
 						line = line.trim();
