@@ -6,7 +6,7 @@ template: index.jade
 <p class="lead">
 Dexdis is a thin wrapper around the browser database
 [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) that is heavily
-inspired by the popular key/value database [redis](http://redis.io).
+inspired by the popular key/value database [Redis](http://redis.io).
 </p>
 </div>
 
@@ -33,8 +33,9 @@ power your storage needs. It weights only 10kB minified and 2.8kB gzipped.
 <h3 class="header-icon">Easy
 <span class="icon-background icon-html5"></span></h3>
 <p class="text-justify">
-Dexdis supports all keys and values just as IndexedDB which means, that it
-is e.g. possible to store a whole blob just as easy as a string.
+Dexdis supports all keys and values just as IndexedDB which means, you can save
+binary [blobs](https://developer.mozilla.org/en-US/docs/Web/API/Blob) just as
+easy as strings and use complex keys like `['a', ['key', 42]]` natively.
 </p>
 </div>
 
