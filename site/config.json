@@ -7,7 +7,7 @@
 	},
 	"plugins": [
 		"./plugins/commands.coffee",
-		"wintersmith-coffee"
+		"./plugins/coffee.coffee"
 	],
 	"require": {
 		"typogr": "typogr"
@@ -18,5 +18,10 @@
 	"markdown": {
 		"smartLists": true,
 		"smartypants": true
+	},
+	"coffee": {
+		"ignore": [
+			"dexdis.coffee"
+		]
 	}
 }
