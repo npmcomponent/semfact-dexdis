@@ -16,6 +16,7 @@ module.exports = (grunt) ->
 		compile:
 			options:
 				bare: true
+				sourceMap:  true
 			expand: true
 			src:  ['lib/**/*.coffee']
 			ext:  '.js'
@@ -31,11 +32,14 @@ module.exports = (grunt) ->
 	config.uglify =
 		uglify:
 			options:
+				sourceMap:        'lib/dexdis.min.js.map'
+				sourceMapIn:      'lib/dexdis.js.map'
+				sourceMappingURL: 'dexdis.min.js.map'
+				sourceMapPrefix:  5
 				mangle:
 					except: ['Dexdis', 'DexdisTransaction']
-			expand: true
-			src:  ['lib/dexdis.js']
-			ext:  '.min.js'
+			src:  'lib/dexdis.js'
+			dest: 'lib/dexdis.min.js'
 	
 	config.clean = [
 		'lib'
