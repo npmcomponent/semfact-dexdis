@@ -1,6 +1,9 @@
 body {
 	padding-top: 50px;
 }
+body, html {
+	height: 100%;
+}
 .text-justify {
 	text-align: justify;
 }
@@ -143,4 +146,20 @@ body {
 }
 #saucematrix {
 	opacity: 0.8;
+}
+/* footer */
+#content {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -15em;
+	padding-bottom: 5em;
+}
+#footer, #push {
+	min-height: 15em;
+}
+#footer {
+	background: #333;
+	color: white;
 }

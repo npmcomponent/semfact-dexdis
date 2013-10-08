@@ -11,7 +11,7 @@ block content
 						a.btn.btn-success(href='#demo') Try Now!
 						a.btn.btn-primary(href='/documentation.html') Learn More
 				div.col-sm-5
-					img.logo-big(src='dexdis-big.png')
+					img.logo-big(src='dexdis-big.png', alt='Dexdis Logo')
 	div.container
 		!= page.html
 		div.row
@@ -21,8 +21,7 @@ block content
 			div.col-sm-6
 				div.dexdisrepl(data-cmds=JSON.stringify(["set('test', 42)", "get('test')"]))
 			div.col-sm-6
-				| Use the console to the left to try out Dexdis commands. Try
-				| to <b>SET</b> a value, <b>GET</b> a value.
-
-block footer
-	div(style='height: 500px')
+				| Use the console to the try out Dexdis commands. Try
+				| to <b>SET</b> a value, <b>GET</b> that value. For a list of
+				| available commands see the
+				| <a href="/commands/">commands page</a>.
