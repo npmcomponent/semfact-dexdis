@@ -73,6 +73,7 @@ class Dexdis extends DexdisDb
 			cb null if cb?
 		r.onerror = (e) ->
 			cb r.error
+			e.preventDefault()
 		this
 	
 	quit: (cb) ->
@@ -121,6 +122,7 @@ class DexdisTransaction extends DexdisDb
 			cb null, values
 		trans.onerror = (e) ->
 			cb e
+			e.preventDefault()
 		next()
 		return
 	
