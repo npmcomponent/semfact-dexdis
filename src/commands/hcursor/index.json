@@ -1,0 +1,19 @@
+{
+	"name": "hcursor",
+	"usage": "key",
+	"short_description": "",
+	"description": "",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": ""
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "hcursor.coffee",
+	"test": "test.coffee"
+}
