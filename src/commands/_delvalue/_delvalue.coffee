@@ -9,5 +9,5 @@ _delvalue: (key, type, cb) ->
 			del   = stores.hash.delete range
 			del.onsuccess = cb
 		else
-			do cb
+			do cb if cb?
 	return

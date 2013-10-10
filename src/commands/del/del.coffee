@@ -4,20 +4,16 @@ del: (dels..., cb) ->
 		cb 0
 		return
 	count   = 0
-	ignored = 0
-	max     = dels.length - 1
+	called  = 0
+	max     = dels.length
 	for k, i in dels
-		do (k, i) =>
+		do (k) =>
 			@_checkttl k, (keyinfo) =>
+				called++
 				if keyinfo?
 					count++
 					stores.keys.delete k
-					@_delvalue k, keyinfo.type, ->
-						if i is max
-							cb count
-				else
-					ignored++
-					# all keys are nonexistent
-					if i is max and ignored > max
-						cb 0
+					@_delvalue k, keyinfo.type
+				if called is max
+					cb count
 	return
