@@ -1,0 +1,19 @@
+{
+	"name": "hgetall",
+	"usage": "key",
+	"short_description": "",
+	"description": "",
+	"dependencies": [
+		"hcursor"
+	],
+	"return": {
+		"type": "",
+		"value": ""
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "hgetall.coffee",
+	"test": "test.coffee"
+}
