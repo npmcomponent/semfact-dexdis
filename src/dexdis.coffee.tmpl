@@ -49,7 +49,7 @@ class Dexdis extends DexdisDb
 				cb new Error errs.transabort
 		cmds = new DexdisCommands trans
 		length = cmds[cmd].length
-		if length isnt 0 and length - 1 < args.length
+		if length isnt 0 and args.length < length - 1
 			error = new Error errs.wrongargs
 			trans.abort()
 			return
