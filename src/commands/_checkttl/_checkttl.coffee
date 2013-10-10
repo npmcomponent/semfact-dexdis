@@ -1,5 +1,5 @@
 _checkttl: (key, cb) ->
-	{keys, values} = @_stores
+	{keys, simple} = @_stores
 	get = keys.get key
 	get.onsuccess = ->
 		keyinfo = get.result
@@ -8,7 +8,7 @@ _checkttl: (key, cb) ->
 				del = keys.delete key
 				del.onsuccess = ->
 					cb undefined, true
-				values.delete key
+				simple.delete key
 			else
 				cb keyinfo, false
 		else

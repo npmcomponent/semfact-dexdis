@@ -4,12 +4,13 @@ errs =
 	notsupported:  'Operation not supported'
 	toomuchop:     'Operation with too much operands'
 
+storenames = ['keys', 'simple', 'hash']
+
 class DexdisCommands
 	
 	constructor: (trans) ->
-		stores  = ['keys', 'values']
 		@_stores = {}
-		for s in stores
+		for s in storenames
 			@_stores[s] = trans.objectStore s
 	
 {{{commands}}}
@@ -21,7 +22,7 @@ class DexdisDb
 	
 	# get indexeddb transaction with keys and values stores
 	_transaction: (cb, mode = 'readwrite') ->
-		trans = @db.transaction ['keys', 'values'], mode
+		trans = @db.transaction storenames, mode
 		trans.onerror = (e) ->
 			cb e if cb?
 			e.preventDefault()
@@ -51,8 +52,8 @@ class Dexdis extends DexdisDb
 		r = indexedDB.open db, 1
 		r.onupgradeneeded = (e) ->
 			db = r.result
-			db.createObjectStore 'keys'
-			db.createObjectStore 'values'
+			for store in storenames
+				db.createObjectStore store
 		r.onsuccess = (e) =>
 			@db = r.result
 			cb null if cb?
