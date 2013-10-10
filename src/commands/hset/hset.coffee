@@ -1,8 +1,6 @@
 hset: (key, field, value, cb) ->
 	{keys, hash} = @_stores
-	@_checkttl key, (keyinfo) ->
-		if keyinfo? and keyinfo.type isnt 'hash'
-			throw new Error errs.wrongtype
+	@_checkttl key, 'hash', (keyinfo) ->
 		hkey = [key, 1, field]
 		cnt = hash.count hkey
 		cnt.onsuccess = ->

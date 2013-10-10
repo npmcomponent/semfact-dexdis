@@ -5,7 +5,8 @@ bitop: (op, dest, srcs..., cb) ->
 		when 'NOT'
 			f = (x,y) -> ~ y
 			if srcs.length > 1
-				throw new Error errs.toomuchop
+				@onerror Error errs.toomuchop
+				return
 		when 'AND'
 			f    = (x,y) -> x & y
 			init = -1
@@ -14,7 +15,8 @@ bitop: (op, dest, srcs..., cb) ->
 		when 'XOR'
 			f = (x,y) -> x ^ y
 	if f is null
-		throw new Error errs.notsupported
+		@onerror Error errs.notsupported
+		return
 	vals = []
 	i = 0
 	next = (v) =>
