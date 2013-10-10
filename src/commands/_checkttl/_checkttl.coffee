@@ -17,7 +17,7 @@ _checkttl: (key, type, cb) ->
 				del = keys.delete key
 				del.onsuccess = ->
 					cb undefined
-				@_delvalue k, keyinfo.type, ->
+				@_delvalue k, keyinfo.type
 			else
 				checktype keyinfo
 		else
