@@ -1,5 +1,5 @@
 del: (dels..., cb) ->
-	{keys, values} = @_stores
+	{keys, simple} = @_stores
 	if dels.length is 0
 		cb 0
 		return
@@ -9,7 +9,7 @@ del: (dels..., cb) ->
 			if keyinfo?
 				count++
 				keys.delete k
-				del = values.delete k
+				del = simple.delete k
 				if i is dels.length
 					del.onsuccess = ->
 						cb count

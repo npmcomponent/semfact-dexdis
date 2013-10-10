@@ -1,6 +1,7 @@
 flushdb: (cb) ->
-	{keys, values} = @_stores
-	do keys.clear
-	do values.clear
+	stores = @_stores
+	do stores.keys.clear
+	for store in storenames
+		do stores[store].clear
 	cb 'OK'
 	return
