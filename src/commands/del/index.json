@@ -5,7 +5,8 @@
 	"short_description": "Delete the given keys",
 	"description": "Delete the given keys.",
 	"dependencies": [
-		"_checkttl"
+		"_checkttl",
+		"_delvalue"
 	],
 	"return": {
 		"type": "Number",

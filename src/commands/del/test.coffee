@@ -17,3 +17,8 @@ describe 'DEL', ->
 					expect(err).to.be.null
 					expect(res).to.equal 2
 					do done
+	it 'should do nothing if all arguments do not exist', (done) ->
+		dexdis.del 'foo', 'bar', (err, res) ->
+			expect(err).to.be.null
+			expect(res).to.equal 0
+			do done
