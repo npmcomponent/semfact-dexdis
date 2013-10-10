@@ -1,0 +1,19 @@
+{
+	"name": "hexists",
+	"usage": "key field",
+	"short_description": "",
+	"description": "",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": ""
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "hexists.coffee",
+	"test": "test.coffee"
+}
