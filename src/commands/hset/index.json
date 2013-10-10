@@ -1,6 +1,6 @@
 {
 	"name": "hset",
-	"usage": "key",
+	"usage": "key field value",
 	"short_description": "",
 	"description": "",
 	"dependencies": [

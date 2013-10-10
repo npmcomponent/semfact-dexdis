@@ -16,4 +16,5 @@ describe 'HSET', ->
 		dexdis.set 'hset', 42, (err) ->
 			expect(err).to.be.null
 			dexdis.hset 'hset', 'test', 42, (err, res) ->
-				expect(err).to.be.an Error
+				expect(err).to.be.an.instanceof Error
+				do done

@@ -12,6 +12,7 @@ class DexdisCommands
 		@_stores = {}
 		for s in storenames
 			@_stores[s] = trans.objectStore s
+		@onerror = ->
 	
 {{{commands}}}
 
@@ -25,23 +26,29 @@ class DexdisDb
 		trans = @db.transaction storenames, mode
 		trans.onerror = (e) ->
 			cb e if cb?
-			e.preventDefault()
-		trans.onabort = (e) ->
-			cb new Error 'Transaction Aborted' if cb?
 		trans
 
 class Dexdis extends DexdisDb
 	
 	# execute dexdis command
 	_cmd: (cmd, args, cb, mode) ->
-		ret = null
+		ret   = null
+		error = null
 		save = (x) ->
 			ret = x
 			return
 		trans = @_transaction cb, mode
 		trans.oncomplete = ->
 			cb null, ret if cb?
+		trans.onabort = ->
+			if error?
+				cb error
+			else
+				cb new Error 'Transaction aborted'
 		cmds = new DexdisCommands trans
+		cmds.onerror = (err) ->
+			error = err
+			trans.abort()
 		cmds[cmd].apply cmds, args.concat [save]
 		return
 	

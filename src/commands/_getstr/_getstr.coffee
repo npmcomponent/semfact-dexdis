@@ -1,4 +1,5 @@
 _getstr: (key, cb) ->
+	error = @onerror
 	@get key, (val) ->
 		if val?
 			type = typeof val
@@ -6,7 +7,8 @@ _getstr: (key, cb) ->
 				if type is 'number'
 					val = '' + val
 				else
-					throw new Error errs.wrongtype
+					error Error errs.wrongtype
+					return
 		else
 			val = ''
 		cb val

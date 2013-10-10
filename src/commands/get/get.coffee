@@ -1,10 +1,8 @@
 get: (key, cb) ->
 	{keys, simple} = @_stores
-	@_checkttl key, (keyinfo) ->
+	@_checkttl key, 'simple', (keyinfo) ->
 		if keyinfo is undefined
 			cb null
-		else if keyinfo.type isnt 'simple'
-			throw new Error errs.wrongtype
 		else
 			get = simple.get key
 			get.onsuccess = ->
