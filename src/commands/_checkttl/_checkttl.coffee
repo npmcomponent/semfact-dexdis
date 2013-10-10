@@ -8,7 +8,7 @@ _checkttl: (key, cb) ->
 				del = keys.delete key
 				del.onsuccess = ->
 					cb undefined, true
-				simple.delete key
+				@_delvalue k, keyinfo.type, ->
 			else
 				cb keyinfo, false
 		else

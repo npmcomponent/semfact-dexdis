@@ -1,15 +1,23 @@
 del: (dels..., cb) ->
-	{keys, simple} = @_stores
+	stores = @_stores
 	if dels.length is 0
 		cb 0
 		return
-	count = 0
+	count   = 0
+	ignored = 0
+	max     = dels.length - 1
 	for k, i in dels
-		@_checkttl k, (keyinfo) ->
-			if keyinfo?
-				count++
-				keys.delete k
-				del = simple.delete k
-				if i is dels.length
-					del.onsuccess = ->
-						cb count
+		do (k, i) =>
+			@_checkttl k, (keyinfo) =>
+				if keyinfo?
+					count++
+					stores.keys.delete k
+					@_delvalue k, keyinfo.type, ->
+						if i is max
+							cb count
+				else
+					ignored++
+					# all keys are nonexistent
+					if i is max and ignored > max
+						cb 0
+	return
