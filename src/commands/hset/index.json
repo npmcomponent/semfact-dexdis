@@ -1,18 +1,39 @@
 {
 	"name": "hset",
 	"usage": "key field value",
-	"short_description": "",
-	"description": "",
+	"short_description": "Set a field and its value in a hash",
+	"description": "Set the field and its value in the hash.",
 	"dependencies": [
 		"_checkttl"
 	],
 	"return": {
 		"type": "Number",
-		"value": ""
+		"value": "1 if the field was created, 0 if the field was overwritten."
 	},
 	"examples": [
+		"hset('a', 'foo', 'bar')",
+		"hgetall('a')",
+		"hset('a', 'foo', 'baz')",
+		"hgetall('a')"
 	],
 	"related": [
+		"get",
+		"getbit",
+		"getrange",
+		"getset",
+		"hget",
+		"hgetall",
+		"hkeys",
+		"hlen",
+		"hmget",
+		"hmset",
+		"hsetnx",
+		"hvals",
+		"set",
+		"setnx",
+		"setbit",
+		"setrange",
+		"strlen"
 	],
 	"command": "hset.coffee",
 	"test": "test.coffee"
