@@ -1,0 +1,40 @@
+{
+	"name": "hkeys",
+	"usage": "key",
+	"short_description": "Get all fields of a hash",
+	"description": "Get all fields of the hash as array.",
+	"dependencies": [
+		"hcursor"
+	],
+	"return": {
+		"type": "Array",
+		"value": "An array of the fields of the hash."
+	},
+	"examples": [
+		"hset('a', 'foo', 'test3')",
+		"hset('a', 'bar', 'test1')",
+		"hset('a', 'baz', 'test2')",
+		"hkeys('a')"
+	],
+	"related": [
+		"get",
+		"getbit",
+		"getrange",
+		"getset",
+		"hget",
+		"hgetall",
+		"hlen",
+		"hmget",
+		"hmset",
+		"hset",
+		"hsetnx",
+		"hvals",
+		"set",
+		"setnx",
+		"setbit",
+		"setrange",
+		"strlen"
+	],
+	"command": "hkeys.coffee",
+	"test": "test.coffee"
+}
