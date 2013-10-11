@@ -1,18 +1,40 @@
 {
 	"name": "hlen",
 	"usage": "key",
-	"short_description": "",
-	"description": "",
+	"short_description": "Get the number of fields in a hash.",
+	"description": "Get the number of fields in the hash.",
 	"dependencies": [
 		"_checkttl"
 	],
 	"return": {
 		"type": "Number",
-		"value": ""
+		"value": "The number of fields in the hash. 0 if the hash does not exist."
 	},
 	"examples": [
+		"hlen('a')",
+		"hset('a', 'foo', 'test1')",
+		"hlen('a')",
+		"hset('a', 'bar', 'test2')",
+		"hlen('a')"
 	],
 	"related": [
+		"get",
+		"getbit",
+		"getrange",
+		"getset",
+		"hget",
+		"hgetall",
+		"hkeys",
+		"hmget",
+		"hmset",
+		"hset",
+		"hsetnx",
+		"hvals",
+		"set",
+		"setnx",
+		"setbit",
+		"setrange",
+		"strlen"
 	],
 	"command": "hlen.coffee",
 	"test": "test.coffee"
