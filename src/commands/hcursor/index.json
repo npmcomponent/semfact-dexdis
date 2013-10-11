@@ -1,8 +1,8 @@
 {
 	"name": "hcursor",
 	"usage": "key",
-	"short_description": "",
-	"description": "",
+	"short_description": "Return a cursor for a hash",
+	"description": "Return a cursor for the hash.",
 	"dependencies": [
 		"_checkttl"
 	],
