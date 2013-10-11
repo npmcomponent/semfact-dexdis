@@ -1,18 +1,24 @@
 {
 	"name": "hexists",
 	"usage": "key field",
-	"short_description": "",
-	"description": "",
+	"short_description": "Test if a field exists in a hash",
+	"description": "Test if the given field exists in the given hash.",
 	"dependencies": [
 		"_checkttl"
 	],
 	"return": {
 		"type": "Number",
-		"value": ""
+		"value": "1 if the key exists in the hash, 0 otherwise."
 	},
 	"examples": [
+		"hset('foo', 'bar', 'baz')",
+		"exists('foo', 'bar')",
+		"exists('foo', 'baz')"
 	],
 	"related": [
+		"del",
+		"exists",
+		"hdel"
 	],
 	"command": "hexists.coffee",
 	"test": "test.coffee"
