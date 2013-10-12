@@ -12,7 +12,7 @@
 		"value": "OK"
 	},
 	"examples": [
-		"hmset('test', 'foo', 42, 'bar', 23)",
+		"hmset('a', 'foo', 42, 'bar', 23)",
 		"hgetall('a')"
 	],
 	"related": [
