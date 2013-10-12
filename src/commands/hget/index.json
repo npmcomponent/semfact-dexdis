@@ -16,9 +16,6 @@
 	],
 	"related": [
 		"get",
-		"getbit",
-		"getrange",
-		"getset",
 		"hgetall",
 		"hkeys",
 		"hlen",
@@ -26,12 +23,7 @@
 		"hmset",
 		"hset",
 		"hsetnx",
-		"hvals",
-		"set",
-		"setnx",
-		"setbit",
-		"setrange",
-		"strlen"
+		"hvals"
 	],
 	"command": "hget.coffee",
 	"test": "test.coffee"

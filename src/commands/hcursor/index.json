@@ -1,18 +1,24 @@
 {
 	"name": "hcursor",
 	"usage": "key",
-	"short_description": "Return a cursor for a hash",
-	"description": "Return a cursor for the hash.",
+	"short_description": "Get a cursor for all fields in a hash",
+	"description_file": "description.md",
 	"dependencies": [
 		"_checkttl"
 	],
 	"return": {
-		"type": "Number",
-		"value": ""
+		"type": "IDBCursorWithValue",
+		"value": "The cursor that iterates over all fields in the hash."
 	},
 	"examples": [
+		"hset('test', 'foo', 42)",
+		"hset('test', 'bar', 23)",
+		"hcursor('test')"
 	],
 	"related": [
+		"hgetall",
+		"hvals",
+		"hkeys"
 	],
 	"command": "hcursor.coffee",
 	"test": "test.coffee"

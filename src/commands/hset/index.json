@@ -17,10 +17,6 @@
 		"hgetall('a')"
 	],
 	"related": [
-		"get",
-		"getbit",
-		"getrange",
-		"getset",
 		"hget",
 		"hgetall",
 		"hkeys",
@@ -29,11 +25,7 @@
 		"hmset",
 		"hsetnx",
 		"hvals",
-		"set",
-		"setnx",
-		"setbit",
-		"setrange",
-		"strlen"
+		"set"
 	],
 	"command": "hset.coffee",
 	"test": "test.coffee"
