@@ -1,0 +1,26 @@
+{
+	"name": "hsetnx",
+	"usage": "key field value",
+	"short_description": "Set a field in a hash only if the field does not exist",
+	"description": "Set the field in a hash only if the field does not exist.",
+	"dependencies": [
+		"_hset",
+		"hexists"
+	],
+	"return": {
+		"type": "Number",
+		"value": "1 if the field was set, 0 otherwise."
+	},
+	"examples": [
+		"hsetnx('a', 1, 'Hello')",
+		"hsetnx('a', 1, 'Test')",
+		"hget('a', 1)"
+	],
+	"related": [
+		"hexists",
+		"hget",
+		"hset"
+	],
+	"command": "hsetnx.coffee",
+	"test": "test.coffee"
+}

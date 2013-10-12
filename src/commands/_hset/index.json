@@ -1,0 +1,6 @@
+{
+	"usage": "_hset",
+	"description": "Set the field of a hash without checking ttl",
+	"dependencies": [],
+	"command": "_hset.coffee"
+}
