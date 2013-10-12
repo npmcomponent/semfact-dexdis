@@ -4,7 +4,8 @@
 	"short_description": "Set a field and its value in a hash",
 	"description": "Set the field and its value in the hash.",
 	"dependencies": [
-		"_checkttl"
+		"_checkttl",
+		"_hset"
 	],
 	"return": {
 		"type": "Number",
