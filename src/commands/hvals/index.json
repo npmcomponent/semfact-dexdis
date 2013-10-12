@@ -8,7 +8,7 @@
 	],
 	"return": {
 		"type": "Array",
-		"value": "An array of the values of the hash."
+		"value": "An array containing the values of the hash."
 	},
 	"examples": [
 		"hset('a', 'foo', 'test3')",
@@ -17,23 +17,10 @@
 		"hvals('a')"
 	],
 	"related": [
-		"get",
-		"getbit",
-		"getrange",
-		"getset",
 		"hget",
 		"hgetall",
 		"hkeys",
-		"hlen",
-		"hmget",
-		"hmset",
-		"hset",
-		"hsetnx",
-		"set",
-		"setnx",
-		"setbit",
-		"setrange",
-		"strlen"
+		"hlen"
 	],
 	"command": "hvals.coffee",
 	"test": "test.coffee"
