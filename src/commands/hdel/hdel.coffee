@@ -8,7 +8,7 @@ hdel: (key, fields..., cb) ->
 			count  = 0
 			called = 0
 			max    = fields.length
-			for field, i in fields
+			for field in fields
 				do (field) ->
 					hkey = [key, 0, field]
 					cnt  = hash.count hkey
