@@ -6,7 +6,7 @@ del: (dels..., cb) ->
 	count   = 0
 	called  = 0
 	max     = dels.length
-	for k, i in dels
+	for k in dels
 		do (k) =>
 			@_checkttl k, (keyinfo) =>
 				called++
