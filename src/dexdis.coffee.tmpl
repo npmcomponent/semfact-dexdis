@@ -4,7 +4,6 @@ errs =
 	wrongtype:     'Operation against a key holding the wrong kind of value'
 	notsupported:  'Operation not supported'
 	toomuchop:     'Operation with too much operands'
-	transabort:    'Transaction aborted'
 
 storenames = ['keys', 'simple', 'hash']
 
@@ -47,14 +46,7 @@ class Dexdis extends DexdisDb
 		trans.onabort = ->
 			if error?
 				cb error
-			else
-				cb new Error errs.transabort
 		cmds = new DexdisCommands trans
-		length = cmds[cmd].length
-		if length isnt 0 and args.length < length - 1
-			error = new Error errs.wrongargs
-			trans.abort()
-			return
 		cmds.onerror = (err) ->
 			error = err
 			trans.abort()
