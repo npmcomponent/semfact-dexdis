@@ -24,6 +24,7 @@ class DexdisDb
 		trans = @db.transaction ['keys', 'values'], mode
 		trans.onerror = (e) ->
 			cb e if cb?
+			e.preventDefault()
 		trans.onabort = (e) ->
 			cb new Error 'Transaction Aborted' if cb?
 		trans
@@ -57,6 +58,7 @@ class Dexdis extends DexdisDb
 			cb null if cb?
 		r.onerror = (e) ->
 			cb r.error
+			e.preventDefault()
 		this
 	
 	quit: (cb) ->
@@ -105,6 +107,7 @@ class DexdisTransaction extends DexdisDb
 			cb null, values
 		trans.onerror = (e) ->
 			cb e
+			e.preventDefault()
 		next()
 		return
 	

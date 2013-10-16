@@ -8,6 +8,7 @@ html(lang='en')
 				title= env.config.locals.name
 			link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css')
 			link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css')
+			link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css')
 			link(rel='stylesheet', href='/main.css')
 			link(rel='shortcut icon', href='/favicon.ico')
 	body
@@ -20,7 +21,7 @@ html(lang='en')
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						a.navbar-brand#brand(href=env.config.locals.url)= env.config.locals.name
+						a.navbar-brand#brand(href='/')= env.config.locals.name
 					div.collapse.navbar-collapse.navbar-header-collapse
 						ul.nav.navbar-nav#mainnav
 							li
@@ -35,11 +36,59 @@ html(lang='en')
 								a(href='/license.html') License
 		div#content
 			block content
-		footer
+			div#push(class=pushclasses)
+		footer#footer
 			block footer
+				div.container
+					div.col-sm-3
+						h4 License
+						p.text-justify
+							| This website is licensed under a 
+							a(rel='license', href='http://creativecommons.org/licenses/by/3.0/')
+								| Creative Commons Attribution 3.0 Unported License
+							| . The Dexdis project (code) is licensed under
+							| <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.
+						a(rel='license', href='http://creativecommons.org/licenses/by/3.0/')
+							img(alt='Creative Commons License', style='border-width:0', src='http://i.creativecommons.org/l/by/3.0/88x31.png')
+					div.col-sm-3
+						h4 Credits
+						p.text-justify
+							| Website built with
+							| <a href="http://getbootstrap.com">Bootstrap</a> licensed
+							| under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">
+							| Apache 2.0</a>.
+							| The icons
+							| are from the great
+							| <a href="http://fontawesome.io/">Font Awesome</a>
+							| project licensed
+							| under <a href="http://scripts.sil.org/OFL">SIL OFL 1.1</a>.
+					div.col-sm-3
+						h4 Related
+						ul
+							li
+								a(href='http://gazeljs.org') Gazel
+								| , a similar project
+							li
+								a(href='http://redis.io') Redis
+								| , the famous database that inspired Dexdis
+							li
+								a(href='http://nparashuram.com/IndexedDBShim/') IndexedDB Shim
+								| , the polyfill for older browsers that support WebSQL
+					div.col-sm-3
+						h4 Contact
+						p.text-justify
+							| Dexdis is handcrafted in Germany. Read our
+							| <a href="/contact.html">full contact information</a> 
+							| and drop us a
+							| <a href="/contact.html#postcard">postcard</a>
+							| if you
+							| like. Please also notice our
+							| <a href="/contact.html#privacy">privacy policy</a>.
+							
+							
 		script(src='//code.jquery.com/jquery-2.0.3.min.js')
 		script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
 		script(src='/IndexedDBShim.js')
-		script(src='/dexdis.min.js')
+		script(src='/dexdis.js')
 		script(src='/jquery.console.js')
 		script(src='/main.js')

@@ -13,45 +13,60 @@ $('#mainnav > li > a').each(function() {
 });
 
 var addConsole = function(el, db) {
+	if (window.indexedDB === undefined) {
+		el.addClass('error');
+		el.append('<span>Your browser doesn\'t support IndexedDB :(</span>');
+		return;
+	}
 	var dexdis = new Dexdis();
-	dexdis.select(db, function() {
-		dexdis.flushdb(function() {
-			el.console({
-				prompt: 'dexdis>&nbsp;',
-				handle: function(line, report) {
-					var notfound  = 'ERR: command not found';
-					var syntaxerr = 'ERR: syntax error';
-					line = line.trim();
-					var match = regex.exec(line);
-					if (match === null) {
-						report(syntaxerr);
-						return;
-					} else if (dexdis[match[1].toLowerCase()] === undefined) {
-						report(notfound);
-						return;
-					}
-					var cb = function(err, res) {
-						if (err != null) {
-							report(err);
-						} else {
-							report('(' + typeof(res) + ') ' + res);
+	dexdis.select(db, function(err) {
+		if (err != null) {
+			el.addClass('error');
+			el.append('<span>Error while opening database :(</span>');
+			return;
+		} else {
+			dexdis.flushdb(function() {
+				el.console({
+					prompt: 'dexdis>&nbsp;',
+					handle: function(line, report) {
+						if (line.trim().length === 0) {
+							report('');
+							return;
 						}
-					};
-					var cmd = 'dexdis.' + match[1].toLowerCase();
-					if (match[2].length > 0) {
-						cmd += '(' + match[2] + ', cb)';
-					} else {
-						cmd += '(cb)';
+						var notfound  = 'ERR: command not found';
+						var syntaxerr = 'ERR: syntax error';
+						line = line.trim();
+						var match = regex.exec(line);
+						if (match === null) {
+							report(syntaxerr);
+							return;
+						} else if (dexdis[match[1].toLowerCase()] === undefined) {
+							report(notfound);
+							return;
+						}
+						var cb = function(err, res) {
+							if (err != null) {
+								report(err);
+							} else {
+								report('(' + typeof(res) + ') ' + res);
+							}
+						};
+						var cmd = 'dexdis.' + match[1].toLowerCase();
+						if (match[2].length > 0) {
+							cmd += '(' + match[2] + ', cb)';
+						} else {
+							cmd += '(cb)';
+						}
+						try {
+							eval(cmd);
+						} catch(e) {
+							report('ERR: ' + e.message);
+						}
+						return;
 					}
-					try {
-						eval(cmd);
-					} catch(e) {
-						report('ERR: ' + e.message);
-					}
-					return;
-				}
+				});
 			});
-		});
+		}
 	});
 };
 

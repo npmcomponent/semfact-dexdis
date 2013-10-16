@@ -1,8 +1,17 @@
 body {
 	padding-top: 50px;
 }
+body, html {
+	height: 100%;
+}
+.text-justify {
+	text-align: justify;
+}
 .dimmed-content {
 	background-color: rgb(238, 238, 238);
+}
+.col-overflow {
+	overflow: auto;
 }
 #brand {
 	padding-left: 52px;
@@ -107,4 +116,50 @@ body {
 	flex: 1;
 	-ms-flex: 1;
 	-webkit-flex: 1;
+}
+/* index */
+.icon-background {
+	top: 0;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	color: rgb(230, 230, 230);
+	z-index: -1;
+	font-size: 3em;
+}
+.header-icon {
+	padding-top: 1em;
+}
+@media (max-width: 360px) {
+	.row-xs {
+		width: 100%;
+	}
+}
+@media (min-width: 768px) {
+	.icon-background {
+		font-size: 4em;
+	}
+	.header-icon {
+		padding-top: 2em;
+	}
+}
+#saucematrix {
+	opacity: 0.8;
+}
+/* footer */
+#content {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -15em;
+	padding-bottom: 5em;
+}
+#footer, #push {
+	min-height: 15em;
+}
+#footer {
+	background: #333;
+	color: rgb(240,240,240);
 }
