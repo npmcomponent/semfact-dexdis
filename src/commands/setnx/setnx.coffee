@@ -1,5 +1,5 @@
 setnx: (key, value, cb) ->
-	@_checkttl key, (keyinfo) =>
+	@_checkttl key, 'simple', (keyinfo) =>
 		if keyinfo?
 			cb 0
 		else

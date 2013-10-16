@@ -1,16 +1,21 @@
 errs =
 	transaction:   'Operation not allowed during transaction'
+	wrongargs:     'Wrong number of arguments'
 	wrongtype:     'Operation against a key holding the wrong kind of value'
 	notsupported:  'Operation not supported'
 	toomuchop:     'Operation with too much operands'
 
+storenames = ['keys', 'simple', 'hash']
+
+storenames = ['keys', 'simple', 'hash']
+
 class DexdisCommands
 	
 	constructor: (trans) ->
-		stores  = ['keys', 'values']
 		@_stores = {}
-		for s in stores
+		for s in storenames
 			@_stores[s] = trans.objectStore s
+		@onerror = ->
 	
 {{{commands}}}
 
@@ -21,26 +26,30 @@ class DexdisDb
 	
 	# get indexeddb transaction with keys and values stores
 	_transaction: (cb, mode = 'readwrite') ->
-		trans = @db.transaction ['keys', 'values'], mode
+		trans = @db.transaction storenames, mode
 		trans.onerror = (e) ->
 			cb e if cb?
-			e.preventDefault()
-		trans.onabort = (e) ->
-			cb new Error 'Transaction Aborted' if cb?
 		trans
 
 class Dexdis extends DexdisDb
 	
 	# execute dexdis command
 	_cmd: (cmd, args, cb, mode) ->
-		ret = null
+		ret   = null
+		error = null
 		save = (x) ->
 			ret = x
 			return
 		trans = @_transaction cb, mode
 		trans.oncomplete = ->
 			cb null, ret if cb?
+		trans.onabort = ->
+			if error?
+				cb error
 		cmds = new DexdisCommands trans
+		cmds.onerror = (err) ->
+			error = err
+			trans.abort()
 		cmds[cmd].apply cmds, args.concat [save]
 		return
 	
@@ -51,8 +60,8 @@ class Dexdis extends DexdisDb
 		r = indexedDB.open db, 1
 		r.onupgradeneeded = (e) ->
 			db = r.result
-			db.createObjectStore 'keys'
-			db.createObjectStore 'values'
+			for store in storenames
+				db.createObjectStore store
 		r.onsuccess = (e) =>
 			@db = r.result
 			cb null if cb?

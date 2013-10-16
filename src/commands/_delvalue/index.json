@@ -1,0 +1,7 @@
+{
+	"name": "_delvalue",
+	"short_description": "delete the value of a key (internally)",
+	"dependencies": [
+	],
+	"command": "_delvalue.coffee"
+}

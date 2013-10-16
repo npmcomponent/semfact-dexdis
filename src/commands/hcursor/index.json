@@ -1,0 +1,25 @@
+{
+	"name": "hcursor",
+	"usage": "key [lower upper] [lopen uopen]",
+	"short_description": "Get a cursor for fields in a hash",
+	"description_file": "description.md",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "IDBCursorWithValue",
+		"value": "The cursor that iterates over all fields in the hash."
+	},
+	"examples": [
+		"hset('test', 'foo', 42)",
+		"hset('test', 'bar', 23)",
+		"hcursor('test')"
+	],
+	"related": [
+		"hgetall",
+		"hvals",
+		"hkeys"
+	],
+	"command": "hcursor.coffee",
+	"test": "test.coffee"
+}

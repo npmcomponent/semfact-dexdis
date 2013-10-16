@@ -1,0 +1,31 @@
+{
+	"name": "hget",
+	"usage": "key field",
+	"short_description": "Get a value of a field in a hash",
+	"description": "Get the value of the given field in the hash.",
+	"dependencies": [
+		"_checkttl",
+		"_hget"
+	],
+	"return": {
+		"type": "",
+		"value": "The value of the given field in the hash."
+	},
+	"examples": [
+		"hset('a', 'foo', 'bar')",
+		"hget('a', 'foo')"
+	],
+	"related": [
+		"get",
+		"hgetall",
+		"hkeys",
+		"hlen",
+		"hmget",
+		"hmset",
+		"hset",
+		"hsetnx",
+		"hvals"
+	],
+	"command": "hget.coffee",
+	"test": "test.coffee"
+}

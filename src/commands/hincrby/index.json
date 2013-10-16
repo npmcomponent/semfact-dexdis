@@ -1,0 +1,26 @@
+{
+	"name": "hincrby",
+	"usage": "key field number",
+	"short_description": "Increment a value of a field in a hash by a number",
+	"description": "Increment the value of the field in the hash by the number.",
+	"dependencies": [
+		"hget",
+		"_hset"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The incremented value stored at the key."
+	},
+	"examples": [
+		"hset('hash', 'a', 32)",
+		"incrby('hash', 'a', 10)",
+		"hget('hash', 'a')"
+	],
+	"related": [
+		"hget",
+		"hset",
+		"incr"
+	],
+	"command": "hincrby.coffee",
+	"test": "test.coffee"
+}

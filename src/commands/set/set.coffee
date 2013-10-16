@@ -1,9 +1,9 @@
 set: (key, value, cb) ->
-	{keys, values} = @_stores
+	{keys, simple} = @_stores
 	keyinfo =
 		type: 'simple'
 	keys.put keyinfo, key
-	put = values.put value, key
+	put = simple.put value, key
 	put.onsuccess = ->
 		cb 'OK'
 	return

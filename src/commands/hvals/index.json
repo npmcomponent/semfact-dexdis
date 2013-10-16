@@ -1,0 +1,27 @@
+{
+	"name": "hvals",
+	"usage": "key",
+	"short_description": "Get all values of a hash",
+	"description": "Get all values of the hash as array.",
+	"dependencies": [
+		"hcursor"
+	],
+	"return": {
+		"type": "Array",
+		"value": "An array containing the values of the hash."
+	},
+	"examples": [
+		"hset('a', 'foo', 'test3')",
+		"hset('a', 'bar', 'test1')",
+		"hset('a', 'baz', 'test2')",
+		"hvals('a')"
+	],
+	"related": [
+		"hget",
+		"hgetall",
+		"hkeys",
+		"hlen"
+	],
+	"command": "hvals.coffee",
+	"test": "test.coffee"
+}

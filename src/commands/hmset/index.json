@@ -1,0 +1,26 @@
+{
+	"name": "hmset",
+	"usage": "key field value [field value ...]",
+	"short_description": "Set multiple fields and their values in a hash",
+	"description": "Set multiple fields and their values in the hash.",
+	"dependencies": [
+		"_checkttl",
+		"_hset"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"hmset('a', 'foo', 42, 'bar', 23)",
+		"hgetall('a')"
+	],
+	"related": [
+		"hget",
+		"hgetall",
+		"hmget",
+		"hmset"
+	],
+	"command": "hmset.coffee",
+	"test": "test.coffee"
+}

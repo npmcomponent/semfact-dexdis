@@ -1,6 +1,8 @@
 {
 	"usage": "_checkttl",
 	"description": "Check if specific key is expired and return key information",
-	"dependencies": [],
+	"dependencies": [
+		"_delvalue"
+	],
 	"command": "_checkttl.coffee"
 }

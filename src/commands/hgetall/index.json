@@ -1,0 +1,32 @@
+{
+	"name": "hgetall",
+	"usage": "key",
+	"short_description": "Get all fields and its values of a hash",
+	"description": "Get all fields and its values of the hash. An array of the fields and their values alternating in the hash is returned.",
+	"dependencies": [
+		"hcursor"
+	],
+	"return": {
+		"type": "Array",
+		"value": "An alternating array of the fields and values in the hash."
+	},
+	"examples": [
+		"hset('a', 'foo', 'test3')",
+		"hset('a', 'bar', 'test1')",
+		"hset('a', 'baz', 'test2')",
+		"hgetall('a')"
+	],
+	"related": [
+		"get",
+		"hget",
+		"hkeys",
+		"hlen",
+		"hmget",
+		"hmset",
+		"hset",
+		"hsetnx",
+		"hvals"
+	],
+	"command": "hgetall.coffee",
+	"test": "test.coffee"
+}

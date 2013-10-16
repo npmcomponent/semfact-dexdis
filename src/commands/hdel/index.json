@@ -1,0 +1,28 @@
+{
+	"name": "hdel",
+	"usage": "key field [field...]",
+	"short_description": "Delete fields from a hash",
+	"description": "Delete the given fields from the hash.",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The number of fields that were removed."
+	},
+	"examples": [
+		"hset('hdel', 'foo', 'test1')",
+		"hset('hdel', 'bar', 'test2')",
+		"hset('hdel', 'baz', 'test3')",
+		"hgetall('hdel')",
+		"hdel('hdel', 'baz')",
+		"hgetall('hdel')"
+	],
+	"related": [
+		"del",
+		"exists",
+		"hexists"
+	],
+	"command": "hdel.coffee",
+	"test": "test.coffee"
+}
