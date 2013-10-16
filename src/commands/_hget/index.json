@@ -1,0 +1,6 @@
+{
+	"name": "_hget",
+	"description": "Get the value of the given field in the hash.",
+	"dependencies": [],
+	"command": "_hget.coffee"
+}

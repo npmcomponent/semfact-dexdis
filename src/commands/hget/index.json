@@ -4,7 +4,8 @@
 	"short_description": "Get a value of a field in a hash",
 	"description": "Get the value of the given field in the hash.",
 	"dependencies": [
-		"_checkttl"
+		"_checkttl",
+		"_hget"
 	],
 	"return": {
 		"type": "",
