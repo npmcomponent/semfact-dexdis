@@ -9,34 +9,51 @@
         root.Dexdis = factory();
     }
 }(this, function() {
-var Dexdis, DexdisCommands, DexdisDb, DexdisTransaction, errs, _ref,
+var Dexdis, DexdisCommands, DexdisDb, DexdisTransaction, errs, storenames, _ref,
   __slice = [].slice,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 errs = {
   transaction: 'Operation not allowed during transaction',
+  wrongargs: 'Wrong number of arguments',
   wrongtype: 'Operation against a key holding the wrong kind of value',
   notsupported: 'Operation not supported',
   toomuchop: 'Operation with too much operands'
 };
 
+storenames = ['keys', 'simple', 'hash'];
+
+storenames = ['keys', 'simple', 'hash'];
+
 DexdisCommands = (function() {
   var hamming;
 
   function DexdisCommands(trans) {
-    var s, stores, _i, _len;
-    stores = ['keys', 'values'];
+    var s, _i, _len;
     this._stores = {};
-    for (_i = 0, _len = stores.length; _i < _len; _i++) {
-      s = stores[_i];
+    for (_i = 0, _len = storenames.length; _i < _len; _i++) {
+      s = storenames[_i];
       this._stores[s] = trans.objectStore(s);
     }
+    this.onerror = function() {};
   }
 
-  DexdisCommands.prototype._checkttl = function(key, cb) {
-    var get, keys, values, _ref;
-    _ref = this._stores, keys = _ref.keys, values = _ref.values;
+  DexdisCommands.prototype._checkttl = function(key, type, cb) {
+    var checktype, error, get, keys;
+    keys = this._stores.keys;
+    error = this.onerror;
+    if (typeof type === 'function') {
+      cb = type;
+      type = null;
+    }
+    checktype = function(keyinfo) {
+      if ((type != null) && (keyinfo != null) && keyinfo.type !== type) {
+        error(new Error(errs.wrongtype));
+        return;
+      }
+      return cb(keyinfo);
+    };
     get = keys.get(key);
     get.onsuccess = function() {
       var del, keyinfo;
@@ -45,16 +62,36 @@ DexdisCommands = (function() {
         if (Date.now() > keyinfo.expire) {
           del = keys["delete"](key);
           del.onsuccess = function() {
-            return cb(void 0, true);
+            return cb(void 0);
           };
-          return values["delete"](key);
+          return this._delvalue(k, keyinfo.type);
         } else {
-          return cb(keyinfo, false);
+          return checktype(keyinfo);
         }
       } else {
-        return cb(keyinfo, false);
+        return checktype(keyinfo);
       }
     };
+  };
+
+  DexdisCommands.prototype._delvalue = function(key, type, cb) {
+    var del, range, stores;
+    stores = this._stores;
+    switch (type) {
+      case 'simple':
+        del = stores.simple["delete"](key);
+        del.onsuccess = cb;
+        break;
+      case 'hash':
+        range = IDBKeyRange.bound([key, 0], [key, 1], true, true);
+        del = stores.hash["delete"](range);
+        del.onsuccess = cb;
+        break;
+      default:
+        if (cb != null) {
+          cb();
+        }
+    }
   };
 
   DexdisCommands.prototype._expiremap = function(key, cb, f) {
@@ -75,6 +112,8 @@ DexdisCommands = (function() {
   };
 
   DexdisCommands.prototype._getstr = function(key, cb) {
+    var error;
+    error = this.onerror;
     return this.get(key, function(val) {
       var type;
       if (val != null) {
@@ -83,7 +122,8 @@ DexdisCommands = (function() {
           if (type === 'number') {
             val = '' + val;
           } else {
-            throw new Error(errs.wrongtype);
+            error(Error(errs.wrongtype));
+            return;
           }
         }
       } else {
@@ -93,27 +133,61 @@ DexdisCommands = (function() {
     });
   };
 
+  DexdisCommands.prototype._hget = function(key, field, cb) {
+    var get, hash;
+    hash = this._stores.hash;
+    get = hash.get([key, 0, field]);
+    return get.onsuccess = function() {
+      if (get.result === void 0) {
+        return cb(null);
+      } else {
+        return cb(get.result);
+      }
+    };
+  };
+
+  DexdisCommands.prototype._hset = function(key, field, value, cb) {
+    var cnt, hash, hkey, keys, _ref;
+    _ref = this._stores, keys = _ref.keys, hash = _ref.hash;
+    hkey = [key, 0, field];
+    cnt = hash.count(hkey);
+    cnt.onsuccess = function() {
+      var keyinfo, nex, put;
+      nex = cnt.result === 0;
+      if (nex) {
+        keyinfo = {
+          type: 'hash'
+        };
+        keys.put(keyinfo, key);
+      }
+      put = hash.put(value, hkey);
+      return put.onsuccess = function() {
+        if (nex) {
+          return cb(1);
+        } else {
+          return cb(0);
+        }
+      };
+    };
+  };
+
   DexdisCommands.prototype._map = function(key, cb, f) {
-    var keys, value, values, _ref,
+    var keys, simple, value, _ref,
       _this = this;
-    _ref = this._stores, keys = _ref.keys, values = _ref.values;
+    _ref = this._stores, keys = _ref.keys, simple = _ref.simple;
     value = null;
-    this._checkttl(key, function(keyinfo) {
+    this._checkttl(key, 'simple', function(keyinfo) {
       var get;
       if (keyinfo != null) {
-        if (keyinfo.type === 'simple') {
-          get = values.get(key);
-          return get.onsuccess = function() {
-            var put;
-            value = f(get.result);
-            put = values.put(value, key);
-            return put.onsuccess = function() {
-              return cb(value);
-            };
+        get = simple.get(key);
+        return get.onsuccess = function() {
+          var put;
+          value = f(get.result);
+          put = simple.put(value, key);
+          return put.onsuccess = function() {
+            return cb(value);
           };
-        } else {
-          return cb(new Error(errs.wrongtype));
-        }
+        };
       } else {
         value = f(null);
         return _this.set(key, value, function() {
@@ -205,7 +279,8 @@ DexdisCommands = (function() {
           return ~y;
         };
         if (srcs.length > 1) {
-          throw new Error(errs.toomuchop);
+          this.onerror(Error(errs.toomuchop));
+          return;
         }
         break;
       case 'AND':
@@ -225,7 +300,8 @@ DexdisCommands = (function() {
         };
     }
     if (f === null) {
-      throw new Error(errs.notsupported);
+      this.onerror(Error(errs.notsupported));
+      return;
     }
     vals = [];
     i = 0;
@@ -266,32 +342,34 @@ DexdisCommands = (function() {
   };
 
   DexdisCommands.prototype.del = function() {
-    var cb, count, dels, i, k, keys, values, _i, _j, _len, _ref, _results;
+    var called, cb, count, dels, k, max, stores, _fn, _i, _j, _len,
+      _this = this;
     dels = 2 <= arguments.length ? __slice.call(arguments, 0, _i = arguments.length - 1) : (_i = 0, []), cb = arguments[_i++];
-    _ref = this._stores, keys = _ref.keys, values = _ref.values;
+    stores = this._stores;
     if (dels.length === 0) {
       cb(0);
       return;
     }
     count = 0;
-    _results = [];
-    for (i = _j = 0, _len = dels.length; _j < _len; i = ++_j) {
-      k = dels[i];
-      _results.push(this._checkttl(k, function(keyinfo) {
-        var del;
+    called = 0;
+    max = dels.length;
+    _fn = function(k) {
+      return _this._checkttl(k, function(keyinfo) {
+        called++;
         if (keyinfo != null) {
           count++;
-          keys["delete"](k);
-          del = values["delete"](k);
-          if (i === dels.length) {
-            return del.onsuccess = function() {
-              return cb(count);
-            };
-          }
+          stores.keys["delete"](k);
+          _this._delvalue(k, keyinfo.type);
         }
-      }));
+        if (called === max) {
+          return cb(count);
+        }
+      });
+    };
+    for (_j = 0, _len = dels.length; _j < _len; _j++) {
+      k = dels[_j];
+      _fn(k);
     }
-    return _results;
   };
 
   DexdisCommands.prototype.exists = function(key, cb) {
@@ -317,24 +395,25 @@ DexdisCommands = (function() {
   };
 
   DexdisCommands.prototype.flushdb = function(cb) {
-    var keys, values, _ref;
-    _ref = this._stores, keys = _ref.keys, values = _ref.values;
-    keys.clear();
-    values.clear();
+    var store, stores, _i, _len;
+    stores = this._stores;
+    stores.keys.clear();
+    for (_i = 0, _len = storenames.length; _i < _len; _i++) {
+      store = storenames[_i];
+      stores[store].clear();
+    }
     cb('OK');
   };
 
   DexdisCommands.prototype.get = function(key, cb) {
-    var keys, values, _ref;
-    _ref = this._stores, keys = _ref.keys, values = _ref.values;
-    this._checkttl(key, function(keyinfo) {
+    var keys, simple, _ref;
+    _ref = this._stores, keys = _ref.keys, simple = _ref.simple;
+    this._checkttl(key, 'simple', function(keyinfo) {
       var get;
       if (keyinfo === void 0) {
         return cb(null);
-      } else if (keyinfo.type !== 'simple') {
-        throw new Error(errs.wrongtype);
       } else {
-        get = values.get(key);
+        get = simple.get(key);
         return get.onsuccess = function() {
           return cb(get.result);
         };
@@ -372,6 +451,262 @@ DexdisCommands = (function() {
       return _this.set(key, value, function() {
         return cb(val);
       });
+    });
+  };
+
+  DexdisCommands.prototype.hcursor = function() {
+    var args, cb, hash, key, l, lopen, lower, uopen, upper, _i;
+    key = arguments[0], args = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
+    l = args.length;
+    if (l !== 0 && l !== 2 && l !== 4) {
+      this.onerror(new Error(errs.wrongargs));
+      return;
+    }
+    if (l > 1) {
+      lopen = false;
+      uopen = false;
+      lower = args[0];
+      upper = args[1];
+    }
+    if (l === 4) {
+      lopen = args[2];
+      uopen = args[3];
+    }
+    hash = this._stores.hash;
+    this._checkttl(key, 'hash', function(keyinfo) {
+      var cursor, range;
+      if (keyinfo != null) {
+        if (l === 0) {
+          range = IDBKeyRange.bound([key, 0], [key, 1], true, true);
+        } else {
+          range = IDBKeyRange.bound([key, 0, lower], [key, 0, upper], lopen, uopen);
+        }
+        cursor = hash.openCursor(range);
+        cursor.onsuccess = function() {
+          if (cursor.result === void 0) {
+            return cb(null);
+          } else {
+            return cb(cursor.result);
+          }
+        };
+      } else {
+        cb(null);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hdel = function() {
+    var cb, fields, hash, key, _i;
+    key = arguments[0], fields = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
+    if (fields.length === 0) {
+      cb(0);
+      return;
+    }
+    hash = this._stores.hash;
+    return this._checkttl(key, 'hash', function(keyinfo) {
+      var called, count, field, max, _j, _len, _results;
+      if (keyinfo != null) {
+        count = 0;
+        called = 0;
+        max = fields.length;
+        _results = [];
+        for (_j = 0, _len = fields.length; _j < _len; _j++) {
+          field = fields[_j];
+          _results.push((function(field) {
+            var cnt, hkey;
+            hkey = [key, 0, field];
+            cnt = hash.count(hkey);
+            return cnt.onsuccess = function() {
+              var del;
+              called++;
+              if (cnt.result === 1) {
+                count++;
+                del = hash["delete"](hkey);
+              }
+              if (called === max) {
+                return cb(count);
+              }
+            };
+          })(field));
+        }
+        return _results;
+      } else {
+        return cb(0);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hexists = function(key, field, cb) {
+    var hash;
+    hash = this._stores.hash;
+    return this._checkttl(key, 'hash', function(keyinfo) {
+      var cnt;
+      if (keyinfo != null) {
+        cnt = hash.count([key, 0, field]);
+        return cnt.onsuccess = function() {
+          return cb(cnt.result);
+        };
+      } else {
+        return cb(0);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hget = function(key, field, cb) {
+    var hash,
+      _this = this;
+    hash = this._stores.hash;
+    this._checkttl(key, 'hash', function(keyinfo) {
+      _this._hget(key, field, cb);
+    });
+  };
+
+  DexdisCommands.prototype.hgetall = function(key, cb) {
+    var ret;
+    ret = [];
+    return this.hcursor(key, function(cursor) {
+      if (cursor != null) {
+        if (cursor.key !== void 0) {
+          ret.push(cursor.key[2]);
+          ret.push(cursor.value);
+          return cursor["continue"]();
+        } else {
+          return cb(ret);
+        }
+      } else {
+        return cb(ret);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hincrby = function(key, field, inc, cb) {
+    var _this = this;
+    this.hget(key, field, function(x) {
+      var y;
+      if (x != null) {
+        y = x + inc;
+      } else {
+        y = inc;
+      }
+      _this._hset(key, field, y, function() {
+        return cb(y);
+      });
+    });
+  };
+
+  DexdisCommands.prototype.hkeys = function(key, cb) {
+    var ret;
+    ret = [];
+    return this.hcursor(key, function(cursor) {
+      if (cursor != null) {
+        if (cursor.key !== void 0) {
+          ret.push(cursor.key[2]);
+          return cursor["continue"]();
+        } else {
+          return cb(ret);
+        }
+      } else {
+        return cb(ret);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hlen = function(key, cb) {
+    var hash;
+    hash = this._stores.hash;
+    return this._checkttl(key, 'hash', function(keyinfo) {
+      var cnt, range;
+      if (keyinfo != null) {
+        range = IDBKeyRange.bound([key, 0], [key, 1], true, true);
+        cnt = hash.count(range);
+        return cnt.onsuccess = function() {
+          return cb(cnt.result);
+        };
+      } else {
+        return cb(0);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hmget = function() {
+    var args, cb, key, _i,
+      _this = this;
+    key = arguments[0], args = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
+    this._checkttl(key, 'hash', function(keyinfo) {
+      var cnt, field, i, ret, _fn, _j, _len;
+      ret = [];
+      cnt = 0;
+      _fn = function(field, i) {
+        return _this._hget(key, field, function(res) {
+          ret[i] = res;
+          cnt++;
+          if (cnt === args.length) {
+            return cb(ret);
+          }
+        });
+      };
+      for (i = _j = 0, _len = args.length; _j < _len; i = ++_j) {
+        field = args[i];
+        _fn(field, i);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hmset = function() {
+    var args, cb, key, _i,
+      _this = this;
+    key = arguments[0], args = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
+    if (args.length % 2 !== 0) {
+      this.onerror(new Error(errs.wrongargs));
+      return;
+    }
+    this._checkttl(key, 'hash', function(keyinfo) {
+      var field, i, value, _j, _len;
+      for (i = _j = 0, _len = args.length; _j < _len; i = _j += 2) {
+        field = args[i];
+        value = args[i + 1];
+        _this._hset(key, field, value, function() {});
+        if (i === args.length - 2) {
+          cb('OK');
+        }
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hset = function(key, field, value, cb) {
+    var _this = this;
+    this._checkttl(key, 'hash', function(keyinfo) {
+      _this._hset(key, field, value, cb);
+    });
+  };
+
+  DexdisCommands.prototype.hsetnx = function(key, field, value, cb) {
+    var hash,
+      _this = this;
+    hash = this._stores.hash;
+    this.hexists(key, field, function(ex) {
+      if (ex === 0) {
+        return _this._hset(key, field, value, cb);
+      } else {
+        return cb(0);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.hvals = function(key, cb) {
+    var ret;
+    ret = [];
+    return this.hcursor(key, function(cursor) {
+      if (cursor != null) {
+        if (cursor.key !== void 0) {
+          ret.push(cursor.value);
+          return cursor["continue"]();
+        } else {
+          return cb(ret);
+        }
+      } else {
+        return cb(ret.sort());
+      }
     });
   };
 
@@ -456,13 +791,13 @@ DexdisCommands = (function() {
   };
 
   DexdisCommands.prototype.set = function(key, value, cb) {
-    var keyinfo, keys, put, values, _ref;
-    _ref = this._stores, keys = _ref.keys, values = _ref.values;
+    var keyinfo, keys, put, simple, _ref;
+    _ref = this._stores, keys = _ref.keys, simple = _ref.simple;
     keyinfo = {
       type: 'simple'
     };
     keys.put(keyinfo, key);
-    put = values.put(value, key);
+    put = simple.put(value, key);
     put.onsuccess = function() {
       return cb('OK');
     };
@@ -496,7 +831,7 @@ DexdisCommands = (function() {
 
   DexdisCommands.prototype.setnx = function(key, value, cb) {
     var _this = this;
-    this._checkttl(key, function(keyinfo) {
+    this._checkttl(key, 'simple', function(keyinfo) {
       if (keyinfo != null) {
         return cb(0);
       } else {
@@ -559,15 +894,10 @@ DexdisDb = (function() {
     if (mode == null) {
       mode = 'readwrite';
     }
-    trans = this.db.transaction(['keys', 'values'], mode);
+    trans = this.db.transaction(storenames, mode);
     trans.onerror = function(e) {
       if (cb != null) {
         return cb(e);
-      }
-    };
-    trans.onabort = function(e) {
-      if (cb != null) {
-        return cb(new Error('Transaction Aborted'));
       }
     };
     return trans;
@@ -589,8 +919,9 @@ Dexdis = (function(_super) {
   }
 
   Dexdis.prototype._cmd = function(cmd, args, cb, mode) {
-    var cmds, ret, save, trans;
+    var cmds, error, ret, save, trans;
     ret = null;
+    error = null;
     save = function(x) {
       ret = x;
     };
@@ -600,7 +931,16 @@ Dexdis = (function(_super) {
         return cb(null, ret);
       }
     };
+    trans.onabort = function() {
+      if (error != null) {
+        return cb(error);
+      }
+    };
     cmds = new DexdisCommands(trans);
+    cmds.onerror = function(err) {
+      error = err;
+      return trans.abort();
+    };
     cmds[cmd].apply(cmds, args.concat([save]));
   };
 
@@ -613,9 +953,14 @@ Dexdis = (function(_super) {
     }
     r = indexedDB.open(db, 1);
     r.onupgradeneeded = function(e) {
+      var store, _i, _len, _results;
       db = r.result;
-      db.createObjectStore('keys');
-      return db.createObjectStore('values');
+      _results = [];
+      for (_i = 0, _len = storenames.length; _i < _len; _i++) {
+        store = storenames[_i];
+        _results.push(db.createObjectStore(store));
+      }
+      return _results;
     };
     r.onsuccess = function(e) {
       _this.db = r.result;
@@ -624,7 +969,8 @@ Dexdis = (function(_super) {
       }
     };
     r.onerror = function(e) {
-      return cb(r.error);
+      cb(r.error);
+      return e.preventDefault();
     };
     return this;
   };
@@ -707,7 +1053,8 @@ DexdisTransaction = (function(_super) {
       return cb(null, values);
     };
     trans.onerror = function(e) {
-      return cb(e);
+      cb(e);
+      return e.preventDefault();
     };
     next();
   };
@@ -735,5 +1082,8 @@ DexdisTransaction = (function(_super) {
 
 }).call(this, DexdisDb);
 
+/*
+//@ sourceMappingURL=dexdis.js.map
+*/
     return Dexdis;
 }));
