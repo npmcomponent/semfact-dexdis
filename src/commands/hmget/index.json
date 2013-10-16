@@ -1,0 +1,25 @@
+{
+	"name": "hmget",
+	"usage": "key field [field ...]",
+	"short_description": "Get multiple fields in a hash",
+	"description": "Get multiple fields in the hash.",
+	"dependencies": [
+		"_checkttl",
+		"_hget"
+	],
+	"return": {
+		"type": "Array",
+		"value": "Every value from the given fields in order. If a field does not exist, the value is null."
+	},
+	"examples": [
+		"hmset('a', 'foo', 42, 'bar', 23)",
+		"hmget('a', 'foo', 'test', 'bar')"
+	],
+	"related": [
+		"hget",
+		"hgetall",
+		"hmset"
+	],
+	"command": "hmget.coffee",
+	"test": "test.coffee"
+}
