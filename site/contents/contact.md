@@ -5,10 +5,10 @@ template: page.jade
 ## Contact
 
 <div class="row">
-<div class="col-sm-2">
+<div class="col-sm-2 col-xs-3">
 	<img src="niclas.jpg" alt="Niclas Hoyer" class="img-thumbnail">
 </div>
-<div class="col-sm-4">
+<div class="col-sm-4 col-xs-9">
 <address>
 	<strong>Niclas Hoyer</strong><br>
 	Charles-Roß-Ring 86<br>
@@ -18,10 +18,11 @@ template: page.jade
 	<a href="http://niclashoyer.de">niclashoyer.de</a>
 </address>
 </div>
-<div class="col-sm-2">
+<div class="clearfix visible-xs"></div>
+<div class="col-sm-2 col-xs-3">
 	<img src="fiona.jpg" alt="Fiona Schmidtke" class="img-thumbnail">
 </div>
-<div class="col-sm-4">
+<div class="col-sm-4 col-xs-9">
 <address>
 	<strong>Fiona Schmidtke</strong><br>
 	Charles-Roß-Ring 86<br>
