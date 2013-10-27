@@ -5,9 +5,7 @@ errs =
 	notsupported:  'Operation not supported'
 	toomuchop:     'Operation with too much operands'
 
-storenames = ['keys', 'simple', 'hash']
-
-storenames = ['keys', 'simple', 'hash']
+storenames = ['keys', 'simple', 'hash', 'list']
 
 class DexdisCommands
 	
@@ -61,7 +59,10 @@ class Dexdis extends DexdisDb
 		r.onupgradeneeded = (e) ->
 			db = r.result
 			for store in storenames
-				db.createObjectStore store
+				if store is 'list'
+					db.createObjectStore 'list', {autoIncrement:true}
+				else
+					db.createObjectStore store
 		r.onsuccess = (e) =>
 			@db = r.result
 			cb null if cb?

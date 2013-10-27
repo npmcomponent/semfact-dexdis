@@ -8,6 +8,15 @@ _delvalue: (key, type, cb) ->
 			range = IDBKeyRange.bound [key, 0], [key, 1], true, true
 			del   = stores.hash.delete range
 			del.onsuccess = cb
+		when 'list'
+			_lwalk key,
+			       null,
+			       (index, elem, key) ->
+			       		stores.list.delete key
+			       ,
+			       () ->
+			       		del = stores.keys.delete key
+			       		del.onsuccess = cb
 		else
 			do cb if cb?
 	return

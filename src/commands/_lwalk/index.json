@@ -1,0 +1,8 @@
+{
+	"usage": "key cond func",
+	"description": "Walk through a list at key until cond and do func",
+	"dependencies": [
+		"_checkttl"
+	],
+	"command": "_lwalk.coffee"
+}

@@ -2,6 +2,7 @@
 	"name": "_delvalue",
 	"short_description": "delete the value of a key (internally)",
 	"dependencies": [
+		"_lwalk"
 	],
 	"command": "_delvalue.coffee"
 }

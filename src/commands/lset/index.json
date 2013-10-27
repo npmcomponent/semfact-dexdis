@@ -1,0 +1,19 @@
+{
+	"name": "lset",
+	"usage": "key index value",
+	"short_description": "Set the value at an index in a list",
+	"description": "Set the value at the index in the list",
+	"dependencies": [
+		"_lwalk"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "lset.coffee",
+	"test": "test.coffee"
+}

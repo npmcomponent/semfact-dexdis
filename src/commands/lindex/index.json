@@ -1,0 +1,19 @@
+{
+	"name": "lindex",
+	"usage": "key index",
+	"short_description": "Get the value at an index in a list",
+	"description": "Get the value at the index in the list",
+	"dependencies": [
+		"_lwalk"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The value stored at the index in the list."
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "lindex.coffee",
+	"test": "test.coffee"
+}
