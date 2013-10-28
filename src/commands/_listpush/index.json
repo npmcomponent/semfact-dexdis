@@ -1,0 +1,20 @@
+{
+	"name": "_listpush",
+	"usage": "key values left",
+	"short_description": "Append or prepend values to a list",
+	"description": "Append  or prepend the values to the list at key.",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the resulting list."
+	},
+	"examples": [
+	],
+	"related": [
+		"lpush",
+		"rpush"
+	],
+	"command": "_listpush.coffee"
+}
