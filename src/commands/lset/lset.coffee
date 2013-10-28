@@ -5,8 +5,9 @@ lset: (key, index, value, cb) ->
 	       		i is index
 	       ,
 	       null,
-	       (index, elem, key) =>
-	       		if index is null
+	       index >= 0,
+	       (i, elem, key) =>
+	       		if i is null
 	       			@onerror new Error errs.wrongargs
 	       			return
 	       		else
@@ -14,4 +15,6 @@ lset: (key, index, value, cb) ->
 	       			put = list.put elem, key
 	       			put.onsuccess = ->
 	       				cb 'OK'
+	       				return
+	       		return
 	return

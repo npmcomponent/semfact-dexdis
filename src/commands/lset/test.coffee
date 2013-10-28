@@ -19,3 +19,13 @@ describe 'LSET', ->
 					expect(err).to.be.null
 					expect(res).to.equal 'test'
 					do done
+	it 'should set the value at the index of the list with negative index', (done) ->
+		dexdis.lpush 'lset', 'baz', 'bar', 'foo', (err) ->
+			expect(err).to.be.null
+			dexdis.lset 'lset', -2, 'test', (err, res) ->
+				expect(err).to.be.null
+				expect(res).to.equal 'OK'
+				dexdis.lindex 'lset', 1, (err, res) ->
+					expect(err).to.be.null
+					expect(res).to.equal 'test'
+					do done

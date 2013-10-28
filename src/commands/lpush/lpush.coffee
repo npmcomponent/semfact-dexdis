@@ -19,9 +19,10 @@ lpush: (key, values..., cb) ->
 					get = store.get keyinfo.first
 					get.onsuccess = ->
 						get.result.prev = elemKey
-						putfirst = store.put get.result
+						putfirst = store.put get.result, keyinfo.first
 						putfirst.onsuccess = updateList
 				else
+					keyinfo.last = elemKey
 					updateList()
 		add = ->
 			i = 0
@@ -40,6 +41,7 @@ lpush: (key, values..., cb) ->
 			keyinfo =
 				type: 'list'
 				first: null
+				last: null
 				len: 0
 			put = keys.put keyinfo, key
 			put.onsuccess = add

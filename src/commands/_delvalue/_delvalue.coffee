@@ -14,6 +14,7 @@ _delvalue: (key, type, cb) ->
 			       (index, elem, key) ->
 			       		stores.list.delete key
 			       ,
+			       true,
 			       () ->
 			       		del = stores.keys.delete key
 			       		del.onsuccess = cb

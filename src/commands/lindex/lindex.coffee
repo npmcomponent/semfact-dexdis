@@ -4,9 +4,12 @@ lindex: (key, index, cb) ->
 	       		i is index
 	       ,
 	       null,
-	       (index, elem, key) ->
-	       		if index is null
+	       index >= 0,
+	       (i, elem, k) ->
+	       		if i is null
 	       			cb null
+	       			return
 	       		else
 	       			cb elem.value
+	       			return
 	return
