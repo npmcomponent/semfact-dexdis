@@ -20,6 +20,7 @@
 	"related": [
 		"lindex",
 		"llen",
+		"lpop",
 		"lset"
 	],
 	"command": "lpush.coffee",

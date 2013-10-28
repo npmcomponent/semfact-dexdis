@@ -18,6 +18,7 @@
 	"related": [
 		"llen",
 		"lpush",
+		"lpop",
 		"lset"
 	],
 	"command": "lindex.coffee",

@@ -1,0 +1,27 @@
+{
+	"name": "lpop",
+	"usage": "key",
+	"short_description": "Get and remove the first value in a list",
+	"description": "Get and remove the first value in the list.",
+	"dependencies": [
+		"_lwalk"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The value stored at first position in the list."
+	},
+	"examples": [
+		"lpush('a', 'foo')",
+		"lpop('a')",
+		"lindex('a', 0)"
+	],
+	"related": [
+		"lindex",
+		"llen",
+		"lpush",
+		"lpop",
+		"lset"
+	],
+	"command": "lpop.coffee",
+	"test": "test.coffee"
+}
