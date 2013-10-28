@@ -11,8 +11,15 @@
 		"value": "OK"
 	},
 	"examples": [
+		"lpush('a', 'baz', 'bar', 'foo')",
+		"lindex('a', 1)",
+		"lset('a', 1, 'test')",
+		"lindex('a', 1)"
 	],
 	"related": [
+		"lindex",
+		"llen",
+		"lpush"
 	],
 	"command": "lset.coffee",
 	"test": "test.coffee"

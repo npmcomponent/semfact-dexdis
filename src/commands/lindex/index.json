@@ -11,8 +11,14 @@
 		"value": "The value stored at the index in the list."
 	},
 	"examples": [
+		"lpush('a', 'foo')",
+		"lindex('a', 0)",
+		"lindex('a', -1)"
 	],
 	"related": [
+		"llen",
+		"lpush",
+		"lset"
 	],
 	"command": "lindex.coffee",
 	"test": "test.coffee"

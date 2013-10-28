@@ -10,8 +10,17 @@
 		"value": "The length of the resulting list."
 	},
 	"examples": [
+		"lpush('a', 'foo')",
+		"lindex('a', 0)",
+		"lpush('a', 'bar', 'baz')",
+		"lindex('a', 0)",
+		"lindex('a', 1)",
+		"lindex('a', 2)"
 	],
 	"related": [
+		"lindex",
+		"llen",
+		"lset"
 	],
 	"command": "lpush.coffee",
 	"test": "test.coffee"
