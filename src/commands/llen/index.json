@@ -1,0 +1,25 @@
+{
+	"name": "llen",
+	"usage": "key",
+	"short_description": "Length of a list",
+	"description": "Length of a list.",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the list."
+	},
+	"examples": [
+		"llen('a')",
+		"lpush('a', 'foo', 'bar')",
+		"llen('a')"
+	],
+	"related": [
+		"lindex",
+		"lpush",
+		"lset"
+	],
+	"command": "llen.coffee",
+	"test": "test.coffee"
+}
