@@ -4,7 +4,7 @@
 	"short_description": "Get and remove the first value in a list",
 	"description": "Get and remove the first value in the list.",
 	"dependencies": [
-		"_lwalk"
+		"_listpop"
 	],
 	"return": {
 		"type": "Simple",
@@ -19,8 +19,8 @@
 		"lindex",
 		"llen",
 		"lpush",
-		"lpop",
-		"lset"
+		"lset",
+		"rpop"
 	],
 	"command": "lpop.coffee",
 	"test": "test.coffee"

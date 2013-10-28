@@ -19,7 +19,8 @@
 		"lindex",
 		"lpush",
 		"lpop",
-		"lset"
+		"lset",
+		"rpop"
 	],
 	"command": "llen.coffee",
 	"test": "test.coffee"

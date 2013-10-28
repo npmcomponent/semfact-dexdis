@@ -1,0 +1,18 @@
+{
+	"name": "_listpop",
+	"usage": "key left",
+	"short_description": "Get and remove the first or last value in a list",
+	"description": "Get and remove the first  or last value in the list.",
+	"dependencies": [
+		"_checkttl"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The value stored at first position in the list."
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "_listpop.coffee"
+}
