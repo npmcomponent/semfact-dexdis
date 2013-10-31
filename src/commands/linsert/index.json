@@ -4,7 +4,8 @@
 	"short_description": "Insert value at an index in a list",
 	"description": "Insert the value at the index in the list",
 	"dependencies": [
-		"_lwalk"
+		"_lwalk",
+		"_checkttl"
 	],
 	"return": {
 		"type": "String",
@@ -16,7 +17,7 @@
 		"lindex('a', 1)"
 	],
 	"related": [
-		"linsert",
+		"lindex",
 		"llen",
 		"lpush",
 		"lpop",

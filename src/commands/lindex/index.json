@@ -16,11 +16,13 @@
 		"lindex('a', -1)"
 	],
 	"related": [
+		"linsert",
 		"llen",
 		"lpush",
 		"lpop",
 		"lset",
-		"rpop"
+		"lrpop",
+		"lrpush"
 	],
 	"command": "lindex.coffee",
 	"test": "test.coffee"

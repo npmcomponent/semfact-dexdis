@@ -17,6 +17,7 @@
 	],
 	"related": [
 		"lindex",
+		"linsert",
 		"llen",
 		"lpush",
 		"lpop",

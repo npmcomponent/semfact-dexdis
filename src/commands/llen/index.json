@@ -17,10 +17,12 @@
 	],
 	"related": [
 		"lindex",
+		"linsert",
 		"lpush",
 		"lpop",
 		"lset",
-		"rpop"
+		"lrpush",
+		"lrpop"
 	],
 	"command": "llen.coffee",
 	"test": "test.coffee"
