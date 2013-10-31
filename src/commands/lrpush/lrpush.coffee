@@ -1,2 +1,2 @@
-rpush: (key, values..., cb) ->
+lrpush: (key, values..., cb) ->
 	@_listpush key, values, false, cb

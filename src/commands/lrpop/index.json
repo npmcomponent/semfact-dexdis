@@ -1,5 +1,5 @@
 {
-	"name": "rpop",
+	"name": "lrpop",
 	"usage": "key",
 	"short_description": "Get and remove the last element in a list",
 	"description": "Get and remove the last element in the list.",
@@ -12,7 +12,7 @@
 	},
 	"examples": [
 		"lpush('a', 'foo')",
-		"rpop('a')",
+		"lrpop('a')",
 		"lindex('a', 0)"
 	],
 	"related": [
@@ -20,8 +20,9 @@
 		"llen",
 		"lpush",
 		"lpop",
+		"lrpush",
 		"lset"
 	],
-	"command": "rpop.coffee",
+	"command": "lrpop.coffee",
 	"test": "test.coffee"
 }

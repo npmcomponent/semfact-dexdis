@@ -1,5 +1,5 @@
 {
-	"name": "rpush",
+	"name": "lrpush",
 	"usage": "key value [value...]",
 	"short_description": "Append values to a list",
 	"description": "Append the values to the list at key. The last value will be the last in the resulting list.",
@@ -11,9 +11,9 @@
 		"value": "The length of the resulting list."
 	},
 	"examples": [
-		"rpush('a', 'foo')",
+		"lrpush('a', 'foo')",
 		"lindex('a', 0)",
-		"rpush('a', 'bar', 'baz')",
+		"lrpush('a', 'bar', 'baz')",
 		"lindex('a', 0)",
 		"lindex('a', 1)",
 		"lindex('a', 2)"
@@ -24,8 +24,8 @@
 		"lpush",
 		"lpop",
 		"lset",
-		"rpop"
+		"lrpop"
 	],
-	"command": "rpush.coffee",
+	"command": "lrpush.coffee",
 	"test": "test.coffee"
 }
