@@ -1,0 +1,29 @@
+{
+	"name": "linsert",
+	"usage": "key index value",
+	"short_description": "Insert value at an index in a list",
+	"description": "Insert the value at the index in the list",
+	"dependencies": [
+		"_lwalk"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"lpush('a', 'foo', 'bar')",
+		"linsert('a', 1, 'baz')",
+		"lindex('a', 1)"
+	],
+	"related": [
+		"linsert",
+		"llen",
+		"lpush",
+		"lpop",
+		"lset",
+		"lrpop",
+		"lrpush"
+	],
+	"command": "linsert.coffee",
+	"test": "test.coffee"
+}
