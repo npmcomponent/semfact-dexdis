@@ -1,9 +1,13 @@
 linsert: (key, index, value, cb) ->
 	{keys, list} = @_stores
-	insert = (keyinfo, elem, k, prevNext, newElem, prev) ->
+	insert = (keyinfo, i, elem, k, prevNext, newElem, prev) ->
 		putNewElem = list.add newElem
 		putNewElem.onsuccess = (ev) ->
 			newElemKey = ev.target.result
+			if (i is 0) or (i is -keyinfo.len) 
+				keyinfo.first = newElemKey
+			if (i is keyinfo.len) or (i is -1)
+				keyinfo.last = newElemKey
 			keyinfo.len += 1
 			putlist = keys.put keyinfo, key
 			putlist.onsuccess = ->
@@ -50,10 +54,10 @@ linsert: (key, index, value, cb) ->
 			       			if index >= 0
 			       				prev = elem.prev
 			       				newElem = {prev: prev, value: value, next: k}
-			       				insert keyinfo, elem, k, prev, newElem, true
+			       				insert keyinfo, i, elem, k, prev, newElem, true
 			       			else
 			       				next = elem.next
 			       				newElem = {prev: k, value: value, next: next}
-			       				insert keyinfo, elem, k, next, newElem, false
+			       				insert keyinfo, i, elem, k, next, newElem, false
 		return
 	return
