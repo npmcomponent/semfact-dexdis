@@ -25,7 +25,7 @@ leverages the full power of the asynchronous API.
 <h3 class="header-icon">Small<span class="icon-background icon-resize-small"></span></h3>
 <p class="text-justify">
 Dexdis has no dependencies and comes as a single JavaScript file ready to
-power your storage needs. It weights only 10kB minified and 2.8kB gzipped.
+power your storage needs. It weights 20kB minified and 4.7kB gzipped.
 </p>
 </div>
 
