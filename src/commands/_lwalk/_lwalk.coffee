@@ -1,4 +1,4 @@
-_lwalk: (key, cond, func, left, cb) ->
+_lwalk: (keyinfo, cond, func, left, cb) ->
 	{keys, list} = @_stores
 	store = list
 	
@@ -34,30 +34,24 @@ _lwalk: (key, cond, func, left, cb) ->
 				return
 		return
 	
-	@_checkttl key, 'list', (list) ->
-		if list is undefined
+	if left
+		if keyinfo.first is null
+			cb null
+			return
+		else
+			ekey = keyinfo.first
+			start = 0
+	else
+		if keyinfo.last is null
 			cb null
 		else
-			if left
-				if list.first is null
-					cb null
-					return
-				else
-					ekey = list.first
-					start = 0
-			else
-				if list.last is null
-					cb null
-				else
-					ekey = list.last
-					start = -1
-			first = store.get ekey
-			first.onsuccess = ->
-				if first.result is undefined
-					cb null
-					return
-				else
-					walk start, first.result, ekey
-				return
+			ekey = keyinfo.last
+			start = -1
+	first = store.get ekey
+	first.onsuccess = ->
+		if first.result is undefined
+			cb null
+			return
+		else
+			walk start, first.result, ekey
 		return
-	return

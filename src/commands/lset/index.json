@@ -4,7 +4,8 @@
 	"short_description": "Set the value at an index in a list",
 	"description": "Set the value at the index in the list",
 	"dependencies": [
-		"_lwalk"
+		"_lwalk",
+		"_checkttl"
 	],
 	"return": {
 		"type": "String",

@@ -9,15 +9,20 @@ _delvalue: (key, type, cb) ->
 			del   = stores.hash.delete range
 			del.onsuccess = cb
 		when 'list'
-			_lwalk key,
-			       null,
-			       (index, elem, key) ->
-			       		stores.list.delete key
-			       ,
-			       true,
-			       () ->
-			       		del = stores.keys.delete key
-			       		del.onsuccess = cb
+			@_checkttl key, 'list', (keyinfo) =>
+				if keyinfo is undefined
+					cb()
+					return
+				else
+					_lwalk keyinfo,
+					       null,
+					       (index, elem, key) ->
+					       		stores.list.delete key
+					       ,
+					       true,
+					       () ->
+					       		del = stores.keys.delete key
+					       		del.onsuccess = cb
 		else
 			do cb if cb?
 	return

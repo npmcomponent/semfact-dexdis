@@ -40,7 +40,7 @@ linsert: (key, index, value, cb) ->
 			cb null
 			return
 		else
-			@_lwalk key,
+			@_lwalk keyinfo,
 			       (i, elem) ->
 			       		i is index
 			       ,

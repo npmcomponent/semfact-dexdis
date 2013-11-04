@@ -1,8 +1,7 @@
 {
-	"usage": "key cond func",
-	"description": "Walk through a list at key until cond and do func",
+	"usage": "keyinfo cond func left",
+	"description": "Walk through the list keyinfo until cond and do func for each element. If left is true, start at the first element, if it's false, at the last element.",
 	"dependencies": [
-		"_checkttl"
 	],
 	"command": "_lwalk.coffee"
 }
