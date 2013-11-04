@@ -4,7 +4,8 @@
 	"short_description": "Append or prepend values to a list",
 	"description": "Append  or prepend the values to the list at key.",
 	"dependencies": [
-		"_checkttl"
+		"_checkttl",
+		"_lins"
 	],
 	"return": {
 		"type": "Number",
@@ -14,7 +15,7 @@
 	],
 	"related": [
 		"lpush",
-		"rpush"
+		"lrpush"
 	],
 	"command": "_listpush.coffee"
 }

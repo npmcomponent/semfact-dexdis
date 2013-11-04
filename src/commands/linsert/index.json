@@ -5,7 +5,8 @@
 	"description": "Insert the value at the index in the list",
 	"dependencies": [
 		"_lwalk",
-		"_checkttl"
+		"_checkttl",
+		"_lins"
 	],
 	"return": {
 		"type": "String",
