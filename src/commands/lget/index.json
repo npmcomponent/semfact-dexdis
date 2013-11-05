@@ -1,0 +1,30 @@
+{
+	"name": "lget",
+	"usage": "key left right",
+	"short_description": "Get multiple values in a list starting at left and ending at right",
+	"description": "Get the values in the list starting at left and ending at right",
+	"dependencies": [
+		"_lwalk",
+		"_checkttl"
+	],
+	"return": {
+		"type": "Array",
+		"value": "The values stored in the list starting at left and ending at right."
+	},
+	"examples": [
+		"lpush('a', 'baz', 'bar', 'foo')",
+		"lindex('a', 0, 1)"
+	],
+	"related": [
+		"lindex",
+		"linsert",
+		"llen",
+		"lpush",
+		"lpop",
+		"lset",
+		"lrpop",
+		"lrpush"
+	],
+	"command": "lget.coffee",
+	"test": "test.coffee"
+}

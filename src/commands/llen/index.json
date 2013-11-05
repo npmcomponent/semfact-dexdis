@@ -16,6 +16,7 @@
 		"llen('a')"
 	],
 	"related": [
+		"lget",
 		"lindex",
 		"linsert",
 		"lpush",
