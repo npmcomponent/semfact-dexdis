@@ -5,7 +5,7 @@
 	"description": "Append  or prepend the values to the list at key.",
 	"dependencies": [
 		"_checkttl",
-		"_lins"
+		"_linsert"
 	],
 	"return": {
 		"type": "Number",

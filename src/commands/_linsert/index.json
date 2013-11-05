@@ -1,5 +1,5 @@
 {
-	"name": "_lins",
+	"name": "_linsert",
 	"usage": "key keyinfo elem index moveRight neighbor",
 	"short_description": "Insert value at an index in a list",
 	"description": "Insert the value at the index in the list",
@@ -13,5 +13,5 @@
 	],
 	"related": [
 	],
-	"command": "_lins.coffee"
+	"command": "_linsert.coffee"
 }

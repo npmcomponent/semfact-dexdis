@@ -13,7 +13,7 @@ _listpush: (key, values, left, cb) ->
 				elem = {prev: keyinfo.last, value: value, next: null}
 				index = keyinfo.len
 			
-			@_lins key, keyinfo, elem, index, left, null, cb
+			@_linsert key, keyinfo, elem, index, left, null, cb
 		add = ->
 			i = 0
 			next = ->

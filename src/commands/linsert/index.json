@@ -6,7 +6,7 @@
 	"dependencies": [
 		"_lwalk",
 		"_checkttl",
-		"_lins"
+		"_linsert"
 	],
 	"return": {
 		"type": "String",

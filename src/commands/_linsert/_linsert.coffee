@@ -1,4 +1,4 @@
-_lins: (key, keyinfo, elem, index, moveRight, neighbor, cb) ->
+_linsert: (key, keyinfo, elem, index, moveRight, neighbor, cb) ->
 	{keys, list} = @_stores
 	editNeighbor = (neighborElem, elemKey, left, cb)->
 		if left

@@ -19,12 +19,12 @@ linsert: (key, index, value, cb) ->
 			       			if index >= 0
 			       				prev = elem.prev
 			       				newElem = {prev: prev, value: value, next: k}
-			       				@_lins key, keyinfo, newElem, index, true, elem, ->
+			       				@_linsert key, keyinfo, newElem, index, true, elem, ->
 			       					cb 'OK'
 			       			else
 			       				next = elem.next
 			       				newElem = {prev: k, value: value, next: next}
-			       				@_lins key, keyinfo, newElem, index, false, elem, ->
+			       				@_linsert key, keyinfo, newElem, index, false, elem, ->
 			       					cb 'OK'
 		return
 	return
