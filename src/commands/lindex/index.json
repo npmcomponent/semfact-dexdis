@@ -17,6 +17,7 @@
 		"lindex('a', -1)"
 	],
 	"related": [
+		"ldel",
 		"lget",
 		"linsert",
 		"llen",

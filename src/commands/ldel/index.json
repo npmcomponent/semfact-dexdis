@@ -1,0 +1,21 @@
+{
+	"name": "ldel",
+	"usage": "key left right",
+	"short_description": "Get and remove values in a list",
+	"description": "Get and remove the values from left to right in the list.",
+	"dependencies": [
+		"_checkttl",
+		"_lwalk",
+		"_lmultiindex"
+	],
+	"return": {
+		"type": "Array",
+		"value": "The values stored at the positions left to right in the list."
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "ldel.coffee",
+	"test": "test.coffee"
+}

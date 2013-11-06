@@ -5,7 +5,8 @@
 	"description": "Get the values in the list starting at left and ending at right",
 	"dependencies": [
 		"_lwalk",
-		"_checkttl"
+		"_checkttl",
+		"_lmultiindex"
 	],
 	"return": {
 		"type": "Array",
@@ -16,6 +17,7 @@
 		"lindex('a', 0, 1)"
 	],
 	"related": [
+		"ldel",
 		"lindex",
 		"linsert",
 		"llen",
