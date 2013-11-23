@@ -4,10 +4,10 @@ template: page.jade
 
 ## Download
 
-<a class="btn btn-success" href="https://github.com/semfact/dexdis/releases/download/0.1.0-1/dexdis.js"><span class="icon-download-alt"></span> dexdis.js</a>
-<a class="btn btn-success" href="https://github.com/semfact/dexdis/releases/download/0.1.0-1/dexdis.min.js"><span class="icon-download-alt"></span> dexdis.min.js</a>
+<a class="btn btn-success" href="https://github.com/semfact/dexdis/releases/download/0.2.0/dexdis.js"><span class="icon-download-alt"></span> dexdis.js</a>
+<a class="btn btn-success" href="https://github.com/semfact/dexdis/releases/download/0.2.0/dexdis.min.js"><span class="icon-download-alt"></span> dexdis.min.js</a>
 
-Version 0.1.0. For older releases visit the
+Version 0.2.0. For older releases visit the
 [releases page on GitHub](https://github.com/semfact/dexdis/releases).
 
 ### Installation
