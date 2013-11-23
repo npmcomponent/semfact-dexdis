@@ -22,9 +22,7 @@ errs = {
   toomuchop: 'Operation with too much operands'
 };
 
-storenames = ['keys', 'simple', 'hash'];
-
-storenames = ['keys', 'simple', 'hash'];
+storenames = ['keys', 'simple', 'hash', 'list'];
 
 DexdisCommands = (function() {
   var hamming;
@@ -75,7 +73,8 @@ DexdisCommands = (function() {
   };
 
   DexdisCommands.prototype._delvalue = function(key, type, cb) {
-    var del, range, stores;
+    var del, range, stores,
+      _this = this;
     stores = this._stores;
     switch (type) {
       case 'simple':
@@ -86,6 +85,20 @@ DexdisCommands = (function() {
         range = IDBKeyRange.bound([key, 0], [key, 1], true, true);
         del = stores.hash["delete"](range);
         del.onsuccess = cb;
+        break;
+      case 'list':
+        this._checkttl(key, 'list', function(keyinfo) {
+          if (keyinfo === void 0) {
+            cb();
+          } else {
+            return _lwalk(keyinfo, null, function(index, elem, key) {
+              return stores.list["delete"](key);
+            }, true, function() {
+              del = stores.keys["delete"](key);
+              return del.onsuccess = cb;
+            });
+          }
+        });
         break;
       default:
         if (cb != null) {
@@ -168,6 +181,298 @@ DexdisCommands = (function() {
           return cb(0);
         }
       };
+    };
+  };
+
+  DexdisCommands.prototype._linsert = function(key, keyinfo, elem, index, moveRight, neighbor, cb) {
+    var editNeighbor, getEditNeighbor, keys, list, putNewElem, _ref;
+    _ref = this._stores, keys = _ref.keys, list = _ref.list;
+    editNeighbor = function(neighborElem, elemKey, left, cb) {
+      var putNeighbor;
+      if (left) {
+        neighbor = elem.prev;
+        neighborElem.next = elemKey;
+      } else {
+        neighbor = elem.next;
+        neighborElem.prev = elemKey;
+      }
+      putNeighbor = list.put(neighborElem, neighbor);
+      return putNeighbor.onsuccess = cb;
+    };
+    getEditNeighbor = function(neighbor, elemKey, left, cb) {
+      var getNeighbor;
+      if (neighbor === null) {
+        return cb();
+      } else {
+        getNeighbor = list.get(neighbor);
+        getNeighbor.onsuccess = function() {
+          return editNeighbor(getNeighbor.result, elemKey, left, cb);
+        };
+      }
+    };
+    putNewElem = list.add(elem);
+    putNewElem.onsuccess = function(ev) {
+      var elemKey, putlist;
+      elemKey = ev.target.result;
+      if ((index === 0) || (index === -keyinfo.len)) {
+        keyinfo.first = elemKey;
+      }
+      if ((index === keyinfo.len) || (index === -1)) {
+        keyinfo.last = elemKey;
+      }
+      if (keyinfo.len === 0) {
+        keyinfo.first = elemKey;
+        keyinfo.last = elemKey;
+      }
+      keyinfo.len += 1;
+      putlist = keys.put(keyinfo, key);
+      putlist.onsuccess = function() {
+        var c, leftNeighbor, rightNeighbor;
+        if (moveRight) {
+          rightNeighbor = neighbor;
+        } else {
+          leftNeighbor = neighbor;
+        }
+        c = function() {
+          if (leftNeighbor != null) {
+            return editNeighbor(leftNeighbor, elemKey, true, function() {
+              return cb(keyinfo.len);
+            });
+          } else {
+            return getEditNeighbor(elem.prev, elemKey, true, function() {
+              return cb(keyinfo.len);
+            });
+          }
+        };
+        if (rightNeighbor != null) {
+          return editNeighbor(rightNeighbor, elemKey, false, c);
+        } else {
+          return getEditNeighbor(elem.next, elemKey, false, c);
+        }
+      };
+    };
+  };
+
+  DexdisCommands.prototype._listpop = function(key, left, cb) {
+    var keys, list, _ref;
+    _ref = this._stores, keys = _ref.keys, list = _ref.list;
+    this._checkttl(key, 'list', function(keyinfo) {
+      var dellist, elemKey, get, value;
+      if (keyinfo === void 0) {
+        cb(null);
+        return;
+      } else {
+        value = null;
+        dellist = function() {
+          var del;
+          del = keys["delete"](key);
+          del.onsuccess = cb(value);
+        };
+        if (left) {
+          elemKey = keyinfo.first;
+        } else {
+          elemKey = keyinfo.last;
+        }
+        if (elemKey !== null) {
+          get = list.get(elemKey);
+          get.onsuccess = function() {
+            var delelem;
+            delelem = list["delete"](elemKey);
+            delelem.onsuccess = function() {
+              var put;
+              value = get.result.value;
+              if (left) {
+                keyinfo.first = get.result.next;
+              } else {
+                keyinfo.last = get.result.prev;
+              }
+              keyinfo.len -= 1;
+              put = keys.put(keyinfo, key);
+              put.onsuccess = function() {
+                if (keyinfo.len === 0) {
+                  dellist();
+                } else {
+                  cb(value);
+                }
+              };
+            };
+          };
+        } else {
+          dellist();
+        }
+      }
+    });
+  };
+
+  DexdisCommands.prototype._listpush = function(key, values, left, cb) {
+    var keys, list, store, _ref,
+      _this = this;
+    if (values.length === 0) {
+      cb(0);
+      return;
+    }
+    _ref = this._stores, keys = _ref.keys, list = _ref.list;
+    store = list;
+    this._checkttl(key, 'list', function(keyinfo) {
+      var add, append, put;
+      append = function(value, cb) {
+        var elem, index;
+        if (left) {
+          elem = {
+            prev: null,
+            value: value,
+            next: keyinfo.first
+          };
+          index = 0;
+        } else {
+          elem = {
+            prev: keyinfo.last,
+            value: value,
+            next: null
+          };
+          index = keyinfo.len;
+        }
+        return _this._linsert(key, keyinfo, elem, index, left, null, cb);
+      };
+      add = function() {
+        var i, next;
+        i = 0;
+        next = function() {
+          return append(values[i], function() {
+            i++;
+            if (i === values.length) {
+              return cb(keyinfo.len);
+            } else {
+              return next();
+            }
+          });
+        };
+        return next();
+      };
+      if (keyinfo === void 0) {
+        keyinfo = {
+          type: 'list',
+          first: null,
+          last: null,
+          len: 0
+        };
+        put = keys.put(keyinfo, key);
+        return put.onsuccess = add;
+      } else {
+        return add();
+      }
+    });
+  };
+
+  DexdisCommands.prototype._lmultiindex = function(keyinfo, leftIndex, rightIndex, cb) {
+    var left, len, li, ri;
+    li = leftIndex;
+    ri = rightIndex;
+    len = keyinfo.len;
+    if (leftIndex >= 0) {
+      left = true;
+      if ((rightIndex >= 0) && (rightIndex < leftIndex)) {
+        left = false;
+        ri = leftIndex - len;
+        li = rightIndex - len;
+      }
+      if (rightIndex < 0) {
+        if (leftIndex - len > rightIndex) {
+          left = false;
+          ri = leftIndex - len;
+          li = rightIndex;
+        } else {
+          ri = rightIndex + len;
+        }
+      }
+    } else {
+      ri = leftIndex;
+      li = rightIndex;
+      left = false;
+      if (rightIndex >= 0) {
+        if (rightIndex > leftIndex + len) {
+          left = true;
+          li = leftIndex + len;
+          ri = rightIndex;
+        } else {
+          li = rightIndex - len;
+        }
+      }
+      if ((rightIndex < 0) && (rightIndex > leftIndex)) {
+        left = true;
+        li = leftIndex + len;
+        ri = rightIndex + len;
+      }
+    }
+    return cb(li, ri, left);
+  };
+
+  DexdisCommands.prototype._lwalk = function(keyinfo, cond, func, left, cb) {
+    var ekey, first, keys, list, start, store, walk, _ref;
+    _ref = this._stores, keys = _ref.keys, list = _ref.list;
+    store = list;
+    walk = function(index, elem, key) {
+      if ((cond != null) && cond(index, elem)) {
+        cb(index, elem, key);
+      } else {
+        if (func != null) {
+          func(index, elem, key);
+        }
+        if (left) {
+          if (elem.next == null) {
+            cb(null);
+            return;
+          } else {
+            key = elem.next;
+          }
+        } else {
+          if (elem.prev == null) {
+            cb(null);
+            return;
+          } else {
+            key = elem.prev;
+          }
+        }
+        elem = store.get(key);
+        elem.onsuccess = function() {
+          if (elem.result === void 0) {
+            cb(null);
+            return;
+          } else {
+            if (left) {
+              index = index + 1;
+            } else {
+              index = index - 1;
+            }
+            walk(index, elem.result, key);
+          }
+        };
+      }
+    };
+    if (left) {
+      if (keyinfo.first === null) {
+        cb(null);
+        return;
+      } else {
+        ekey = keyinfo.first;
+        start = 0;
+      }
+    } else {
+      if (keyinfo.last === null) {
+        cb(null);
+      } else {
+        ekey = keyinfo.last;
+        start = -1;
+      }
+    }
+    first = store.get(ekey);
+    return first.onsuccess = function() {
+      if (first.result === void 0) {
+        cb(null);
+        return;
+      } else {
+        walk(start, first.result, ekey);
+      }
     };
   };
 
@@ -720,6 +1025,243 @@ DexdisCommands = (function() {
     });
   };
 
+  DexdisCommands.prototype.ldel = function(key, leftIndex, rightIndex, cb) {
+    var keys, list, _ref,
+      _this = this;
+    _ref = this._stores, keys = _ref.keys, list = _ref.list;
+    this._checkttl(key, 'list', function(keyinfo) {
+      var left, leftEdge, rightEdge, values;
+      if (keyinfo === void 0) {
+        cb([]);
+        return;
+      } else {
+        left = true;
+        leftEdge = keyinfo.first;
+        rightEdge = keyinfo.last;
+        values = [];
+        _this._lmultiindex(keyinfo, leftIndex, rightIndex, function(l, r, dir) {
+          leftIndex = l;
+          rightIndex = r;
+          return left = dir;
+        });
+        _this._lwalk(keyinfo, function(index, elem) {
+          var stop;
+          if (left) {
+            stop = index === rightIndex + 1;
+          } else {
+            stop = index === leftIndex - 1;
+          }
+          return stop;
+        }, function(i, elem, k) {
+          if (i === leftIndex) {
+            leftEdge = elem.prev;
+          }
+          if (i === rightIndex) {
+            rightEdge = elem.next;
+          }
+          if (i >= leftIndex && i <= rightIndex) {
+            values.push(elem.value);
+            list["delete"](k);
+            return keyinfo.len -= 1;
+          }
+        }, left, function(i, elem, k) {
+          var del, getLeft, getPutRight, putList;
+          putList = function() {
+            var putlist;
+            putlist = keys.put(keyinfo, key);
+            return putlist.onsuccess = function() {
+              cb(values);
+            };
+          };
+          getPutRight = function(c) {
+            var getRight;
+            getRight = list.get(rightEdge);
+            return getRight.onsuccess = function() {
+              var putRight;
+              getRight.result.prev = leftEdge;
+              putRight = list.put(getRight.result, rightEdge);
+              return putRight.onsuccess = c;
+            };
+          };
+          if ((leftEdge === null) && (rightEdge === null)) {
+            del = keys["delete"](key);
+            del.onsuccess = function() {
+              cb(values);
+            };
+            return;
+          }
+          if (leftEdge === null) {
+            keyinfo.first = rightEdge;
+            getPutRight(putList);
+          } else {
+            getLeft = list.get(leftEdge);
+            return getLeft.onsuccess = function() {
+              getLeft.result.next = rightEdge;
+              if (rightEdge === null) {
+                keyinfo.last = leftEdge;
+                putList();
+              } else {
+                getPutRight(putList);
+              }
+            };
+          }
+        });
+      }
+    });
+  };
+
+  DexdisCommands.prototype.lget = function(key, leftIndex, rightIndex, cb) {
+    var _this = this;
+    this._checkttl(key, 'list', function(keyinfo) {
+      var left, values;
+      if (keyinfo === void 0) {
+        cb(null);
+      } else {
+        values = [];
+        left = true;
+        _this._lmultiindex(keyinfo, leftIndex, rightIndex, function(l, r, turn) {
+          leftIndex = l;
+          rightIndex = r;
+          return left = turn;
+        });
+        return _this._lwalk(keyinfo, function(index, elem) {
+          var stop;
+          if (left) {
+            stop = index === keyinfo.len;
+          } else {
+            stop = index === -keyinfo.len - 1;
+          }
+          return stop;
+        }, function(i, elem, k) {
+          if (i >= leftIndex && i <= rightIndex) {
+            return values.push(elem.value);
+          }
+        }, left, function(i, elem, k) {
+          return cb(values);
+        });
+      }
+    });
+  };
+
+  DexdisCommands.prototype.lindex = function(key, index, cb) {
+    var _this = this;
+    this._checkttl(key, 'list', function(keyinfo) {
+      if (keyinfo === void 0) {
+        cb(null);
+      } else {
+        return _this._lwalk(keyinfo, function(i, elem) {
+          return i === index;
+        }, null, index >= 0, function(i, elem, k) {
+          if (i === null) {
+            cb(null);
+          } else {
+            cb(elem.value);
+          }
+        });
+      }
+    });
+  };
+
+  DexdisCommands.prototype.linsert = function(key, index, value, cb) {
+    var keys, list, _ref,
+      _this = this;
+    _ref = this._stores, keys = _ref.keys, list = _ref.list;
+    this._checkttl(key, 'list', function(keyinfo) {
+      if (keyinfo === void 0) {
+        cb(null);
+        return;
+      } else {
+        _this._lwalk(keyinfo, function(i, elem) {
+          return i === index;
+        }, null, index >= 0, function(i, elem, k) {
+          var newElem, next, prev;
+          if (i === null) {
+            cb(null);
+          } else {
+            if (index >= 0) {
+              prev = elem.prev;
+              newElem = {
+                prev: prev,
+                value: value,
+                next: k
+              };
+              return _this._linsert(key, keyinfo, newElem, index, true, elem, function() {
+                return cb('OK');
+              });
+            } else {
+              next = elem.next;
+              newElem = {
+                prev: k,
+                value: value,
+                next: next
+              };
+              return _this._linsert(key, keyinfo, newElem, index, false, elem, function() {
+                return cb('OK');
+              });
+            }
+          }
+        });
+      }
+    });
+  };
+
+  DexdisCommands.prototype.llen = function(key, cb) {
+    this._checkttl(key, 'list', function(keyinfo) {
+      if (keyinfo === void 0) {
+        cb(0);
+      } else {
+        cb(keyinfo.len);
+      }
+    });
+  };
+
+  DexdisCommands.prototype.lpop = function(key, cb) {
+    return this._listpop(key, true, cb);
+  };
+
+  DexdisCommands.prototype.lpush = function() {
+    var cb, key, values, _i;
+    key = arguments[0], values = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
+    return this._listpush(key, values, true, cb);
+  };
+
+  DexdisCommands.prototype.lrpop = function(key, cb) {
+    return this._listpop(key, false, cb);
+  };
+
+  DexdisCommands.prototype.lrpush = function() {
+    var cb, key, values, _i;
+    key = arguments[0], values = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
+    return this._listpush(key, values, false, cb);
+  };
+
+  DexdisCommands.prototype.lset = function(key, index, value, cb) {
+    var list,
+      _this = this;
+    list = this._stores.list;
+    this._checkttl(key, 'list', function(keyinfo) {
+      if (keyinfo === void 0) {
+        _this.onerror(new Error(errs.wrongargs));
+      } else {
+        return _this._lwalk(keyinfo, function(i, elem) {
+          return i === index;
+        }, null, index >= 0, function(i, elem, key) {
+          var put;
+          if (i === null) {
+            _this.onerror(new Error(errs.wrongargs));
+            return;
+          } else {
+            elem.value = value;
+            put = list.put(elem, key);
+            put.onsuccess = function() {
+              cb('OK');
+            };
+          }
+        });
+      }
+    });
+  };
+
   DexdisCommands.prototype.persist = function(key, cb) {
     var keys;
     keys = this._stores.keys;
@@ -958,7 +1500,13 @@ Dexdis = (function(_super) {
       _results = [];
       for (_i = 0, _len = storenames.length; _i < _len; _i++) {
         store = storenames[_i];
-        _results.push(db.createObjectStore(store));
+        if (store === 'list') {
+          _results.push(db.createObjectStore('list', {
+            autoIncrement: true
+          }));
+        } else {
+          _results.push(db.createObjectStore(store));
+        }
       }
       return _results;
     };

@@ -1,6 +1,6 @@
 {
 	"name": "dexdis",
-	"version": "0.1.0-1",
+	"version": "0.2.0",
 	"author": "Semfact <info@semfact.eu>",
 	"main": "dexdis.min.js",
 	"description": "The simplest way to use IndexedDB in the browser",
