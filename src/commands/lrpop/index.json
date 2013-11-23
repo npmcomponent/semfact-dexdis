@@ -1,0 +1,31 @@
+{
+	"name": "lrpop",
+	"usage": "key",
+	"short_description": "Get and remove the last element in a list",
+	"description": "Get and remove the last element in the list.",
+	"dependencies": [
+		"_listpop"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The value stored at last position in the list."
+	},
+	"examples": [
+		"lpush('a', 'foo')",
+		"lrpop('a')",
+		"lindex('a', 0)"
+	],
+	"related": [
+		"ldel",
+		"lget",
+		"lindex",
+		"linsert",
+		"llen",
+		"lpush",
+		"lpop",
+		"lrpush",
+		"lset"
+	],
+	"command": "lrpop.coffee",
+	"test": "test.coffee"
+}

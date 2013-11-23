@@ -1,0 +1,32 @@
+{
+	"name": "lindex",
+	"usage": "key index",
+	"short_description": "Get the value at an index in a list",
+	"description": "Get the value at the index in the list",
+	"dependencies": [
+		"_lwalk",
+		"_checkttl"
+	],
+	"return": {
+		"type": "Simple",
+		"value": "The value stored at the index in the list."
+	},
+	"examples": [
+		"lpush('a', 'foo')",
+		"lindex('a', 0)",
+		"lindex('a', -1)"
+	],
+	"related": [
+		"ldel",
+		"lget",
+		"linsert",
+		"llen",
+		"lpush",
+		"lpop",
+		"lset",
+		"lrpop",
+		"lrpush"
+	],
+	"command": "lindex.coffee",
+	"test": "test.coffee"
+}

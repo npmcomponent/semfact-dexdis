@@ -1,0 +1,17 @@
+{
+	"name": "_lmultiindex",
+	"usage": "keyinfo left right",
+	"short_description": "Parse index",
+	"description": "Parse index",
+	"dependencies": [
+	],
+	"return": {
+		"type": "Values",
+		"value": "The parsed indexes and the direction."
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "_lmultiindex.coffee"
+}

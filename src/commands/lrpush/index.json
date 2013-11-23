@@ -1,0 +1,34 @@
+{
+	"name": "lrpush",
+	"usage": "key value [value...]",
+	"short_description": "Append values to a list",
+	"description": "Append the values to the list at key. The last value will be the last in the resulting list.",
+	"dependencies": [
+		"_listpush"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the resulting list."
+	},
+	"examples": [
+		"lrpush('a', 'foo')",
+		"lindex('a', 0)",
+		"lrpush('a', 'bar', 'baz')",
+		"lindex('a', 0)",
+		"lindex('a', 1)",
+		"lindex('a', 2)"
+	],
+	"related": [
+		"ldel",
+		"lget",
+		"lindex",
+		"linsert",
+		"llen",
+		"lpush",
+		"lpop",
+		"lset",
+		"lrpop"
+	],
+	"command": "lrpush.coffee",
+	"test": "test.coffee"
+}

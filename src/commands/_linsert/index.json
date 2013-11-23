@@ -1,0 +1,17 @@
+{
+	"name": "_linsert",
+	"usage": "key keyinfo elem index moveRight neighbor",
+	"short_description": "Insert value at an index in a list",
+	"description": "Insert the value at the index in the list",
+	"dependencies": [
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the list"
+	},
+	"examples": [
+	],
+	"related": [
+	],
+	"command": "_linsert.coffee"
+}

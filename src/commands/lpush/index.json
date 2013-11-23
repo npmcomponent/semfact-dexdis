@@ -1,0 +1,34 @@
+{
+	"name": "lpush",
+	"usage": "key value [value...]",
+	"short_description": "Prepend values to a list",
+	"description": "Prepend the values to the list at key. The last value will be the first in the resulting list.",
+	"dependencies": [
+		"_listpush"
+	],
+	"return": {
+		"type": "Number",
+		"value": "The length of the resulting list."
+	},
+	"examples": [
+		"lpush('a', 'foo')",
+		"lindex('a', 0)",
+		"lpush('a', 'bar', 'baz')",
+		"lindex('a', 0)",
+		"lindex('a', 1)",
+		"lindex('a', 2)"
+	],
+	"related": [
+		"ldel",
+		"lget",
+		"lindex",
+		"linsert",
+		"llen",
+		"lpop",
+		"lset",
+		"lrpush",
+		"lrpop"
+	],
+	"command": "lpush.coffee",
+	"test": "test.coffee"
+}

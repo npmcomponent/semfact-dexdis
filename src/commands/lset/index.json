@@ -1,0 +1,33 @@
+{
+	"name": "lset",
+	"usage": "key index value",
+	"short_description": "Set the value at an index in a list",
+	"description": "Set the value at the index in the list",
+	"dependencies": [
+		"_lwalk",
+		"_checkttl"
+	],
+	"return": {
+		"type": "String",
+		"value": "OK"
+	},
+	"examples": [
+		"lpush('a', 'baz', 'bar', 'foo')",
+		"lindex('a', 1)",
+		"lset('a', 1, 'test')",
+		"lindex('a', 1)"
+	],
+	"related": [
+		"ldel",
+		"lget",
+		"lindex",
+		"linsert",
+		"llen",
+		"lpush",
+		"lpop",
+		"lrpush",
+		"lrpop"
+	],
+	"command": "lset.coffee",
+	"test": "test.coffee"
+}
