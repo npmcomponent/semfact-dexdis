@@ -42,7 +42,9 @@ module.exports = (grunt) ->
 			dest: 'lib/dexdis.min.js'
 	
 	config.clean = [
-		'lib'
+		'lib',
+		'site/build',
+		'.grunt'
 	]
 	
 	config.connect =
@@ -105,11 +107,23 @@ module.exports = (grunt) ->
 			src:  'lib/coverage.json'
 			dest: 'lib/coverage.lcov'
 	
+	config.wintersmith =
+		build:
+			options:
+				config: 'site/config.json'
+	
+	config['gh-pages'] =
+		options:
+			base: 'site/build'
+		src: ['**']
+	
 	grunt.registerTask 'compile', ['dexdis', 'dexdistest', 'coffee',
 	                               'coffeeCoverage', 'umd', 'uglify']
 	grunt.registerTask 'default', ['compile']
 	grunt.registerTask 'test', ['compile', 'connect:tests', 'sauce', 'lcov']
 	grunt.registerTask 'dev', ['default', 'concurrent:test']
+	grunt.registerTask 'site', ['clean', 'compile', 'wintersmith']
+	grunt.registerTask 'pages', ['site', 'gh-pages', 'clean']
 	
 	require('load-grunt-tasks') grunt
 	grunt.loadTasks 'tasks'
