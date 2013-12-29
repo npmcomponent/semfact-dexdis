@@ -27,7 +27,7 @@ module.exports = (env, cb) ->
 	
 	generator = (contents, cb) ->
 		configDirectory = env.config.commands?.dir
-		dir = process.cwd() + '/../src/commands'
+		dir = __dirname + '/../../src/commands'
 		cmds = fs.readdirSync(dir).filter (x) ->
 			x[0] isnt '_'
 		commands = {}
