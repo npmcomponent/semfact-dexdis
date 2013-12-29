@@ -1,7 +1,7 @@
 {
 	"locals": {
-		"url": "http://localhost:8080/",
-		"prefix": "",
+		"url": "http://semfact.github.io/dexdis/",
+		"prefix": "/dexdis",
 		"name": "Dexdis",
 		"owner": "Someone",
 		"description": ""
