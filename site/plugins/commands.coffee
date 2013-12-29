@@ -23,7 +23,7 @@ module.exports = (env, cb) ->
 				contents: contents
 				util: require 'util'
 			env.utils.extend ctx, @context
-			cb null, new Buffer template.fn ctx
+			template.render ctx, cb
 	
 	generator = (contents, cb) ->
 		configDirectory = env.config.commands?.dir

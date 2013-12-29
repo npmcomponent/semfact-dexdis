@@ -16,7 +16,7 @@ block content
 					h3= 'Examples'
 				div.dexdisrepl(data-cmds=JSON.stringify(command.examples))
 			div.col-sm-4
-				a.btn.btn-default(href='/tests/?grep=' + command.name.toUpperCase() + '%20')
+				a.btn.btn-default(href=prefix+'/tests/?grep=' + command.name.toUpperCase() + '%20')
 					span.glyphicon.glyphicon-check
 					|  Run tests for 
 					= command.name.toUpperCase()
@@ -26,4 +26,4 @@ block content
 						ul
 							each c in command.related
 								li
-									a(href='/commands/' + c + '.html')= c
+									a(href=prefix+'/commands/' + c + '.html')= c

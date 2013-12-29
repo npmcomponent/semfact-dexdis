@@ -108,9 +108,9 @@ module.exports = (grunt) ->
 			dest: 'lib/coverage.lcov'
 	
 	config.wintersmith =
-		build:
+		pages:
 			options:
-				config: 'site/config.json'
+				config: 'site/config-pages.json'
 	
 	config['gh-pages'] =
 		options:

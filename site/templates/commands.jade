@@ -7,7 +7,7 @@ block content
 			ul.commands
 				each command in commands
 					li.command
-						a(href='/commands/'+command.name+'.html')
+						a(href=prefix+'/commands/'+command.name+'.html')
 							div
 								span.name= command.name
 								span.text-muted= ' ' + command.usage
