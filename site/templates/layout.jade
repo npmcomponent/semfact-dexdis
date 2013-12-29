@@ -78,14 +78,12 @@ html(lang='en')
 					div.col-sm-3
 						h4 Contact
 						p.text-justify
-							| Dexdis is handcrafted in Germany. Read our
-							| <a href="/contact.html">full contact information</a> 
-							| and drop us a
-							| <a href="/contact.html#postcard">postcard</a>
-							| if you
-							| like. Please also notice our
-							| <a href="/contact.html#privacy">privacy policy</a>.
-							
+							!= 'Dexdis is handcrafted in Germany. Read our '
+							a(href=prefix+'/contact.html') full contact information
+							!= ' and drop us a '
+							a(href=prefix+'/contact.html#postcard') postcard
+							!= ' if you like. Please also notice our '
+							a(href=prefix+'/contact.html#privacy') privacy policy
 							
 		script(src='//code.jquery.com/jquery-2.0.3.min.js')
 		script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
