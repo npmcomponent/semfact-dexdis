@@ -53,5 +53,10 @@ upload them here as soon as possible.
 <div class="row">
 <div class="col-xs-12">
 <h2 id="privacy">Privacy Policy</h2>
+Sauce Labs uses a third party metrics cookie. This cookie will be set upon
+showing the "Browser Matrix" on the front page of the website at the
+compatibility section.<br>
+Everything you do using the live demonstration boxes will be stored permanently
+in the indexed database.
 </div>
 </div>
