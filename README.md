@@ -1,4 +1,3 @@
-
 # Dexdis
 
 *The simplest way to use IndexedDB in the browser.*
@@ -37,7 +36,7 @@ on the website.
 
 #### Standalone
 
-Download as standalone JavaScript file diretly from the
+Download as standalone JavaScript file directly from the
 [download page](http://semfact.github.io/dexdis/download.html)
 
 #### Bower
@@ -72,6 +71,6 @@ $ npm install dexdis
 
 ## License
 
-Apache 2.0 see [LICENSE.md](https://github.com/semfact/dexdis/blob/master/LICENSE.md)
+Apache 2.0, see [LICENSE.md](https://github.com/semfact/dexdis/blob/master/LICENSE.md)
 file.
 
