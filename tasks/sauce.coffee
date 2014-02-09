@@ -104,6 +104,7 @@ module.exports = (grunt) ->
 		post.end handle (res) ->
 			grunt.log.writeln 'Waiting for finish...'
 			tests = res.body
+			console.log tests
 			check = ->
 				grunt.verbose.writeln 'Checking for completion of tests...'
 				post = request.post statusurl

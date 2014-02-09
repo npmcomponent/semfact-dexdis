@@ -86,11 +86,7 @@ module.exports = (grunt) ->
 	config.sauce =
 		options:
 			url:       'http://localhost:9000/coverage.html'
-			platforms: [['Windows 8', 'internet explorer', '10'],
-			            ['Windows 8', 'firefox',           ''],
-			            ['Linux',     'googlechrome',      ''],
-			            ['OS X 10.6', 'iphone',            '5.0'],
-			            ['OS X 10.8', 'safari',            '6']]
+			platforms: [['Linux',     'googlechrome',      '']]
 			require:   'connect:tests'
 			coverage:  'lib/coverage.json'
 			data:
