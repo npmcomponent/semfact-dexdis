@@ -96,7 +96,7 @@ module.exports = (grunt) ->
 			url:       opts.url
 		
 		if opts.tunnel?
-			jsunitrequest['tunnel-identifier'] = opts.tunnel
+			jsunitrequest['tunnel_identifier'] = opts.tunnel
 		
 		post = request.post testurl
 		post.auth opts.username, opts.accesskey
